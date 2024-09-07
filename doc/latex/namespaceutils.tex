@@ -1,0 +1,113 @@
+\hypertarget{namespaceutils}{}\doxysection{utils Namespace Reference}
+\label{namespaceutils}\index{utils@{utils}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{namespaceutils_a7a08f23fe21d62f8b99b9d964e6d9693}{rand\+Integer}} (int min, int max)
+\begin{DoxyCompactList}\small\item\em Generate a random number between min and max (inclusive) \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{namespaceutils_a972c75b6ccea50fb3443cb3ff4b7301b}{rand\+Double}} (double min, double max)
+\begin{DoxyCompactList}\small\item\em Generate a random number between min and max (inclusive) \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{namespaceutils_a3956d577db2226e4f5f0c627f5fec9be}{Euclidian\+Distance}} (double x1, double x2, double y1, double y2)
+\begin{DoxyCompactList}\small\item\em Computes the Euclidean distance between two points. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceutils_a3956d577db2226e4f5f0c627f5fec9be}\label{namespaceutils_a3956d577db2226e4f5f0c627f5fec9be}} 
+\index{utils@{utils}!EuclidianDistance@{EuclidianDistance}}
+\index{EuclidianDistance@{EuclidianDistance}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{EuclidianDistance()}{EuclidianDistance()}}
+{\footnotesize\ttfamily double utils\+::\+Euclidian\+Distance (\begin{DoxyParamCaption}\item[{double}]{x1,  }\item[{double}]{x2,  }\item[{double}]{y1,  }\item[{double}]{y2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Computes the Euclidean distance between two points. 
+
+This function calculates the distance between two points in a 2D space given their coordinates.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x1} & X-\/coordinate of the first point. \\
+\hline
+{\em x2} & X-\/coordinate of the second point. \\
+\hline
+{\em y1} & Y-\/coordinate of the first point. \\
+\hline
+{\em y2} & Y-\/coordinate of the second point. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Euclidean distance between the two points. 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{58 \{}
+\DoxyCodeLine{59     \textcolor{keywordflow}{return} std::sqrt((x1 -\/ x2) * (x1 -\/ x2) + (y1 -\/ y2) * (y1 -\/ y2));}
+\DoxyCodeLine{60 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceutils_a972c75b6ccea50fb3443cb3ff4b7301b}\label{namespaceutils_a972c75b6ccea50fb3443cb3ff4b7301b}} 
+\index{utils@{utils}!randDouble@{randDouble}}
+\index{randDouble@{randDouble}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{randDouble()}{randDouble()}}
+{\footnotesize\ttfamily double utils\+::rand\+Double (\begin{DoxyParamCaption}\item[{double}]{min,  }\item[{double}]{max }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Generate a random number between min and max (inclusive) 
+
+This function generates a random double within the specified range, including both the minimun and maximun values.
+
+
+\begin{DoxyParams}{Parameters}
+{\em min} & The minimun value (inclusive) of the range. \\
+\hline
+{\em max} & The maximun value (inclusive) of the range. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A double between min and max (inclusive) 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{38 \{}
+\DoxyCodeLine{39     std::random\_device rd;}
+\DoxyCodeLine{40     std::mt19937 gen(rd());}
+\DoxyCodeLine{41     std::uniform\_real\_distribution<> distr(min, max);}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43     \textcolor{keywordflow}{return} distr(gen);}
+\DoxyCodeLine{44 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceutils_a7a08f23fe21d62f8b99b9d964e6d9693}\label{namespaceutils_a7a08f23fe21d62f8b99b9d964e6d9693}} 
+\index{utils@{utils}!randInteger@{randInteger}}
+\index{randInteger@{randInteger}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{randInteger()}{randInteger()}}
+{\footnotesize\ttfamily int utils\+::rand\+Integer (\begin{DoxyParamCaption}\item[{int}]{min,  }\item[{int}]{max }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Generate a random number between min and max (inclusive) 
+
+This function generates a random integer within the specified range, including both the minimun and maximun values.
+
+
+\begin{DoxyParams}{Parameters}
+{\em min} & The minimun value (inclusive) of the range. \\
+\hline
+{\em max} & The maximun value (inclusive) of the range. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A int between min and max (inclusive) 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{19 \{}
+\DoxyCodeLine{20     std::random\_device rd;}
+\DoxyCodeLine{21     std::mt19937 gen(rd());}
+\DoxyCodeLine{22     std::uniform\_int\_distribution<> distr(min, max);}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24     \textcolor{keywordflow}{return} distr(gen);}
+\DoxyCodeLine{25 \}}
+
+\end{DoxyCode}

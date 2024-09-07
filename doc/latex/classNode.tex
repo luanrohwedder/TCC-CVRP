@@ -1,0 +1,185 @@
+\hypertarget{classNode}{}\doxysection{Node Class Reference}
+\label{classNode}\index{Node@{Node}}
+
+
+Represents a node in the VRP (Vehicle Routing Problem).  
+
+
+
+
+{\ttfamily \#include $<$node.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classNode_a731db8a4956c2ec8387117ea6fba0901}{Node}} (int id, double x, double y, double demand)
+\item 
+int \mbox{\hyperlink{classNode_a04d6761bf0ead66eb628a6ef5abc34e1}{get\+Id}} () const
+\item 
+void \mbox{\hyperlink{classNode_acb4f7b27553efe25aeb0045f5f3b9798}{set\+Id}} (int id)
+\item 
+double \mbox{\hyperlink{classNode_a321e3f5fd1bcdc9b40985742577da69a}{getX}} () const
+\item 
+void \mbox{\hyperlink{classNode_a08f58079ded691ebdea427bdc7fd30b8}{setX}} (double x)
+\item 
+double \mbox{\hyperlink{classNode_ab775e9d5a080130f8765bdee7c37bf6e}{getY}} () const
+\item 
+void \mbox{\hyperlink{classNode_a8c1387f8cec84df1ed47f2f56e643690}{setY}} (double y)
+\item 
+double \mbox{\hyperlink{classNode_a362309cae3179728de694c2e34f42f3e}{get\+Demand}} () const
+\item 
+void \mbox{\hyperlink{classNode_aca65d34a01c539b9f318aa8b4cb9cad3}{set\+Demand}} (double demand)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{classNode_aacc303bdf97ab995e4c2223579ba95cf}{m\+\_\+id}}
+\item 
+double \mbox{\hyperlink{classNode_a4ffb0b48da3355f3600142d3bfff9516}{m\+\_\+x}}
+\item 
+double \mbox{\hyperlink{classNode_a380511589123d85c8d759c682abcb6de}{m\+\_\+y}}
+\item 
+double \mbox{\hyperlink{classNode_aafcd31871001b62262ce688d65b87013}{m\+\_\+demand}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents a node in the VRP (Vehicle Routing Problem). 
+
+This class contains information about a node, including their location and any other relevant data. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classNode_a731db8a4956c2ec8387117ea6fba0901}\label{classNode_a731db8a4956c2ec8387117ea6fba0901}} 
+\index{Node@{Node}!Node@{Node}}
+\index{Node@{Node}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{Node()}{Node()}}
+{\footnotesize\ttfamily Node\+::\+Node (\begin{DoxyParamCaption}\item[{int}]{id,  }\item[{double}]{x,  }\item[{double}]{y,  }\item[{double}]{demand }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{13         : \mbox{\hyperlink{classNode_aacc303bdf97ab995e4c2223579ba95cf}{m\_id}}(\textcolor{keywordtype}{id}), \mbox{\hyperlink{classNode_a4ffb0b48da3355f3600142d3bfff9516}{m\_x}}(x), \mbox{\hyperlink{classNode_a380511589123d85c8d759c682abcb6de}{m\_y}}(y), \mbox{\hyperlink{classNode_aafcd31871001b62262ce688d65b87013}{m\_demand}}(demand) \{\}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classNode_a362309cae3179728de694c2e34f42f3e}\label{classNode_a362309cae3179728de694c2e34f42f3e}} 
+\index{Node@{Node}!getDemand@{getDemand}}
+\index{getDemand@{getDemand}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{getDemand()}{getDemand()}}
+{\footnotesize\ttfamily double Node\+::get\+Demand (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{25 \{ \textcolor{keywordflow}{return} \mbox{\hyperlink{classNode_aafcd31871001b62262ce688d65b87013}{m\_demand}}; \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classNode_a04d6761bf0ead66eb628a6ef5abc34e1}\label{classNode_a04d6761bf0ead66eb628a6ef5abc34e1}} 
+\index{Node@{Node}!getId@{getId}}
+\index{getId@{getId}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{getId()}{getId()}}
+{\footnotesize\ttfamily int Node\+::get\+Id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{16 \{ \textcolor{keywordflow}{return} \mbox{\hyperlink{classNode_aacc303bdf97ab995e4c2223579ba95cf}{m\_id}}; \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classNode_a321e3f5fd1bcdc9b40985742577da69a}\label{classNode_a321e3f5fd1bcdc9b40985742577da69a}} 
+\index{Node@{Node}!getX@{getX}}
+\index{getX@{getX}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{getX()}{getX()}}
+{\footnotesize\ttfamily double Node\+::getX (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{19 \{ \textcolor{keywordflow}{return} \mbox{\hyperlink{classNode_a4ffb0b48da3355f3600142d3bfff9516}{m\_x}}; \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classNode_ab775e9d5a080130f8765bdee7c37bf6e}\label{classNode_ab775e9d5a080130f8765bdee7c37bf6e}} 
+\index{Node@{Node}!getY@{getY}}
+\index{getY@{getY}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{getY()}{getY()}}
+{\footnotesize\ttfamily double Node\+::getY (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{22 \{ \textcolor{keywordflow}{return} \mbox{\hyperlink{classNode_a380511589123d85c8d759c682abcb6de}{m\_y}}; \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classNode_aca65d34a01c539b9f318aa8b4cb9cad3}\label{classNode_aca65d34a01c539b9f318aa8b4cb9cad3}} 
+\index{Node@{Node}!setDemand@{setDemand}}
+\index{setDemand@{setDemand}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{setDemand()}{setDemand()}}
+{\footnotesize\ttfamily void Node\+::set\+Demand (\begin{DoxyParamCaption}\item[{double}]{demand }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{26 \{ \mbox{\hyperlink{classNode_aafcd31871001b62262ce688d65b87013}{m\_demand}} = demand; \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classNode_acb4f7b27553efe25aeb0045f5f3b9798}\label{classNode_acb4f7b27553efe25aeb0045f5f3b9798}} 
+\index{Node@{Node}!setId@{setId}}
+\index{setId@{setId}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{setId()}{setId()}}
+{\footnotesize\ttfamily void Node\+::set\+Id (\begin{DoxyParamCaption}\item[{int}]{id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{17 \{ \mbox{\hyperlink{classNode_aacc303bdf97ab995e4c2223579ba95cf}{m\_id}} = id; \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classNode_a08f58079ded691ebdea427bdc7fd30b8}\label{classNode_a08f58079ded691ebdea427bdc7fd30b8}} 
+\index{Node@{Node}!setX@{setX}}
+\index{setX@{setX}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{setX()}{setX()}}
+{\footnotesize\ttfamily void Node\+::setX (\begin{DoxyParamCaption}\item[{double}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{20 \{ \mbox{\hyperlink{classNode_a4ffb0b48da3355f3600142d3bfff9516}{m\_x}} = x; \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classNode_a8c1387f8cec84df1ed47f2f56e643690}\label{classNode_a8c1387f8cec84df1ed47f2f56e643690}} 
+\index{Node@{Node}!setY@{setY}}
+\index{setY@{setY}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{setY()}{setY()}}
+{\footnotesize\ttfamily void Node\+::setY (\begin{DoxyParamCaption}\item[{double}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{23 \{ \mbox{\hyperlink{classNode_a380511589123d85c8d759c682abcb6de}{m\_y}} = y; \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classNode_aafcd31871001b62262ce688d65b87013}\label{classNode_aafcd31871001b62262ce688d65b87013}} 
+\index{Node@{Node}!m\_demand@{m\_demand}}
+\index{m\_demand@{m\_demand}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{m\_demand}{m\_demand}}
+{\footnotesize\ttfamily double Node\+::m\+\_\+demand\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classNode_aacc303bdf97ab995e4c2223579ba95cf}\label{classNode_aacc303bdf97ab995e4c2223579ba95cf}} 
+\index{Node@{Node}!m\_id@{m\_id}}
+\index{m\_id@{m\_id}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{m\_id}{m\_id}}
+{\footnotesize\ttfamily int Node\+::m\+\_\+id\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classNode_a4ffb0b48da3355f3600142d3bfff9516}\label{classNode_a4ffb0b48da3355f3600142d3bfff9516}} 
+\index{Node@{Node}!m\_x@{m\_x}}
+\index{m\_x@{m\_x}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{m\_x}{m\_x}}
+{\footnotesize\ttfamily double Node\+::m\+\_\+x\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classNode_a380511589123d85c8d759c682abcb6de}\label{classNode_a380511589123d85c8d759c682abcb6de}} 
+\index{Node@{Node}!m\_y@{m\_y}}
+\index{m\_y@{m\_y}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{m\_y}{m\_y}}
+{\footnotesize\ttfamily double Node\+::m\+\_\+y\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{node_8hpp}{node.\+hpp}}\end{DoxyCompactItemize}

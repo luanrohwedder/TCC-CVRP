@@ -1,0 +1,137 @@
+\hypertarget{main_8cpp}{}\doxysection{src/main.cpp File Reference}
+\label{main_8cpp}\index{src/main.cpp@{src/main.cpp}}
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include \char`\"{}./\+Genetic\+Algorithm/genetic\+\_\+algorithm.\+hpp\char`\"{}}\newline
+Include dependency graph for main.\+cpp\+:
+% FIG 0
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{main_8cpp_a5a01f705cc7b4a7317a57f6bf41aef25}{trim}} (const std\+::string \&str)
+\item 
+std\+::vector$<$ \mbox{\hyperlink{classNode}{Node}} $>$ \mbox{\hyperlink{main_8cpp_a79809fab06d954b63dea9bc5a4c42ceb}{Read\+Nodes\+From\+File}} (const std\+::string \&filename, std\+::unordered\+\_\+map$<$ std\+::string, int $>$ \&values)
+\item 
+int \mbox{\hyperlink{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}} 
+\index{main.cpp@{main.cpp}!main@{main}}
+\index{main@{main}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{92 \{}
+\DoxyCodeLine{93     \mbox{\hyperlink{classGA_1_1GeneticAlgorithm}{GA::GeneticAlgorithm}} ga;}
+\DoxyCodeLine{94     std::unordered\_map<std::string, int> values;}
+\DoxyCodeLine{95     values.insert(std::make\_pair(\textcolor{stringliteral}{"{}POP\_SIZE"{}}, 10));}
+\DoxyCodeLine{96     values.insert(std::make\_pair(\textcolor{stringliteral}{"{}PARENTS\_SIZE"{}}, 4));}
+\DoxyCodeLine{97     values.insert(std::make\_pair(\textcolor{stringliteral}{"{}GENERATIONS"{}}, 3000));}
+\DoxyCodeLine{98     std::vector<Node> clientes = \mbox{\hyperlink{main_8cpp_a79809fab06d954b63dea9bc5a4c42ceb}{ReadNodesFromFile}}(\textcolor{stringliteral}{"{}./dataset/E-\/n22-\/k4.txt"{}}, values);}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{100     ga.\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a6dca2b5d815bfab2d0307233780ca28d}{setNodes}}(clientes);}
+\DoxyCodeLine{101     ga.\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a14021e210b84c55e7420b0468a35d1a2}{setValues}}(values);}
+\DoxyCodeLine{102     ga.\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a2b48701fb53aa424db3f89069b4cb01e}{Run}}();}
+\DoxyCodeLine{103 }
+\DoxyCodeLine{104     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{105 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{main_8cpp_a79809fab06d954b63dea9bc5a4c42ceb}\label{main_8cpp_a79809fab06d954b63dea9bc5a4c42ceb}} 
+\index{main.cpp@{main.cpp}!ReadNodesFromFile@{ReadNodesFromFile}}
+\index{ReadNodesFromFile@{ReadNodesFromFile}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{ReadNodesFromFile()}{ReadNodesFromFile()}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{classNode}{Node}}$>$ Read\+Nodes\+From\+File (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename,  }\item[{std\+::unordered\+\_\+map$<$ std\+::string, int $>$ \&}]{values }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{21 \{}
+\DoxyCodeLine{22     std::ifstream infile(filename);}
+\DoxyCodeLine{23     std::string line;}
+\DoxyCodeLine{24     std::vector<Node> nodes;}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26     \textcolor{keywordflow}{if} (!infile)}
+\DoxyCodeLine{27     \{}
+\DoxyCodeLine{28         std::cerr << \textcolor{stringliteral}{"{}Error: Cannot open file "{}} << filename << std::endl;}
+\DoxyCodeLine{29         \textcolor{keywordflow}{return} nodes;}
+\DoxyCodeLine{30     \}}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32     \textcolor{keywordtype}{bool} reading\_coords = \textcolor{keyword}{false};}
+\DoxyCodeLine{33     \textcolor{keywordtype}{bool} reading\_demands = \textcolor{keyword}{false};}
+\DoxyCodeLine{34     std::vector<double> demands;}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36     \textcolor{keywordflow}{while} (std::getline(infile, line))}
+\DoxyCodeLine{37     \{}
+\DoxyCodeLine{38         line = \mbox{\hyperlink{main_8cpp_a5a01f705cc7b4a7317a57f6bf41aef25}{trim}}(line);}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40         std::istringstream iss(line);}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42         \textcolor{keywordflow}{if} (line.find(\textcolor{stringliteral}{"{}DIMENSION"{}}) != std::string::npos || line.find(\textcolor{stringliteral}{"{}CAPACITY"{}}) != std::string::npos)}
+\DoxyCodeLine{43         \{}
+\DoxyCodeLine{44             \textcolor{keywordtype}{int} value;}
+\DoxyCodeLine{45             \textcolor{keywordtype}{char} colon;}
+\DoxyCodeLine{46             std::string key;}
+\DoxyCodeLine{47             }
+\DoxyCodeLine{48             iss >> key >> colon >> value;}
+\DoxyCodeLine{49             values.insert(std::make\_pair(key, value));}
+\DoxyCodeLine{50         \}}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52         \textcolor{keywordflow}{if} (line == \textcolor{stringliteral}{"{}NODE\_COORD\_SECTION"{}})}
+\DoxyCodeLine{53         \{}
+\DoxyCodeLine{54             reading\_coords = \textcolor{keyword}{true};}
+\DoxyCodeLine{55             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{56         \}}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58         \textcolor{keywordflow}{if} (line == \textcolor{stringliteral}{"{}DEMAND\_SECTION"{}})}
+\DoxyCodeLine{59         \{}
+\DoxyCodeLine{60             reading\_coords = \textcolor{keyword}{false};}
+\DoxyCodeLine{61             reading\_demands = \textcolor{keyword}{true};}
+\DoxyCodeLine{62             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{63         \}}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65         \textcolor{keywordflow}{if} (line == \textcolor{stringliteral}{"{}DEPOT\_SECTION"{}} || line == \textcolor{stringliteral}{"{}EOF"{}})}
+\DoxyCodeLine{66             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68         \textcolor{keywordflow}{if} (reading\_coords)}
+\DoxyCodeLine{69         \{}
+\DoxyCodeLine{70             \textcolor{keywordtype}{int} id;}
+\DoxyCodeLine{71             \textcolor{keywordtype}{double} x, y;}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{73             iss >> \textcolor{keywordtype}{id} >> x >> y;}
+\DoxyCodeLine{74             nodes.push\_back(\mbox{\hyperlink{classNode}{Node}}(\textcolor{keywordtype}{id}, x, y, 0.0));}
+\DoxyCodeLine{75         \}}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77         \textcolor{keywordflow}{if} (reading\_demands)}
+\DoxyCodeLine{78         \{}
+\DoxyCodeLine{79             \textcolor{keywordtype}{int} id;}
+\DoxyCodeLine{80             \textcolor{keywordtype}{double} demand;}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82             iss >> \textcolor{keywordtype}{id} >> demand;}
+\DoxyCodeLine{83             nodes[\textcolor{keywordtype}{id} -\/ 1].setDemand(demand);}
+\DoxyCodeLine{84         \}}
+\DoxyCodeLine{85     \}}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87     infile.close();}
+\DoxyCodeLine{88     \textcolor{keywordflow}{return} nodes;}
+\DoxyCodeLine{89 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{main_8cpp_a5a01f705cc7b4a7317a57f6bf41aef25}\label{main_8cpp_a5a01f705cc7b4a7317a57f6bf41aef25}} 
+\index{main.cpp@{main.cpp}!trim@{trim}}
+\index{trim@{trim}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{trim()}{trim()}}
+{\footnotesize\ttfamily std\+::string trim (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{str }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{14 \{}
+\DoxyCodeLine{15     \textcolor{keywordtype}{size\_t} first = str.find\_first\_not\_of(\textcolor{stringliteral}{"{} \(\backslash\)t\(\backslash\)n\(\backslash\)r"{}});}
+\DoxyCodeLine{16     \textcolor{keywordtype}{size\_t} last = str.find\_last\_not\_of(\textcolor{stringliteral}{"{} \(\backslash\)t\(\backslash\)n\(\backslash\)r"{}});}
+\DoxyCodeLine{17     \textcolor{keywordflow}{return} (first == std::string::npos || last == std::string::npos) ? \textcolor{stringliteral}{"{}"{}} : str.substr(first, last -\/ first + 1);}
+\DoxyCodeLine{18 \}}
+
+\end{DoxyCode}

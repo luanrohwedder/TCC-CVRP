@@ -1,0 +1,631 @@
+\hypertarget{classGA_1_1GeneticAlgorithm}{}\doxysection{GA\+::Genetic\+Algorithm Class Reference}
+\label{classGA_1_1GeneticAlgorithm}\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+
+
+Represents a genetic algorithm.  
+
+
+
+
+{\ttfamily \#include $<$genetic\+\_\+algorithm.\+hpp$>$}
+
+
+
+Collaboration diagram for GA\+::Genetic\+Algorithm\+:
+% FIG 0
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_ab9ea4a383b2872e420d553414f4f86b1}{Genetic\+Algorithm}} ()
+\item 
+\mbox{\hyperlink{classGA_1_1Population}{Population}} \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a2b48701fb53aa424db3f89069b4cb01e}{Run}} ()
+\begin{DoxyCompactList}\small\item\em Runs the genetic algorithm. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classGA_1_1Population}{Population}} \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_adeb15480b6dc54ba2417491f80964587}{get\+Population}} () const
+\item 
+const std\+::vector$<$ \mbox{\hyperlink{classNode}{Node}} $>$ \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a8d7ece4ee4fbd3f17c88b413da7ed2fe}{get\+Nodes}} () const
+\item 
+void \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a6dca2b5d815bfab2d0307233780ca28d}{set\+Nodes}} (std\+::vector$<$ \mbox{\hyperlink{classNode}{Node}} $>$ \&nodes)
+\item 
+const std\+::unordered\+\_\+map$<$ std\+::string, int $>$ \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_ada7d2b4e4c93ad3acd797ea509bd4bde}{get\+Values}} () const
+\item 
+void \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a14021e210b84c55e7420b0468a35d1a2}{set\+Values}} (std\+::unordered\+\_\+map$<$ std\+::string, int $>$ \&values)
+\item 
+double \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_ad5c110928d238c1b79409b86f83de532}{get\+Best\+Fitness}} () const
+\item 
+void \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a8edb8461f05662baae737542684c67f7}{set\+Best\+Fitness}} (double best\+Fitness)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a91514608cc01890983dedaad75ceccc6}{Initialize}} (int, int, int)
+\item 
+void \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a0fe3a733354196211757def59e88b6b7}{Evolve}} (int, int, int)
+\item 
+std\+::vector$<$ \mbox{\hyperlink{classGA_1_1Chromosome}{Chromosome}} $>$ \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_ac1d8e3c03ead694a4ce56aa7d10c9227}{Parent\+Tournament\+Selection}} (int, int)
+\item 
+\mbox{\hyperlink{classGA_1_1Chromosome}{Chromosome}} \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a0e6b59ee8d72aa421b0a2ed766733c0d}{Tournament}} (std\+::vector$<$ \mbox{\hyperlink{classGA_1_1Chromosome}{Chromosome}} $>$ \&, int)
+\item 
+std\+::vector$<$ \mbox{\hyperlink{classGA_1_1Chromosome}{Chromosome}} $>$ \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a6a5c4b2a7aefe7875faa7f83cad699da}{Crossover\+OX}} (\mbox{\hyperlink{classGA_1_1Chromosome}{Chromosome}} \&, \mbox{\hyperlink{classGA_1_1Chromosome}{Chromosome}} \&)
+\item 
+std\+::vector$<$ int $>$ \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abf3269ebf0c4a73a78e543e612634963}{Remove\+Separator}} (const std\+::vector$<$ int $>$ \&)
+\item 
+std\+::vector$<$ int $>$ \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a95cdc1c3f5d11fcbad746f92747a6d13}{Add\+Separator}} (const std\+::vector$<$ int $>$ \&)
+\item 
+void \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a4808e5678c73c30e23416dc911903841}{Swap\+Mutation}} (std\+::vector$<$ \mbox{\hyperlink{classGA_1_1Chromosome}{Chromosome}} $>$ \&)
+\item 
+void \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_ac8dc27216630d75a436702a44042f637}{Survive\+Selection}} (std\+::vector$<$ \mbox{\hyperlink{classGA_1_1Chromosome}{Chromosome}} $>$ \&)
+\item 
+void \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_ae16bb78518374ee3c3d3e389e9deeb33}{Evaluation}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classGA_1_1Population}{Population}} \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a556e24e91a5f7400e8e6ab9412277359}{m\+\_\+population}}
+\item 
+std\+::vector$<$ \mbox{\hyperlink{classNode}{Node}} $>$ \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\+\_\+nodes}}
+\item 
+std\+::unordered\+\_\+map$<$ std\+::string, int $>$ \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a090cc8c517d3ae75ff52f651f59ebf47}{m\+\_\+values}}
+\item 
+double \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a6ede282ab881b50973aa8150f13d414b}{m\+\_\+best\+Fitness}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents a genetic algorithm. 
+
+This class encapsulates the functionalities and operations of a genetic algorithm, including initialization, selection, crossover, mutation, and evaluation of individuals. It manages the population of individuals and drives the evolution process across generations. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_ab9ea4a383b2872e420d553414f4f86b1}\label{classGA_1_1GeneticAlgorithm_ab9ea4a383b2872e420d553414f4f86b1}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!GeneticAlgorithm@{GeneticAlgorithm}}
+\index{GeneticAlgorithm@{GeneticAlgorithm}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{GeneticAlgorithm()}{GeneticAlgorithm()}}
+{\footnotesize\ttfamily GA\+::\+Genetic\+Algorithm\+::\+Genetic\+Algorithm (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{5 \{\};}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_a95cdc1c3f5d11fcbad746f92747a6d13}\label{classGA_1_1GeneticAlgorithm_a95cdc1c3f5d11fcbad746f92747a6d13}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!AddSeparator@{AddSeparator}}
+\index{AddSeparator@{AddSeparator}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{AddSeparator()}{AddSeparator()}}
+{\footnotesize\ttfamily std\+::vector$<$ int $>$ GA\+::\+Genetic\+Algorithm\+::\+Add\+Separator (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ int $>$ \&}]{dna }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{209     \{}
+\DoxyCodeLine{210         std::vector<int> res;}
+\DoxyCodeLine{211         \textcolor{keywordtype}{int} cap = 0;}
+\DoxyCodeLine{212 }
+\DoxyCodeLine{213         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < dna.size(); ++i)}
+\DoxyCodeLine{214         \{}
+\DoxyCodeLine{215             \textcolor{keywordtype}{int} demand = \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}[dna[i]].getDemand();}
+\DoxyCodeLine{216 }
+\DoxyCodeLine{217             \textcolor{keywordflow}{if} (demand > \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a090cc8c517d3ae75ff52f651f59ebf47}{m\_values}}[\textcolor{stringliteral}{"{}CAPACITY"{}}])}
+\DoxyCodeLine{218                 \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"{}Client demand bigger than vehicle cap"{}});}
+\DoxyCodeLine{219 }
+\DoxyCodeLine{220             \textcolor{keywordflow}{if} (cap + demand > \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a090cc8c517d3ae75ff52f651f59ebf47}{m\_values}}[\textcolor{stringliteral}{"{}CAPACITY"{}}])}
+\DoxyCodeLine{221             \{}
+\DoxyCodeLine{222                 res.push\_back(-\/1);}
+\DoxyCodeLine{223                 cap = 0;}
+\DoxyCodeLine{224             \}}
+\DoxyCodeLine{225 }
+\DoxyCodeLine{226             res.push\_back(dna[i]);}
+\DoxyCodeLine{227             cap += demand;}
+\DoxyCodeLine{228         \}}
+\DoxyCodeLine{229 }
+\DoxyCodeLine{230         \textcolor{keywordflow}{return} res;}
+\DoxyCodeLine{231     \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_a6a5c4b2a7aefe7875faa7f83cad699da}\label{classGA_1_1GeneticAlgorithm_a6a5c4b2a7aefe7875faa7f83cad699da}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!CrossoverOX@{CrossoverOX}}
+\index{CrossoverOX@{CrossoverOX}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{CrossoverOX()}{CrossoverOX()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{classGA_1_1Chromosome}{Chromosome}} $>$ GA\+::\+Genetic\+Algorithm\+::\+Crossover\+OX (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGA_1_1Chromosome}{Chromosome}} \&}]{parent1,  }\item[{\mbox{\hyperlink{classGA_1_1Chromosome}{Chromosome}} \&}]{parent2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{143     \{}
+\DoxyCodeLine{144         \textcolor{keywordtype}{int} dnaSize = \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a090cc8c517d3ae75ff52f651f59ebf47}{m\_values}}[\textcolor{stringliteral}{"{}DIMENSION"{}}];}
+\DoxyCodeLine{145 }
+\DoxyCodeLine{146         Chromosome child1;}
+\DoxyCodeLine{147         Chromosome child2;}
+\DoxyCodeLine{148 }
+\DoxyCodeLine{149         std::vector<Chromosome> children;}
+\DoxyCodeLine{150         std::vector<int> dna(dnaSize -\/ 1, -\/1);}
+\DoxyCodeLine{151         std::vector<int> dna2(dnaSize -\/ 1, -\/1);}
+\DoxyCodeLine{152         std::vector<int> cleanParent1Dna = \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abf3269ebf0c4a73a78e543e612634963}{RemoveSeparator}}(parent1.getDNA());}
+\DoxyCodeLine{153         std::vector<int> cleanParent2Dna = \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abf3269ebf0c4a73a78e543e612634963}{RemoveSeparator}}(parent2.getDNA());}
+\DoxyCodeLine{154 }
+\DoxyCodeLine{155         \textcolor{keywordtype}{int} p1 = \mbox{\hyperlink{namespaceutils_a7a08f23fe21d62f8b99b9d964e6d9693}{utils::randInteger}}(1, dnaSize -\/ 4);}
+\DoxyCodeLine{156         \textcolor{keywordtype}{int} p2 = \mbox{\hyperlink{namespaceutils_a7a08f23fe21d62f8b99b9d964e6d9693}{utils::randInteger}}(p1 + 1, dnaSize -\/ 3);}
+\DoxyCodeLine{157 }
+\DoxyCodeLine{158         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = p1; i <= p2; ++i)}
+\DoxyCodeLine{159         \{}
+\DoxyCodeLine{160             dna[i] = cleanParent1Dna[i];}
+\DoxyCodeLine{161             dna2[i] = cleanParent2Dna[i];}
+\DoxyCodeLine{162         \}}
+\DoxyCodeLine{163 }
+\DoxyCodeLine{164         \textcolor{keywordtype}{int} current = 0;}
+\DoxyCodeLine{165         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < dnaSize \&\& current < dnaSize; ++i)}
+\DoxyCodeLine{166         \{}
+\DoxyCodeLine{167             \textcolor{keywordtype}{int} gene = cleanParent2Dna[i];}
+\DoxyCodeLine{168             \textcolor{keywordflow}{if} (std::find(dna.begin(), dna.end(), gene) == dna.end())}
+\DoxyCodeLine{169             \{}
+\DoxyCodeLine{170                 dna[current] = gene;}
+\DoxyCodeLine{171                 current++;}
+\DoxyCodeLine{172             \}}
+\DoxyCodeLine{173 }
+\DoxyCodeLine{174             \textcolor{keywordflow}{if} (current == p1)}
+\DoxyCodeLine{175                 current = p2 + 1;}
+\DoxyCodeLine{176         \}}
+\DoxyCodeLine{177 }
+\DoxyCodeLine{178         current = 0;}
+\DoxyCodeLine{179         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < dnaSize \&\& current < dnaSize; ++i)}
+\DoxyCodeLine{180         \{}
+\DoxyCodeLine{181             \textcolor{keywordtype}{int} gene = cleanParent1Dna[i];}
+\DoxyCodeLine{182             \textcolor{keywordflow}{if} (std::find(dna2.begin(), dna2.end(), gene) == dna2.end())}
+\DoxyCodeLine{183             \{}
+\DoxyCodeLine{184                 dna2[current] = gene;}
+\DoxyCodeLine{185                 current++;}
+\DoxyCodeLine{186             \}}
+\DoxyCodeLine{187 }
+\DoxyCodeLine{188             \textcolor{keywordflow}{if} (current == p1)}
+\DoxyCodeLine{189                 current = p2 + 1;}
+\DoxyCodeLine{190         \}}
+\DoxyCodeLine{191 }
+\DoxyCodeLine{192         child1.setDNA(dna);}
+\DoxyCodeLine{193         child2.setDNA(dna2);}
+\DoxyCodeLine{194 }
+\DoxyCodeLine{195         children.push\_back(child1);}
+\DoxyCodeLine{196         children.push\_back(child2);}
+\DoxyCodeLine{197 }
+\DoxyCodeLine{198         \textcolor{keywordflow}{return} children;}
+\DoxyCodeLine{199     \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_ae16bb78518374ee3c3d3e389e9deeb33}\label{classGA_1_1GeneticAlgorithm_ae16bb78518374ee3c3d3e389e9deeb33}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!Evaluation@{Evaluation}}
+\index{Evaluation@{Evaluation}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{Evaluation()}{Evaluation()}}
+{\footnotesize\ttfamily void GA\+::\+Genetic\+Algorithm\+::\+Evaluation (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{271     \{}
+\DoxyCodeLine{272         \textcolor{keywordtype}{double} bestFitness = this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_ad5c110928d238c1b79409b86f83de532}{getBestFitness}}();}
+\DoxyCodeLine{273 }
+\DoxyCodeLine{274         \textcolor{keywordflow}{if} (\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}.empty())}
+\DoxyCodeLine{275         \{}
+\DoxyCodeLine{276             std::cerr << \textcolor{stringliteral}{"{}Error: Nodes is not initialized."{}} << std::endl;}
+\DoxyCodeLine{277             \textcolor{keywordflow}{return};}
+\DoxyCodeLine{278         \}}
+\DoxyCodeLine{279 }
+\DoxyCodeLine{280         \textcolor{keywordflow}{if} (\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a556e24e91a5f7400e8e6ab9412277359}{m\_population}}.\mbox{\hyperlink{classGA_1_1Population_a9f72b420f684b5c327b47e693fdf9a4e}{getIndividuals}}().empty())}
+\DoxyCodeLine{281         \{}
+\DoxyCodeLine{282             std::cerr << \textcolor{stringliteral}{"{}Error: Population is not initialized."{}} << std::endl;}
+\DoxyCodeLine{283             \textcolor{keywordflow}{return};}
+\DoxyCodeLine{284         \}}
+\DoxyCodeLine{285 }
+\DoxyCodeLine{286         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \&individual : this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a556e24e91a5f7400e8e6ab9412277359}{m\_population}}.\mbox{\hyperlink{classGA_1_1Population_a9f72b420f684b5c327b47e693fdf9a4e}{getIndividuals}}())}
+\DoxyCodeLine{287         \{}
+\DoxyCodeLine{288             \textcolor{keywordtype}{int} lastNode = 0;}
+\DoxyCodeLine{289             \textcolor{keywordtype}{double} fitness = 0.0;}
+\DoxyCodeLine{290             \textcolor{keyword}{const} \textcolor{keyword}{auto} \&dna = individual.getDNA();}
+\DoxyCodeLine{291 }
+\DoxyCodeLine{292             \textcolor{keywordflow}{if} (dna.size() < 2)}
+\DoxyCodeLine{293             \{}
+\DoxyCodeLine{294                 individual.setFitness(0.0);}
+\DoxyCodeLine{295                 \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{296             \}}
+\DoxyCodeLine{297 }
+\DoxyCodeLine{298             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 1; i < dna.size(); ++i)}
+\DoxyCodeLine{299             \{}
+\DoxyCodeLine{300                 \textcolor{keywordtype}{int} currentNode = dna[i];}
+\DoxyCodeLine{301 }
+\DoxyCodeLine{302                 \textcolor{keywordflow}{if} (currentNode == -\/1)}
+\DoxyCodeLine{303                 \{}
+\DoxyCodeLine{304                     fitness += \mbox{\hyperlink{namespaceutils_a3956d577db2226e4f5f0c627f5fec9be}{utils::EuclidianDistance}}(}
+\DoxyCodeLine{305                         \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}[lastNode].getX(), \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}[0].getX(),}
+\DoxyCodeLine{306                         \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}[lastNode].getY(), \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}[0].getY());}
+\DoxyCodeLine{307 }
+\DoxyCodeLine{308                     lastNode = 0;}
+\DoxyCodeLine{309                 \}}
+\DoxyCodeLine{310                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{311                 \{}
+\DoxyCodeLine{312                     \textcolor{keywordflow}{if} (lastNode == 0)}
+\DoxyCodeLine{313                         fitness += \mbox{\hyperlink{namespaceutils_a3956d577db2226e4f5f0c627f5fec9be}{utils::EuclidianDistance}}(}
+\DoxyCodeLine{314                             \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}[0].getX(), \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}[currentNode].getX(),}
+\DoxyCodeLine{315                             \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}[0].getY(), \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}[currentNode].getY());}
+\DoxyCodeLine{316                     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{317                         fitness += \mbox{\hyperlink{namespaceutils_a3956d577db2226e4f5f0c627f5fec9be}{utils::EuclidianDistance}}(}
+\DoxyCodeLine{318                             \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}[lastNode].getX(), \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}[currentNode].getX(),}
+\DoxyCodeLine{319                             \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}[lastNode].getY(), \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}[currentNode].getY());}
+\DoxyCodeLine{320 }
+\DoxyCodeLine{321                     lastNode = currentNode;}
+\DoxyCodeLine{322                 \}}
+\DoxyCodeLine{323             \}}
+\DoxyCodeLine{324 }
+\DoxyCodeLine{325             \textcolor{keywordflow}{if} (lastNode != 0)}
+\DoxyCodeLine{326                 fitness += \mbox{\hyperlink{namespaceutils_a3956d577db2226e4f5f0c627f5fec9be}{utils::EuclidianDistance}}(}
+\DoxyCodeLine{327                     \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}[lastNode].getX(), \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}[0].getX(),}
+\DoxyCodeLine{328                     \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}[lastNode].getY(), \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}[0].getY());}
+\DoxyCodeLine{329 }
+\DoxyCodeLine{330             individual.setFitness(fitness);}
+\DoxyCodeLine{331 }
+\DoxyCodeLine{332             \textcolor{keywordflow}{if} (fitness < bestFitness)}
+\DoxyCodeLine{333                 bestFitness = fitness;}
+\DoxyCodeLine{334         \}}
+\DoxyCodeLine{335 }
+\DoxyCodeLine{336         this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a8edb8461f05662baae737542684c67f7}{setBestFitness}}(bestFitness);}
+\DoxyCodeLine{337     \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_a0fe3a733354196211757def59e88b6b7}\label{classGA_1_1GeneticAlgorithm_a0fe3a733354196211757def59e88b6b7}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!Evolve@{Evolve}}
+\index{Evolve@{Evolve}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{Evolve()}{Evolve()}}
+{\footnotesize\ttfamily void GA\+::\+Genetic\+Algorithm\+::\+Evolve (\begin{DoxyParamCaption}\item[{int}]{parents\+Size,  }\item[{int}]{population\+Size,  }\item[{int}]{num\+Clients }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{74     \{}
+\DoxyCodeLine{75         std::vector<Chromosome> parents = \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_ac1d8e3c03ead694a4ce56aa7d10c9227}{ParentTournamentSelection}}(parentsSize, populationSize);}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77         \textcolor{keywordflow}{if} (parents.size() \% 2 != 0)}
+\DoxyCodeLine{78             parents.pop\_back();}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80         std::vector<Chromosome> children;}
+\DoxyCodeLine{81         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < parents.size(); i += 2)}
+\DoxyCodeLine{82         \{}
+\DoxyCodeLine{83             std::vector<Chromosome> newChildren = \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a6a5c4b2a7aefe7875faa7f83cad699da}{CrossoverOX}}(parents[i], parents[i + 1]);}
+\DoxyCodeLine{84             children.insert(children.end(), newChildren.begin(), newChildren.end());}
+\DoxyCodeLine{85         \}}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87         \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a4808e5678c73c30e23416dc911903841}{SwapMutation}}(children);}
+\DoxyCodeLine{88         }
+\DoxyCodeLine{89         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& child : children)}
+\DoxyCodeLine{90             child.setDNA(\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a95cdc1c3f5d11fcbad746f92747a6d13}{AddSeparator}}(child.getDNA()));}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{92         }
+\DoxyCodeLine{93         \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_ac8dc27216630d75a436702a44042f637}{SurviveSelection}}(children);}
+\DoxyCodeLine{94     \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_ad5c110928d238c1b79409b86f83de532}\label{classGA_1_1GeneticAlgorithm_ad5c110928d238c1b79409b86f83de532}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!getBestFitness@{getBestFitness}}
+\index{getBestFitness@{getBestFitness}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{getBestFitness()}{getBestFitness()}}
+{\footnotesize\ttfamily double GA\+::\+Genetic\+Algorithm\+::get\+Best\+Fitness (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{44 \{ \textcolor{keywordflow}{return} this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a6ede282ab881b50973aa8150f13d414b}{m\_bestFitness}}; \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_a8d7ece4ee4fbd3f17c88b413da7ed2fe}\label{classGA_1_1GeneticAlgorithm_a8d7ece4ee4fbd3f17c88b413da7ed2fe}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!getNodes@{getNodes}}
+\index{getNodes@{getNodes}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{getNodes()}{getNodes()}}
+{\footnotesize\ttfamily const std\+::vector$<$\mbox{\hyperlink{classNode}{Node}}$>$ GA\+::\+Genetic\+Algorithm\+::get\+Nodes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{38 \{ \textcolor{keywordflow}{return} this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}; \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_adeb15480b6dc54ba2417491f80964587}\label{classGA_1_1GeneticAlgorithm_adeb15480b6dc54ba2417491f80964587}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!getPopulation@{getPopulation}}
+\index{getPopulation@{getPopulation}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{getPopulation()}{getPopulation()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classGA_1_1Population}{Population}} GA\+::\+Genetic\+Algorithm\+::get\+Population (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{36 \{ \textcolor{keywordflow}{return} this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a556e24e91a5f7400e8e6ab9412277359}{m\_population}}; \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_ada7d2b4e4c93ad3acd797ea509bd4bde}\label{classGA_1_1GeneticAlgorithm_ada7d2b4e4c93ad3acd797ea509bd4bde}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!getValues@{getValues}}
+\index{getValues@{getValues}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{getValues()}{getValues()}}
+{\footnotesize\ttfamily const std\+::unordered\+\_\+map$<$std\+::string, int$>$ GA\+::\+Genetic\+Algorithm\+::get\+Values (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{41 \{ \textcolor{keywordflow}{return} this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a090cc8c517d3ae75ff52f651f59ebf47}{m\_values}}; \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_a91514608cc01890983dedaad75ceccc6}\label{classGA_1_1GeneticAlgorithm_a91514608cc01890983dedaad75ceccc6}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!Initialize@{Initialize}}
+\index{Initialize@{Initialize}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{Initialize()}{Initialize()}}
+{\footnotesize\ttfamily void GA\+::\+Genetic\+Algorithm\+::\+Initialize (\begin{DoxyParamCaption}\item[{int}]{population\+Size,  }\item[{int}]{capacity,  }\item[{int}]{num\+Clients }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{27     \{}
+\DoxyCodeLine{28         Population population;}
+\DoxyCodeLine{29         population.setSize(populationSize);}
+\DoxyCodeLine{30         std::vector<Chromosome> individuals;}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < populationSize; ++i)}
+\DoxyCodeLine{33         \{}
+\DoxyCodeLine{34             Chromosome chromosome;}
+\DoxyCodeLine{35             std::vector<int> dna;}
+\DoxyCodeLine{36             \textcolor{keywordtype}{int} cap = 0;}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38             \textcolor{comment}{// Create Nodes random order}}
+\DoxyCodeLine{39             std::vector<int> remainingClients(numClients -\/ 1);}
+\DoxyCodeLine{40             std::iota(remainingClients.begin(), remainingClients.end(), 1);}
+\DoxyCodeLine{41             std::shuffle(remainingClients.begin(), remainingClients.end(), std::mt19937\{std::random\_device\{\}()\});}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43             \textcolor{comment}{// dna.push\_back(0);}}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45             \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \&index : remainingClients)}
+\DoxyCodeLine{46             \{}
+\DoxyCodeLine{47                 \textcolor{keywordtype}{int} demand = this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}}[index].getDemand();}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49                 \textcolor{keywordflow}{if} (demand > capacity)}
+\DoxyCodeLine{50                     \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"{}Client demand bigger than vehicle cap"{}});}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52                 \textcolor{keywordflow}{if} (cap + demand > capacity)}
+\DoxyCodeLine{53                 \{}
+\DoxyCodeLine{54                     dna.push\_back(-\/1);}
+\DoxyCodeLine{55                     cap = 0;}
+\DoxyCodeLine{56                 \}}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58                 dna.push\_back(index);}
+\DoxyCodeLine{59                 cap += demand;}
+\DoxyCodeLine{60             \}}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62             chromosome.setDNA(dna);}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64             individuals.push\_back(chromosome);}
+\DoxyCodeLine{65         \}}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67         population.setIndividuals(individuals);}
+\DoxyCodeLine{68         population.setGeneration(1);}
+\DoxyCodeLine{69         this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a556e24e91a5f7400e8e6ab9412277359}{m\_population}} = population;}
+\DoxyCodeLine{70         this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a8edb8461f05662baae737542684c67f7}{setBestFitness}}(std::numeric\_limits<double>::max());}
+\DoxyCodeLine{71     \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_ac1d8e3c03ead694a4ce56aa7d10c9227}\label{classGA_1_1GeneticAlgorithm_ac1d8e3c03ead694a4ce56aa7d10c9227}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!ParentTournamentSelection@{ParentTournamentSelection}}
+\index{ParentTournamentSelection@{ParentTournamentSelection}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{ParentTournamentSelection()}{ParentTournamentSelection()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{classGA_1_1Chromosome}{Chromosome}} $>$ GA\+::\+Genetic\+Algorithm\+::\+Parent\+Tournament\+Selection (\begin{DoxyParamCaption}\item[{int}]{parents\+Size,  }\item[{int}]{population\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{97     \{}
+\DoxyCodeLine{98         std::vector<Chromosome> aux\_population = \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a556e24e91a5f7400e8e6ab9412277359}{m\_population}}.\mbox{\hyperlink{classGA_1_1Population_a9f72b420f684b5c327b47e693fdf9a4e}{getIndividuals}}();}
+\DoxyCodeLine{99         std::vector<Chromosome> newIndividuals;}
+\DoxyCodeLine{100         std::vector<Chromosome> parents;}
+\DoxyCodeLine{101         \textcolor{keywordtype}{int} popSize;}
+\DoxyCodeLine{102 }
+\DoxyCodeLine{103         \textcolor{keywordtype}{int} subsetSize = (\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a556e24e91a5f7400e8e6ab9412277359}{m\_population}}.\mbox{\hyperlink{classGA_1_1Population_a9f72b420f684b5c327b47e693fdf9a4e}{getIndividuals}}().size() / 3) + 2;}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{105         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < parentsSize; ++i)}
+\DoxyCodeLine{106         \{}
+\DoxyCodeLine{107             popSize = aux\_population.size();}
+\DoxyCodeLine{108             newIndividuals.clear();}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{110             std::vector<Chromosome> temp\_population = aux\_population;}
+\DoxyCodeLine{111 }
+\DoxyCodeLine{112             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j = 0; j < subsetSize; ++j)}
+\DoxyCodeLine{113             \{}
+\DoxyCodeLine{114                 \textcolor{keywordtype}{int} index = \mbox{\hyperlink{namespaceutils_a7a08f23fe21d62f8b99b9d964e6d9693}{utils::randInteger}}(0, popSize -\/ 1);}
+\DoxyCodeLine{115                 newIndividuals.push\_back(temp\_population[index]);}
+\DoxyCodeLine{116                 temp\_population.erase(temp\_population.begin() + index);}
+\DoxyCodeLine{117                 popSize-\/-\/;}
+\DoxyCodeLine{118             \}}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{120             Chromosome winner = \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a0e6b59ee8d72aa421b0a2ed766733c0d}{Tournament}}(newIndividuals, subsetSize);}
+\DoxyCodeLine{121             parents.push\_back(winner);}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{123             \textcolor{keyword}{auto} it = std::find(aux\_population.begin(), aux\_population.end(), winner);}
+\DoxyCodeLine{124             \textcolor{keywordflow}{if} (it != aux\_population.end())}
+\DoxyCodeLine{125                 aux\_population.erase(it);}
+\DoxyCodeLine{126         \}}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{128         \textcolor{keywordflow}{return} parents;}
+\DoxyCodeLine{129     \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_abf3269ebf0c4a73a78e543e612634963}\label{classGA_1_1GeneticAlgorithm_abf3269ebf0c4a73a78e543e612634963}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!RemoveSeparator@{RemoveSeparator}}
+\index{RemoveSeparator@{RemoveSeparator}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{RemoveSeparator()}{RemoveSeparator()}}
+{\footnotesize\ttfamily std\+::vector$<$ int $>$ GA\+::\+Genetic\+Algorithm\+::\+Remove\+Separator (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ int $>$ \&}]{dna }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{202     \{}
+\DoxyCodeLine{203         std::vector<int> res = dna;}
+\DoxyCodeLine{204         res.erase(std::remove(res.begin(), res.end(), -\/1), res.end());}
+\DoxyCodeLine{205         \textcolor{keywordflow}{return} res;}
+\DoxyCodeLine{206     \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_a2b48701fb53aa424db3f89069b4cb01e}\label{classGA_1_1GeneticAlgorithm_a2b48701fb53aa424db3f89069b4cb01e}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!Run@{Run}}
+\index{Run@{Run}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{Run()}{Run()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classGA_1_1Population}{Population}} GA\+::\+Genetic\+Algorithm\+::\+Run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Runs the genetic algorithm. 
+
+This method orchestrates the process of evolution, calling other methods to initialize the population, perform selection, crossover, mutation, and evaluation.
+
+\begin{DoxyReturn}{Returns}
+The final population after running the algorithm. 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{8     \{}
+\DoxyCodeLine{9         \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a91514608cc01890983dedaad75ceccc6}{Initialize}}(\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a090cc8c517d3ae75ff52f651f59ebf47}{m\_values}}.at(\textcolor{stringliteral}{"{}POP\_SIZE"{}}), \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a090cc8c517d3ae75ff52f651f59ebf47}{m\_values}}.at(\textcolor{stringliteral}{"{}CAPACITY"{}}), \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a090cc8c517d3ae75ff52f651f59ebf47}{m\_values}}.at(\textcolor{stringliteral}{"{}DIMENSION"{}}));}
+\DoxyCodeLine{10         \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_ae16bb78518374ee3c3d3e389e9deeb33}{Evaluation}}();}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12         this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a556e24e91a5f7400e8e6ab9412277359}{m\_population}}.\mbox{\hyperlink{classGA_1_1Population_aca19074729d926f74f25d3edd2ef8cc9}{PrintPopulation}}();}
+\DoxyCodeLine{13         std::cout << \textcolor{stringliteral}{"{}Best Global Fitness: "{}} << this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a6ede282ab881b50973aa8150f13d414b}{m\_bestFitness}} << std::endl << std::endl;}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a090cc8c517d3ae75ff52f651f59ebf47}{m\_values}}.at(\textcolor{stringliteral}{"{}GENERATIONS"{}}); ++i)}
+\DoxyCodeLine{16         \{}
+\DoxyCodeLine{17             \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a0fe3a733354196211757def59e88b6b7}{Evolve}}(\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a090cc8c517d3ae75ff52f651f59ebf47}{m\_values}}.at(\textcolor{stringliteral}{"{}PARENTS\_SIZE"{}}), \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a090cc8c517d3ae75ff52f651f59ebf47}{m\_values}}.at(\textcolor{stringliteral}{"{}POP\_SIZE"{}}), \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a090cc8c517d3ae75ff52f651f59ebf47}{m\_values}}.at(\textcolor{stringliteral}{"{}DIMENSION"{}}));}
+\DoxyCodeLine{18             \mbox{\hyperlink{classGA_1_1GeneticAlgorithm_ae16bb78518374ee3c3d3e389e9deeb33}{Evaluation}}();}
+\DoxyCodeLine{19             this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a556e24e91a5f7400e8e6ab9412277359}{m\_population}}.\mbox{\hyperlink{classGA_1_1Population_aca19074729d926f74f25d3edd2ef8cc9}{PrintPopulation}}();}
+\DoxyCodeLine{20             std::cout << \textcolor{stringliteral}{"{}Best Global Fitness: "{}} << this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a6ede282ab881b50973aa8150f13d414b}{m\_bestFitness}} << std::endl << std::endl;}
+\DoxyCodeLine{21         \}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23         \textcolor{keywordflow}{return} this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a556e24e91a5f7400e8e6ab9412277359}{m\_population}};}
+\DoxyCodeLine{24     \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_a8edb8461f05662baae737542684c67f7}\label{classGA_1_1GeneticAlgorithm_a8edb8461f05662baae737542684c67f7}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!setBestFitness@{setBestFitness}}
+\index{setBestFitness@{setBestFitness}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{setBestFitness()}{setBestFitness()}}
+{\footnotesize\ttfamily void GA\+::\+Genetic\+Algorithm\+::set\+Best\+Fitness (\begin{DoxyParamCaption}\item[{double}]{best\+Fitness }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{45 \{ this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a6ede282ab881b50973aa8150f13d414b}{m\_bestFitness}} = bestFitness; \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_a6dca2b5d815bfab2d0307233780ca28d}\label{classGA_1_1GeneticAlgorithm_a6dca2b5d815bfab2d0307233780ca28d}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!setNodes@{setNodes}}
+\index{setNodes@{setNodes}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{setNodes()}{setNodes()}}
+{\footnotesize\ttfamily void GA\+::\+Genetic\+Algorithm\+::set\+Nodes (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classNode}{Node}} $>$ \&}]{nodes }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{39 \{ this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}{m\_nodes}} = nodes; \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_a14021e210b84c55e7420b0468a35d1a2}\label{classGA_1_1GeneticAlgorithm_a14021e210b84c55e7420b0468a35d1a2}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!setValues@{setValues}}
+\index{setValues@{setValues}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{setValues()}{setValues()}}
+{\footnotesize\ttfamily void GA\+::\+Genetic\+Algorithm\+::set\+Values (\begin{DoxyParamCaption}\item[{std\+::unordered\+\_\+map$<$ std\+::string, int $>$ \&}]{values }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{42 \{ this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a090cc8c517d3ae75ff52f651f59ebf47}{m\_values}} = values; \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_ac8dc27216630d75a436702a44042f637}\label{classGA_1_1GeneticAlgorithm_ac8dc27216630d75a436702a44042f637}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!SurviveSelection@{SurviveSelection}}
+\index{SurviveSelection@{SurviveSelection}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{SurviveSelection()}{SurviveSelection()}}
+{\footnotesize\ttfamily void GA\+::\+Genetic\+Algorithm\+::\+Survive\+Selection (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classGA_1_1Chromosome}{Chromosome}} $>$ \&}]{children }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{255     \{}
+\DoxyCodeLine{256         std::vector<Chromosome> \&population = this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a556e24e91a5f7400e8e6ab9412277359}{m\_population}}.\mbox{\hyperlink{classGA_1_1Population_a9f72b420f684b5c327b47e693fdf9a4e}{getIndividuals}}();}
+\DoxyCodeLine{257 }
+\DoxyCodeLine{258         std::vector<int> index(population.size());}
+\DoxyCodeLine{259         std::iota(index.begin(), index.end(), 0);}
+\DoxyCodeLine{260 }
+\DoxyCodeLine{261         std::sort(index.begin(), index.end(), [\&population](\textcolor{keywordtype}{int} i1, \textcolor{keywordtype}{int} i2)}
+\DoxyCodeLine{262                   \{ return population[i1].getFitness() > population[i2].getFitness(); \});}
+\DoxyCodeLine{263 }
+\DoxyCodeLine{264         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < children.size(); ++i)}
+\DoxyCodeLine{265             population[index[i]] = children[i];}
+\DoxyCodeLine{266 }
+\DoxyCodeLine{267         this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a556e24e91a5f7400e8e6ab9412277359}{m\_population}}.\mbox{\hyperlink{classGA_1_1Population_ae2743d92cd7db61a5bf9a33c302ffb41}{setGeneration}}(this-\/>\mbox{\hyperlink{classGA_1_1GeneticAlgorithm_a556e24e91a5f7400e8e6ab9412277359}{m\_population}}.\mbox{\hyperlink{classGA_1_1Population_ac8591c0ab0db050938c6be65c06f803c}{getGeneration}}() + 1);}
+\DoxyCodeLine{268     \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_a4808e5678c73c30e23416dc911903841}\label{classGA_1_1GeneticAlgorithm_a4808e5678c73c30e23416dc911903841}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!SwapMutation@{SwapMutation}}
+\index{SwapMutation@{SwapMutation}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{SwapMutation()}{SwapMutation()}}
+{\footnotesize\ttfamily void GA\+::\+Genetic\+Algorithm\+::\+Swap\+Mutation (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classGA_1_1Chromosome}{Chromosome}} $>$ \&}]{children }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{234     \{}
+\DoxyCodeLine{235         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \&child : children)}
+\DoxyCodeLine{236         \{}
+\DoxyCodeLine{237             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} j = 1; j < child.getDNA().size() -\/ 1; ++j)}
+\DoxyCodeLine{238             \{}
+\DoxyCodeLine{239                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{namespaceutils_a972c75b6ccea50fb3443cb3ff4b7301b}{utils::randDouble}}(0, 1) < 0.05)}
+\DoxyCodeLine{240                 \{}
+\DoxyCodeLine{241                     \textcolor{keywordtype}{size\_t} n1;}
+\DoxyCodeLine{242 }
+\DoxyCodeLine{243                     \textcolor{keywordflow}{do}}
+\DoxyCodeLine{244                     \{}
+\DoxyCodeLine{245                         n1 = \mbox{\hyperlink{namespaceutils_a7a08f23fe21d62f8b99b9d964e6d9693}{utils::randInteger}}(1, child.getDNA().size() -\/ 2);}
+\DoxyCodeLine{246                     \} \textcolor{keywordflow}{while} (n1 == j);}
+\DoxyCodeLine{247 }
+\DoxyCodeLine{248                     std::swap(child.getDNA()[j], child.getDNA()[n1]);}
+\DoxyCodeLine{249                 \}}
+\DoxyCodeLine{250             \}}
+\DoxyCodeLine{251         \}}
+\DoxyCodeLine{252     \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_a0e6b59ee8d72aa421b0a2ed766733c0d}\label{classGA_1_1GeneticAlgorithm_a0e6b59ee8d72aa421b0a2ed766733c0d}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!Tournament@{Tournament}}
+\index{Tournament@{Tournament}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{Tournament()}{Tournament()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classGA_1_1Chromosome}{Chromosome}} GA\+::\+Genetic\+Algorithm\+::\+Tournament (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classGA_1_1Chromosome}{Chromosome}} $>$ \&}]{T,  }\item[{int}]{k }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{132     \{}
+\DoxyCodeLine{133         Chromosome bestFitness = T[0];}
+\DoxyCodeLine{134 }
+\DoxyCodeLine{135         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 1; i < k; ++i)}
+\DoxyCodeLine{136             \textcolor{keywordflow}{if} (T[i].getFitness() < bestFitness.getFitness())}
+\DoxyCodeLine{137                 bestFitness = T[i];}
+\DoxyCodeLine{138 }
+\DoxyCodeLine{139         \textcolor{keywordflow}{return} bestFitness;}
+\DoxyCodeLine{140     \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_a6ede282ab881b50973aa8150f13d414b}\label{classGA_1_1GeneticAlgorithm_a6ede282ab881b50973aa8150f13d414b}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!m\_bestFitness@{m\_bestFitness}}
+\index{m\_bestFitness@{m\_bestFitness}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{m\_bestFitness}{m\_bestFitness}}
+{\footnotesize\ttfamily double GA\+::\+Genetic\+Algorithm\+::m\+\_\+best\+Fitness\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}\label{classGA_1_1GeneticAlgorithm_abe98bcbb06a59985a00cfb08b8efb5d5}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!m\_nodes@{m\_nodes}}
+\index{m\_nodes@{m\_nodes}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{m\_nodes}{m\_nodes}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{classNode}{Node}}$>$ GA\+::\+Genetic\+Algorithm\+::m\+\_\+nodes\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_a556e24e91a5f7400e8e6ab9412277359}\label{classGA_1_1GeneticAlgorithm_a556e24e91a5f7400e8e6ab9412277359}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!m\_population@{m\_population}}
+\index{m\_population@{m\_population}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{m\_population}{m\_population}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classGA_1_1Population}{Population}} GA\+::\+Genetic\+Algorithm\+::m\+\_\+population\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classGA_1_1GeneticAlgorithm_a090cc8c517d3ae75ff52f651f59ebf47}\label{classGA_1_1GeneticAlgorithm_a090cc8c517d3ae75ff52f651f59ebf47}} 
+\index{GA::GeneticAlgorithm@{GA::GeneticAlgorithm}!m\_values@{m\_values}}
+\index{m\_values@{m\_values}!GA::GeneticAlgorithm@{GA::GeneticAlgorithm}}
+\doxysubsubsection{\texorpdfstring{m\_values}{m\_values}}
+{\footnotesize\ttfamily std\+::unordered\+\_\+map$<$std\+::string, int$>$ GA\+::\+Genetic\+Algorithm\+::m\+\_\+values\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\+Genetic\+Algorithm/\mbox{\hyperlink{genetic__algorithm_8hpp}{genetic\+\_\+algorithm.\+hpp}}\item 
+src/\+Genetic\+Algorithm/\mbox{\hyperlink{genetic__algorithm_8cpp}{genetic\+\_\+algorithm.\+cpp}}\end{DoxyCompactItemize}
