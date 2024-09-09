@@ -1,0 +1,16 @@
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dll
+*.dylib
+
+*.out
+*.exe
+*.app
+
+/build
+/bin
+/.vscode
+
