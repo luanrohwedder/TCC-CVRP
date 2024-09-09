@@ -88,15 +88,21 @@ std::vector<Node> ReadNodesFromFile(const std::string& filename, std::unordered_
     return nodes;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
-    GA::GeneticAlgorithm ga;
-    std::unordered_map<std::string, int> values;
-    values.insert(std::make_pair("POP_SIZE", 10));
-    values.insert(std::make_pair("PARENTS_SIZE", 4));
-    values.insert(std::make_pair("GENERATIONS", 3000));
-    std::vector<Node> clientes = ReadNodesFromFile("./dataset/E-n22-k4.txt", values);
+    if (argc != 5)
+    {
+        std::cerr << "Usage: " << argv[0] << "<file> <population_size> <parents_size> <generations>" << std::endl;
+        return -1;
+    }
 
+    std::unordered_map<std::string, int> values;
+    values.insert(std::make_pair("POP_SIZE", std::stoi(argv[2])));
+    values.insert(std::make_pair("PARENTS_SIZE", std::stoi(argv[3])));
+    values.insert(std::make_pair("GENERATIONS", std::stoi(argv[4])));
+    std::vector<Node> clientes = ReadNodesFromFile(argv[1], values);
+
+    GA::GeneticAlgorithm ga;
     ga.setNodes(clientes);
     ga.setValues(values);
     ga.Run();

@@ -2,6 +2,7 @@
 #define POPULATION_H
 #include "chromosome.hpp"
 #include <iomanip>
+#include <algorithm>
 
 namespace GA
 {
@@ -36,6 +37,11 @@ namespace GA
                     bestFitness = individual.getFitness();
             }
             std::cout << "Best Fitness: " << bestFitness << std::endl << std::endl;
+        }
+
+        inline bool contains(const Chromosome &chromosome) const
+        {
+            return std::find(m_individuals.begin(), m_individuals.end(), chromosome) != m_individuals.end();
         }
 
         // GETTERS AND SETTERS

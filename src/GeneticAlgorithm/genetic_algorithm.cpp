@@ -192,8 +192,11 @@ namespace GA
         child1.setDNA(dna);
         child2.setDNA(dna2);
 
-        children.push_back(child1);
-        children.push_back(child2);
+        if (!m_population.contains(child1))
+            children.push_back(child1);
+        
+        if (!m_population.contains(child2))
+            children.push_back(child2);
 
         return children;
     }
@@ -234,6 +237,9 @@ namespace GA
     {
         for (auto &child : children)
         {
+            bool mutated = false;
+            std::vector<int> originalDNA = child.getDNA();
+
             for (size_t j = 1; j < child.getDNA().size() - 1; ++j)
             {
                 if (utils::randDouble(0, 1) < 0.05)
@@ -246,8 +252,12 @@ namespace GA
                     } while (n1 == j);
 
                     std::swap(child.getDNA()[j], child.getDNA()[n1]);
+                    mutated = true;
                 }
             }
+
+            if (mutated && m_population.contains(child))
+                child.setDNA(originalDNA);
         }
     }
 
@@ -262,7 +272,8 @@ namespace GA
                   { return population[i1].getFitness() > population[i2].getFitness(); });
 
         for (size_t i = 0; i < children.size(); ++i)
-            population[index[i]] = children[i];
+            if (!m_population.contains(children[i]))
+                population[index[i]] = children[i];
 
         this->m_population.setGeneration(this->m_population.getGeneration() + 1);
     }

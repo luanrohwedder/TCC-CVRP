@@ -3,7 +3,6 @@
 #include "population.hpp"
 #include "../include/utils.hpp"
 #include "../include/node.hpp"
-#include <algorithm>
 #include <random>
 #include <unordered_map>
 
