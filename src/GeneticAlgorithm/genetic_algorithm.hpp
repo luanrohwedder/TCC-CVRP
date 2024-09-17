@@ -5,6 +5,7 @@
 #include "../include/node.hpp"
 #include <random>
 #include <unordered_map>
+#include <fstream>
 
 namespace GA
 {
@@ -67,7 +68,7 @@ namespace GA
 
         void SurviveSelection(std::vector<Chromosome>&);
 
-        void Evaluation();
+        void Evaluation(std::ofstream&);
 
         //TODO: LER DE DATASETS E INICIALIZAR COM ELE
     };

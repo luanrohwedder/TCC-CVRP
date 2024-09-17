@@ -1,5 +1,6 @@
 #include <fstream>
 #include <sstream>
+#include <chrono>
 #include "./GeneticAlgorithm/genetic_algorithm.hpp"
 
 /*
@@ -105,7 +106,18 @@ int main(int argc, char* argv[])
     GA::GeneticAlgorithm ga;
     ga.setNodes(clientes);
     ga.setValues(values);
+
+    auto start = std::chrono::high_resolution_clock::now();
     ga.Run();
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end-start);
+
+    std::cout << "Best fitness: " << ga.getBestFitness() << std::endl << std::endl;
+
+    std::cout << "Duration: " << std::endl 
+              << duration.count() << " microseconds" 
+              << std::endl << duration.count() / 1000000.0 
+              << " seconds" << std::endl;
 
     return 0;
 }

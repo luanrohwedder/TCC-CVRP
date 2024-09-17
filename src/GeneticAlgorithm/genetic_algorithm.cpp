@@ -6,18 +6,27 @@ namespace GA
 
     Population GeneticAlgorithm::Run()
     {
-        Initialize(m_values.at("POP_SIZE"), m_values.at("CAPACITY"), m_values.at("DIMENSION"));
-        Evaluation();
+        std::ofstream file("fitness.txt");
 
+        Initialize(m_values.at("POP_SIZE"), m_values.at("CAPACITY"), m_values.at("DIMENSION"));
+        Evaluation(file);
+
+#ifdef DEBUG
         this->m_population.PrintPopulation();
-        std::cout << "Best Global Fitness: " << this->m_bestFitness << std::endl << std::endl;
+        std::cout << "Best Global Fitness: " << this->m_bestFitness << std::endl
+                  << std::endl;
+#endif
 
         for (int i = 0; i < m_values.at("GENERATIONS"); ++i)
         {
             Evolve(m_values.at("PARENTS_SIZE"), m_values.at("POP_SIZE"), m_values.at("DIMENSION"));
-            Evaluation();
+            Evaluation(file);
+
+#ifdef DEBUG
             this->m_population.PrintPopulation();
-            std::cout << "Best Global Fitness: " << this->m_bestFitness << std::endl << std::endl;
+            std::cout << "Best Global Fitness: " << this->m_bestFitness << std::endl
+                      << std::endl;
+#endif
         }
 
         return this->m_population;
@@ -85,11 +94,10 @@ namespace GA
         }
 
         SwapMutation(children);
-        
-        for (auto& child : children)
+
+        for (auto &child : children)
             child.setDNA(AddSeparator(child.getDNA()));
 
-        
         SurviveSelection(children);
     }
 
@@ -194,7 +202,7 @@ namespace GA
 
         if (!m_population.contains(child1))
             children.push_back(child1);
-        
+
         if (!m_population.contains(child2))
             children.push_back(child2);
 
@@ -278,7 +286,7 @@ namespace GA
         this->m_population.setGeneration(this->m_population.getGeneration() + 1);
     }
 
-    void GeneticAlgorithm::Evaluation()
+    void GeneticAlgorithm::Evaluation(std::ofstream &file)
     {
         double bestFitness = this->getBestFitness();
 
@@ -345,5 +353,6 @@ namespace GA
         }
 
         this->setBestFitness(bestFitness);
+        file << this->getPopulation().getGeneration() << " - " << bestFitness << std::endl;
     }
 }
