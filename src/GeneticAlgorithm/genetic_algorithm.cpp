@@ -11,22 +11,25 @@ namespace GA
         Initialize(m_values.at("POP_SIZE"), m_values.at("CAPACITY"), m_values.at("DIMENSION"));
         Evaluation(file);
 
-#ifdef DEBUG
+
         this->m_population.PrintPopulation();
         std::cout << "Best Global Fitness: " << this->m_bestFitness << std::endl
                   << std::endl;
-#endif
+
 
         for (int i = 0; i < m_values.at("GENERATIONS"); ++i)
         {
             Evolve(m_values.at("PARENTS_SIZE"), m_values.at("POP_SIZE"), m_values.at("DIMENSION"));
-            Evaluation(file);
 
-#ifdef DEBUG
+            SimilarityPenalty();
+
+            //Evaluation(file);
+
+
             this->m_population.PrintPopulation();
             std::cout << "Best Global Fitness: " << this->m_bestFitness << std::endl
                       << std::endl;
-#endif
+
         }
 
         return this->m_population;
@@ -93,9 +96,7 @@ namespace GA
             children.insert(children.end(), newChildren.begin(), newChildren.end());
         }
 
-        MutationRate();
-
-        std::cout << m_mutationRate << std::endl;
+        //MutationRate();
 
         SwapMutation(children);
 
@@ -370,5 +371,24 @@ namespace GA
 
         this->setBestFitness(bestFitness);
         file << this->getPopulation().getGeneration() << " - " << bestFitness << std::endl;
+    }
+
+    void GeneticAlgorithm::SimilarityPenalty()
+    {
+        std::vector<Chromosome> &population = this->m_population.getIndividuals();
+
+        for (size_t i = 0; i < population.size(); ++i)
+        {
+            for (size_t j = i + 1; j < population.size(); ++j)
+            {
+                double similarity = utils::Similarity(RemoveSeparator(population[i].getDNA()), RemoveSeparator(population[j].getDNA()));
+
+                if (similarity > 0.9)
+                {
+                    population[i].setFitness(population[i].getFitness() * 1.1);
+                    population[j].setFitness(population[j].getFitness() * 1.1);
+                }
+            }
+        }
     }
 }

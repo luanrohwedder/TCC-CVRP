@@ -80,7 +80,7 @@ namespace GA
 
         void Evaluation(std::ofstream&);
 
-        //TODO: LER DE DATASETS E INICIALIZAR COM ELE
+        void SimilarityPenalty();
     };
 }
 
