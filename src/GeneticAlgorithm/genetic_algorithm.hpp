@@ -48,7 +48,11 @@ namespace GA
         Population m_population;
         std::vector<Node> m_nodes;
         std::unordered_map<std::string, int> m_values;
+        
         double m_bestFitness;
+        double m_mutationRate;
+        double m_lastBestFitness;
+        int m_stagnationCount;
 
         void Initialize(int, int, int);
 
@@ -60,11 +64,17 @@ namespace GA
 
         std::vector<Chromosome> CrossoverOX(Chromosome&, Chromosome&);
 
+        std::vector<int> CreatePartialChild(const std::vector<int>&, int, int);
+
+        void InsertRemainingGenes(std::vector<int>&, const std::vector<int> &, int start, int end);
+
         std::vector<int> RemoveSeparator(const std::vector<int>&);
 
         std::vector<int> AddSeparator(const std::vector<int>&);
 
         void SwapMutation(std::vector<Chromosome>&);
+
+        void MutationRate();
 
         void SurviveSelection(std::vector<Chromosome>&);
 

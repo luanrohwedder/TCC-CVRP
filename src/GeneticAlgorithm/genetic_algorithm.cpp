@@ -49,8 +49,6 @@ namespace GA
             std::iota(remainingClients.begin(), remainingClients.end(), 1);
             std::shuffle(remainingClients.begin(), remainingClients.end(), std::mt19937{std::random_device{}()});
 
-            // dna.push_back(0);
-
             for (auto &index : remainingClients)
             {
                 int demand = this->m_nodes[index].getDemand();
@@ -77,6 +75,8 @@ namespace GA
         population.setGeneration(1);
         this->m_population = population;
         this->setBestFitness(std::numeric_limits<double>::max());
+        this->m_lastBestFitness = std::numeric_limits<double>::max();
+        this->m_mutationRate = 0.05;
     }
 
     void GeneticAlgorithm::Evolve(int parentsSize, int populationSize, int numClients)
@@ -93,6 +93,10 @@ namespace GA
             children.insert(children.end(), newChildren.begin(), newChildren.end());
         }
 
+        MutationRate();
+
+        std::cout << m_mutationRate << std::endl;
+
         SwapMutation(children);
 
         for (auto &child : children)
@@ -106,24 +110,18 @@ namespace GA
         std::vector<Chromosome> aux_population = m_population.getIndividuals();
         std::vector<Chromosome> newIndividuals;
         std::vector<Chromosome> parents;
-        int popSize;
 
         int subsetSize = (m_population.getIndividuals().size() / 3) + 2;
 
         for (int i = 0; i < parentsSize; ++i)
         {
-            popSize = aux_population.size();
             newIndividuals.clear();
 
             std::vector<Chromosome> temp_population = aux_population;
 
-            for (int j = 0; j < subsetSize; ++j)
-            {
-                int index = utils::randInteger(0, popSize - 1);
-                newIndividuals.push_back(temp_population[index]);
-                temp_population.erase(temp_population.begin() + index);
-                popSize--;
-            }
+            std::sample(aux_population.begin(), aux_population.end(), 
+                        std::back_inserter(newIndividuals), subsetSize, 
+                        std::mt19937{std::random_device{}()});
 
             Chromosome winner = Tournament(newIndividuals, subsetSize);
             parents.push_back(winner);
@@ -154,52 +152,22 @@ namespace GA
         Chromosome child1;
         Chromosome child2;
 
-        std::vector<Chromosome> children;
-        std::vector<int> dna(dnaSize - 1, -1);
-        std::vector<int> dna2(dnaSize - 1, -1);
         std::vector<int> cleanParent1Dna = RemoveSeparator(parent1.getDNA());
         std::vector<int> cleanParent2Dna = RemoveSeparator(parent2.getDNA());
 
         int p1 = utils::randInteger(1, dnaSize - 4);
         int p2 = utils::randInteger(p1 + 1, dnaSize - 3);
 
-        for (int i = p1; i <= p2; ++i)
-        {
-            dna[i] = cleanParent1Dna[i];
-            dna2[i] = cleanParent2Dna[i];
-        }
+        std::vector<int> dna1 = CreatePartialChild(cleanParent1Dna, p1, p2);
+        std::vector<int> dna2 = CreatePartialChild(cleanParent2Dna, p1, p2);
 
-        int current = 0;
-        for (int i = 0; i < dnaSize && current < dnaSize; ++i)
-        {
-            int gene = cleanParent2Dna[i];
-            if (std::find(dna.begin(), dna.end(), gene) == dna.end())
-            {
-                dna[current] = gene;
-                current++;
-            }
+        InsertRemainingGenes(dna1, cleanParent2Dna, p1, p2);
+        InsertRemainingGenes(dna2, cleanParent1Dna, p1, p2);
 
-            if (current == p1)
-                current = p2 + 1;
-        }
-
-        current = 0;
-        for (int i = 0; i < dnaSize && current < dnaSize; ++i)
-        {
-            int gene = cleanParent1Dna[i];
-            if (std::find(dna2.begin(), dna2.end(), gene) == dna2.end())
-            {
-                dna2[current] = gene;
-                current++;
-            }
-
-            if (current == p1)
-                current = p2 + 1;
-        }
-
-        child1.setDNA(dna);
+        child1.setDNA(dna1);
         child2.setDNA(dna2);
 
+        std::vector<Chromosome> children;
         if (!m_population.contains(child1))
             children.push_back(child1);
 
@@ -207,6 +175,34 @@ namespace GA
             children.push_back(child2);
 
         return children;
+    }
+
+    std::vector<int> GeneticAlgorithm::CreatePartialChild(const std::vector<int> &parent, int start, int end)
+    {
+        std::vector<int> child(parent.size(), -1);
+
+        for (int i = start; i <= end; ++i)
+            child[i] = parent[i];
+
+        return child;
+    }
+
+    void GeneticAlgorithm::InsertRemainingGenes(std::vector<int> &child, const std::vector<int> &parent, int start, int end)
+    {
+        int current = 0;
+
+        for (size_t i = 0; i < parent.size(); ++i)
+        {
+            int gene = parent[i];
+            if (std::find(child.begin(), child.end(), gene) == child.end())
+            {
+                while (current >= start && current <= end)
+                    current++;
+
+                child[current] = gene;
+                current++;
+            }
+        }
     }
 
     std::vector<int> GeneticAlgorithm::RemoveSeparator(const std::vector<int> &dna)
@@ -250,7 +246,7 @@ namespace GA
 
             for (size_t j = 1; j < child.getDNA().size() - 1; ++j)
             {
-                if (utils::randDouble(0, 1) < 0.05)
+                if (utils::randDouble(0, 1) < m_mutationRate)
                 {
                     size_t n1;
 
@@ -267,6 +263,26 @@ namespace GA
             if (mutated && m_population.contains(child))
                 child.setDNA(originalDNA);
         }
+    }
+
+    void GeneticAlgorithm::MutationRate()
+    {
+        double bestFitness = this->getBestFitness();
+
+        if (bestFitness < m_lastBestFitness)
+        {
+            m_stagnationCount = 0;
+            m_mutationRate = std::max(0.01, m_mutationRate * 0.9);
+        }
+        else
+        {
+            m_stagnationCount++;
+
+            if (m_stagnationCount > 5)
+                m_mutationRate = std::min(0.5, m_mutationRate * 1.1);
+        }
+
+        m_lastBestFitness = bestFitness;
     }
 
     void GeneticAlgorithm::SurviveSelection(std::vector<Chromosome> &children)

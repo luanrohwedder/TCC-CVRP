@@ -94,17 +94,15 @@ void ParametersVerification(const std::unordered_map<std::string, int> &map)
     if (map.at("POP_SIZE") <= 3 
     || map.at("PARENTS_SIZE") <= 1 
     || map.at("GENERATIONS") < 0 
-    || map.at("DIMENSION") <= 1 
-    || map.at("MUTATION_RATE") <= 0 
-    || map.at("MUTATION_RATE") > 100 )
+    || map.at("DIMENSION") <= 1) 
         throw std::invalid_argument("Invalid parameters for initialization.");
 }
 
 int main(int argc, char* argv[])
 {
-    if (argc != 6)
+    if (argc != 5)
     {
-        std::cerr << "Usage: " << argv[0] << " <file> <population_size> <parents_size> <generations> <mutation_rate>" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " <file> <population_size> <parents_size> <generations>" << std::endl;
         return -1;
     }
 
@@ -112,7 +110,6 @@ int main(int argc, char* argv[])
     values.insert(std::make_pair("POP_SIZE", std::stoi(argv[2])));
     values.insert(std::make_pair("PARENTS_SIZE", std::stoi(argv[3])));
     values.insert(std::make_pair("GENERATIONS", std::stoi(argv[4])));
-    values.insert(std::make_pair("MUTATION_RATE", std::stoi(argv[5])));
     std::vector<Node> clientes = ReadNodesFromFile(argv[1], values);
 
     ParametersVerification(values);
