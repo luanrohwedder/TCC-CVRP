@@ -51,6 +51,7 @@ namespace GA
             std::iota(remainingClients.begin(), remainingClients.end(), 1);
             std::shuffle(remainingClients.begin(), remainingClients.end(), std::mt19937{std::random_device{}()});
 
+            dna.push_back(0);
             for (auto &index : remainingClients)
             {
                 int demand = this->m_nodes[index].getDemand();
@@ -60,13 +61,14 @@ namespace GA
 
                 if (cap + demand > capacity)
                 {
-                    dna.push_back(-1);
+                    dna.push_back(0);
                     cap = 0;
                 }
 
                 dna.push_back(index);
                 cap += demand;
             }
+            dna.push_back(0);
 
             chromosome.setDNA(dna);
 
@@ -209,7 +211,7 @@ namespace GA
     std::vector<int> GeneticAlgorithm::RemoveSeparator(const std::vector<int> &dna)
     {
         std::vector<int> res = dna;
-        res.erase(std::remove(res.begin(), res.end(), -1), res.end());
+        res.erase(std::remove(res.begin(), res.end(), 0), res.end());
         return res;
     }
 
@@ -218,6 +220,7 @@ namespace GA
         std::vector<int> res;
         int cap = 0;
 
+        res.push_back(0);
         for (size_t i = 0; i < dna.size(); ++i)
         {
             int demand = m_nodes[dna[i]].getDemand();
@@ -227,13 +230,14 @@ namespace GA
 
             if (cap + demand > m_values["CAPACITY"])
             {
-                res.push_back(-1);
+                res.push_back(0);
                 cap = 0;
             }
 
             res.push_back(dna[i]);
             cap += demand;
         }
+        res.push_back(0);
 
         return res;
     }
@@ -348,7 +352,7 @@ namespace GA
 
         for (auto &individual : this->m_population.getIndividuals())
         {
-            int lastNode = 0;
+            //int lastNode = 0;
             double fitness = 0.0;
             const auto &dna = individual.getDNA();
 
@@ -358,6 +362,7 @@ namespace GA
                 continue;
             }
 
+            /*
             for (size_t i = 1; i < dna.size(); ++i)
             {
                 int currentNode = dna[i];
@@ -389,6 +394,14 @@ namespace GA
                 fitness += utils::EuclidianDistance(
                     m_nodes[lastNode].getX(), m_nodes[0].getX(),
                     m_nodes[lastNode].getY(), m_nodes[0].getY());
+            */
+
+            for (size_t i = 1; i < dna.size(); ++i)
+            {
+                fitness += utils::EuclidianDistance(
+                    m_nodes[dna[i-1]].getX(), m_nodes[dna[i]].getX(),
+                    m_nodes[dna[i-1]].getY(), m_nodes[dna[i]].getY());
+            }
 
             individual.setFitness(fitness);
 
