@@ -78,9 +78,11 @@ namespace GA
 
         void SurviveSelection(std::vector<Chromosome>&);
 
+        void CrowdingSelection(std::vector<Chromosome>&);
+
         void Evaluation(std::ofstream&);
 
-        void SimilarityPenalty();
+        void SimilarityPenalty();        
     };
 }
 

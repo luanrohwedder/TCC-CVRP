@@ -23,8 +23,7 @@ namespace GA
 
             SimilarityPenalty();
 
-            //Evaluation(file);
-
+            Evaluation(file);
 
             this->m_population.PrintPopulation();
             std::cout << "Best Global Fitness: " << this->m_bestFitness << std::endl
@@ -104,6 +103,7 @@ namespace GA
             child.setDNA(AddSeparator(child.getDNA()));
 
         SurviveSelection(children);
+        //CrowdingSelection(children);
     }
 
     std::vector<Chromosome> GeneticAlgorithm::ParentTournamentSelection(int parentsSize, int populationSize)
@@ -303,6 +303,33 @@ namespace GA
         this->m_population.setGeneration(this->m_population.getGeneration() + 1);
     }
 
+    void GeneticAlgorithm::CrowdingSelection(std::vector<Chromosome> &children)
+    {
+        std::vector<Chromosome> &population = this->m_population.getIndividuals();
+
+        for (auto &child : children)
+        {
+            int closeIndex = 0;
+            double closeDistance = utils::HammingDistance(RemoveSeparator(child.getDNA()), RemoveSeparator(population[0].getDNA()));
+
+            for (size_t i = 0; i < population.size(); ++i)
+            {
+                double distance = utils::HammingDistance(RemoveSeparator(child.getDNA()), RemoveSeparator(population[i].getDNA()));
+            
+                if (distance < closeDistance)
+                {
+                    closeDistance = distance;
+                    closeIndex = static_cast<int>(i);
+                }
+            }
+
+            if (child.getFitness() < population[closeIndex].getFitness() && !m_population.contains(child))
+            {
+                population[closeIndex] = child;
+            }
+        }
+    }
+
     void GeneticAlgorithm::Evaluation(std::ofstream &file)
     {
         double bestFitness = this->getBestFitness();
@@ -381,7 +408,7 @@ namespace GA
         {
             for (size_t j = i + 1; j < population.size(); ++j)
             {
-                double similarity = utils::Similarity(RemoveSeparator(population[i].getDNA()), RemoveSeparator(population[j].getDNA()));
+                double similarity = utils::HammingDistance(RemoveSeparator(population[i].getDNA()), RemoveSeparator(population[j].getDNA())) / population[i].getDNA().size();
 
                 if (similarity > 0.9)
                 {

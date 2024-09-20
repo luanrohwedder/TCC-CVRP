@@ -59,7 +59,7 @@ inline double EuclidianDistance(double x1, double x2, double y1, double y2)
     return std::sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
 }
 
-inline double Similarity(std::vector<int> a, std::vector<int> b)
+inline double HammingDistance(std::vector<int> a, std::vector<int> b)
 {
     if (a.size() != b.size())
         throw std::runtime_error("Vector with differents size.");
@@ -69,7 +69,7 @@ inline double Similarity(std::vector<int> a, std::vector<int> b)
         if (a[i] == b[i])
             similar++;
 
-    return static_cast<double>(similar) / a.size();
+    return static_cast<double>(similar);
 }
 
 }
