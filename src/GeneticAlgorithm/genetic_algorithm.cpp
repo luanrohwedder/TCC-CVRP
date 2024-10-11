@@ -11,11 +11,11 @@ namespace GA
         Initialize(m_values.at("POP_SIZE"), m_values.at("CAPACITY"), m_values.at("DIMENSION"));
         Evaluation(file);
 
-
+#ifdef DEBUG
         this->m_population.PrintPopulation();
         std::cout << "Best Global Fitness: " << this->m_bestFitness << std::endl
                   << std::endl;
-
+#endif
 
         for (int i = 0; i < m_values.at("GENERATIONS"); ++i)
         {
@@ -24,11 +24,11 @@ namespace GA
             SimilarityPenalty();
 
             Evaluation(file);
-
+#ifdef DEBUG
             this->m_population.PrintPopulation();
             std::cout << "Best Global Fitness: " << this->m_bestFitness << std::endl
                       << std::endl;
-
+#endif
         }
 
         return this->m_population;
