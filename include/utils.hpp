@@ -3,6 +3,7 @@
 #include <random>
 #include <iostream>
 #include <fstream>
+#include <unordered_map>
 #include "node.hpp"
 
 namespace utils {
