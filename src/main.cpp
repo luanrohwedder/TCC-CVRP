@@ -13,5 +13,8 @@ int main(int argc, char* argv[])
     std::vector<int> generations_sizes = {10, 50, 100, 500};
 
     RunTests(argv[1], pop_sizes, generations_sizes);
+    
+    ProcessResults(argv[1], pop_sizes, generations_sizes);
+
     return 0;
 }
