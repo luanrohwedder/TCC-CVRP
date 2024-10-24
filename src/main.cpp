@@ -9,8 +9,8 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    std::vector<int> pop_sizes = {10, 50, 100, 500};
-    std::vector<int> generations_sizes = {10, 50, 100, 500};
+    std::vector<int> pop_sizes = {50, 100, 150, 200};
+    std::vector<int> generations_sizes = {50, 100, 150, 200};
 
     RunTests(argv[1], pop_sizes, generations_sizes);
     

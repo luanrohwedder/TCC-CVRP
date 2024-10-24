@@ -1,4 +1,5 @@
 #include "genetic_algorithm.hpp"
+#include <unordered_set>
 
 namespace GA
 {
@@ -150,25 +151,14 @@ namespace GA
 
     std::vector<Chromosome> GeneticAlgorithm::CrossoverOX(Chromosome &parent1, Chromosome &parent2)
     {
-        int dnaSize = m_values["DIMENSION"];
-
-        Chromosome child1;
-        Chromosome child2;
-
         std::vector<int> cleanParent1Dna = RemoveSeparator(parent1.getDNA());
         std::vector<int> cleanParent2Dna = RemoveSeparator(parent2.getDNA());
 
-        int p1 = utils::randInteger(1, dnaSize - 4);
-        int p2 = utils::randInteger(p1 + 1, dnaSize - 3);
+        int p1 = utils::randInteger(1, cleanParent1Dna.size() - 3);
+        int p2 = utils::randInteger(p1 + 1, cleanParent2Dna.size() - 2);
 
-        std::vector<int> dna1 = CreatePartialChild(cleanParent1Dna, p1, p2);
-        std::vector<int> dna2 = CreatePartialChild(cleanParent2Dna, p1, p2);
-
-        InsertRemainingGenes(dna1, cleanParent2Dna, p1, p2);
-        InsertRemainingGenes(dna2, cleanParent1Dna, p1, p2);
-
-        child1.setDNA(dna1);
-        child2.setDNA(dna2);
+        Chromosome child1 = CreateChild(cleanParent1Dna, cleanParent2Dna, p1, p2);
+        Chromosome child2 = CreateChild(cleanParent2Dna, cleanParent1Dna, p1, p2);
 
         std::vector<Chromosome> children;
         if (!m_population.contains(child1))
@@ -178,6 +168,15 @@ namespace GA
             children.push_back(child2);
 
         return children;
+    }
+
+    Chromosome GeneticAlgorithm::CreateChild(const std::vector<int> &parent1, const std::vector<int> &parent2, int start, int end)
+    {
+        Chromosome child;
+        std::vector<int> dna = CreatePartialChild(parent1, start, end);
+        InsertRemainingGenes(dna, parent2, start, end);
+        child.setDNA(dna);
+        return child;
     }
 
     std::vector<int> GeneticAlgorithm::CreatePartialChild(const std::vector<int> &parent, int start, int end)
@@ -192,19 +191,32 @@ namespace GA
 
     void GeneticAlgorithm::InsertRemainingGenes(std::vector<int> &child, const std::vector<int> &parent, int start, int end)
     {
-        int current = 0;
+        std::unordered_set<int> genesInChild(child.begin() + start, child.begin() + end + 1);
+        size_t current = end + 1;
+        size_t parentIndex = end + 1;
+        size_t genesInserted = end - start + 1;
 
-        for (size_t i = 0; i < parent.size(); ++i)
+        while (genesInserted < child.size())
         {
-            int gene = parent[i];
-            if (std::find(child.begin(), child.end(), gene) == child.end())
-            {
-                while (current >= start && current <= end)
-                    current++;
+            if (parentIndex >= parent.size())
+                parentIndex = 0;
 
-                child[current] = gene;
-                current++;
+            int gene = parent[parentIndex];
+
+            if (genesInChild.find(gene) == genesInChild.end())
+            {
+                if (current >= child.size())
+                    current = 0;
+
+                if (child[current] == -1)
+                {
+                    child[current] = gene;
+                    genesInChild.insert(gene);
+                    genesInserted++;
+                    current++;
+                }
             }
+            parentIndex++;
         }
     }
 
@@ -352,7 +364,6 @@ namespace GA
 
         for (auto &individual : this->m_population.getIndividuals())
         {
-            //int lastNode = 0;
             double fitness = 0.0;
             const auto &dna = individual.getDNA();
 
@@ -361,40 +372,6 @@ namespace GA
                 individual.setFitness(0.0);
                 continue;
             }
-
-            /*
-            for (size_t i = 1; i < dna.size(); ++i)
-            {
-                int currentNode = dna[i];
-
-                if (currentNode == -1)
-                {
-                    fitness += utils::EuclidianDistance(
-                        m_nodes[lastNode].getX(), m_nodes[0].getX(),
-                        m_nodes[lastNode].getY(), m_nodes[0].getY());
-
-                    lastNode = 0;
-                }
-                else
-                {
-                    if (lastNode == 0)
-                        fitness += utils::EuclidianDistance(
-                            m_nodes[0].getX(), m_nodes[currentNode].getX(),
-                            m_nodes[0].getY(), m_nodes[currentNode].getY());
-                    else
-                        fitness += utils::EuclidianDistance(
-                            m_nodes[lastNode].getX(), m_nodes[currentNode].getX(),
-                            m_nodes[lastNode].getY(), m_nodes[currentNode].getY());
-
-                    lastNode = currentNode;
-                }
-            }
-
-            if (lastNode != 0)
-                fitness += utils::EuclidianDistance(
-                    m_nodes[lastNode].getX(), m_nodes[0].getX(),
-                    m_nodes[lastNode].getY(), m_nodes[0].getY());
-            */
 
             for (size_t i = 1; i < dna.size(); ++i)
             {

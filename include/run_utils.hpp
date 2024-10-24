@@ -98,16 +98,15 @@ RunTests(const std::string &filename, std::vector<int> pop_sizes, std::vector<in
                 return;
             }
 
+            std::unordered_map<std::string, int> values;
+            values.insert(std::make_pair("POP_SIZE", pop));
+            values.insert(std::make_pair("GENERATIONS", generation));
+            values.insert(std::make_pair("PARENTS_SIZE", pop/3));
+
+            std::vector<Node> clientes = utils::ReadNodesFromFile(filename, values);
+
             for (int i = 0; i < 30; ++i)
             {
-                std::unordered_map<std::string, int> values;
-                values.insert(std::make_pair("POP_SIZE", pop));
-                values.insert(std::make_pair("GENERATIONS", generation));
-
-                values.insert(std::make_pair("PARENTS_SIZE", pop/3));
-
-                std::vector<Node> clientes = utils::ReadNodesFromFile(filename, values);
-
                 GA::GeneticAlgorithm ga;
                 ga.setNodes(clientes);
                 ga.setValues(values);

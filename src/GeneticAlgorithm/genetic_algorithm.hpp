@@ -64,6 +64,8 @@ namespace GA
 
         std::vector<Chromosome> CrossoverOX(Chromosome&, Chromosome&);
 
+        Chromosome CreateChild(const std::vector<int>&, const std::vector<int>&, int, int);
+
         std::vector<int> CreatePartialChild(const std::vector<int>&, int, int);
 
         void InsertRemainingGenes(std::vector<int>&, const std::vector<int> &, int start, int end);
