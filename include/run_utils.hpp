@@ -78,6 +78,30 @@ getFileName(const std::string& filePath) {
     return fileName;
 }
 
+inline void
+RunSingleTest(const std::string &filename, int pop_size, int generation_size)
+{
+    std::unordered_map<std::string, int> values;
+    values.insert(std::make_pair("POP_SIZE", pop_size));
+    values.insert(std::make_pair("GENERATIONS", generation_size));
+    values.insert(std::make_pair("PARENTS_SIZE", pop_size / 3));
+
+    std::vector<Node> clientes = utils::ReadNodesFromFile(filename, values);
+
+    GA::GeneticAlgorithm ga;
+    ga.setNodes(clientes);
+    ga.setValues(values);
+
+    auto start = std::chrono::high_resolution_clock::now();
+    ga.Run();
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+
+    std::cout << "Dataset: " << getFileName(filename) << std::endl
+              << "Best Fitness: " << ga.getBestFitness() << std::endl 
+              << "Duration (ms/s): " << duration.count() << "ms/" << duration.count() / 1000000.0 << "s" << std::endl;
+}
+
 inline void 
 RunTests(const std::string &filename, std::vector<int> pop_sizes, std::vector<int> generations_sizes)
 {
