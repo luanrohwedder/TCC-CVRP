@@ -47,7 +47,6 @@ namespace GA
             std::vector<int> dna;
             int cap = 0;
 
-            // Create Nodes random order
             std::vector<int> remainingClients(numClients - 1);
             std::iota(remainingClients.begin(), remainingClients.end(), 1);
             std::shuffle(remainingClients.begin(), remainingClients.end(), std::mt19937{std::random_device{}()});
@@ -80,7 +79,6 @@ namespace GA
         population.setGeneration(1);
         this->m_population = population;
         this->setBestFitness(std::numeric_limits<double>::max());
-        this->m_lastBestFitness = std::numeric_limits<double>::max();
         this->m_mutationRate = 0.05;
     }
 
@@ -98,15 +96,12 @@ namespace GA
             children.insert(children.end(), newChildren.begin(), newChildren.end());
         }
 
-        //MutationRate();
-
         SwapMutation(children);
 
         for (auto &child : children)
             child.setDNA(AddSeparator(child.getDNA()));
 
         SurviveSelection(children);
-        //CrowdingSelection(children);
     }
 
     std::vector<Chromosome> GeneticAlgorithm::ParentTournamentSelection(int parentsSize, int populationSize)
@@ -282,26 +277,6 @@ namespace GA
         }
     }
 
-    void GeneticAlgorithm::MutationRate()
-    {
-        double bestFitness = this->getBestFitness();
-
-        if (bestFitness < m_lastBestFitness)
-        {
-            m_stagnationCount = 0;
-            m_mutationRate = std::max(0.01, m_mutationRate * 0.9);
-        }
-        else
-        {
-            m_stagnationCount++;
-
-            if (m_stagnationCount > 5)
-                m_mutationRate = std::min(0.5, m_mutationRate * 1.1);
-        }
-
-        m_lastBestFitness = bestFitness;
-    }
-
     void GeneticAlgorithm::SurviveSelection(std::vector<Chromosome> &children)
     {
         std::vector<Chromosome> &population = this->m_population.getIndividuals();
@@ -317,33 +292,6 @@ namespace GA
                 population[index[i]] = children[i];
 
         this->m_population.setGeneration(this->m_population.getGeneration() + 1);
-    }
-
-    void GeneticAlgorithm::CrowdingSelection(std::vector<Chromosome> &children)
-    {
-        std::vector<Chromosome> &population = this->m_population.getIndividuals();
-
-        for (auto &child : children)
-        {
-            int closeIndex = 0;
-            double closeDistance = utils::HammingDistance(RemoveSeparator(child.getDNA()), RemoveSeparator(population[0].getDNA()));
-
-            for (size_t i = 0; i < population.size(); ++i)
-            {
-                double distance = utils::HammingDistance(RemoveSeparator(child.getDNA()), RemoveSeparator(population[i].getDNA()));
-            
-                if (distance < closeDistance)
-                {
-                    closeDistance = distance;
-                    closeIndex = static_cast<int>(i);
-                }
-            }
-
-            if (child.getFitness() < population[closeIndex].getFitness() && !m_population.contains(child))
-            {
-                population[closeIndex] = child;
-            }
-        }
     }
 
     void GeneticAlgorithm::Evaluation(std::ofstream &file)

@@ -51,8 +51,6 @@ namespace GA
         
         double m_bestFitness;
         double m_mutationRate;
-        double m_lastBestFitness;
-        int m_stagnationCount;
 
         void Initialize(int, int, int);
 
@@ -76,11 +74,7 @@ namespace GA
 
         void SwapMutation(std::vector<Chromosome>&);
 
-        void MutationRate();
-
         void SurviveSelection(std::vector<Chromosome>&);
-
-        void CrowdingSelection(std::vector<Chromosome>&);
 
         void Evaluation(std::ofstream&);
 
