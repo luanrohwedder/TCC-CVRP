@@ -35,7 +35,6 @@ namespace GA
     private:
         double m_fitness;
         std::vector<int> m_dna;
-        // TODO: HASHMAP RESTRICTIONS
     };
 }
 

@@ -21,6 +21,9 @@ namespace GA
         Population(std::vector<Chromosome> &individuals, int mSize, int mGeneration)
             : m_individuals(individuals), m_size(mSize), m_generation(mGeneration) {}
 
+        /**
+         * @brief Prints the current population.
+         */
         inline void PrintPopulation()
         {
             double bestFitness = this->m_individuals[0].getFitness();
@@ -39,6 +42,13 @@ namespace GA
             std::cout << "Best Fitness: " << bestFitness << std::endl << std::endl;
         }
 
+        /**
+         * @brief Find if the given Individual is already in population.
+         * 
+         * @param chromosome Chromosome to search for.
+         * 
+         * @return boolean.
+         */
         inline bool contains(const Chromosome &chromosome) const
         {
             return std::find(m_individuals.begin(), m_individuals.end(), chromosome) != m_individuals.end();

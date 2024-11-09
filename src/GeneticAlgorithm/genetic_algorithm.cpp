@@ -20,7 +20,7 @@ namespace GA
 
         for (int i = 0; i < m_values.at("GENERATIONS"); ++i)
         {
-            Evolve(m_values.at("PARENTS_SIZE"), m_values.at("POP_SIZE"), m_values.at("DIMENSION"));
+            Evolve(m_values.at("PARENTS_SIZE"), m_values.at("POP_SIZE"));
 
             //SimilarityPenalty();
 
@@ -83,7 +83,7 @@ namespace GA
         this->m_mutationRate = 0.05;
     }
 
-    void GeneticAlgorithm::Evolve(int parentsSize, int populationSize, int numClients)
+    void GeneticAlgorithm::Evolve(int parentsSize, int populationSize)
     {
         std::vector<Chromosome> parents = ParentTournamentSelection(parentsSize, populationSize);
 

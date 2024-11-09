@@ -52,38 +52,146 @@ namespace GA
         double m_bestFitness;
         double m_mutationRate;
 
+        /**
+         * @brief Initialize the genetic algorithm.
+         *
+         * @param populationSize The size of population.
+         * @param capacity The capacity of vehicle.
+         * @param numClient Numbers of clients per route, i.e, size of the chromosome.
+         */
         void Initialize(int, int, int);
 
-        void Evolve(int, int, int);
+        /**
+         * @brief Process the evolution of GA
+         * 
+         * @param parantSize Size of parents to pick up for crossover.
+         * @param populationSize The size of population.
+         */
+        void Evolve(int, int);
 
+        /**
+         * @brief Parent Tournament for selecting parents to crossover.
+         * 
+         * @param parantSize Size of parents to pick up for crossover.
+         * @param populationSize The size of population.
+         * 
+         * @return Winners chromosomes (parents) for crossover.
+         */
         std::vector<Chromosome> ParentTournamentSelection(int, int);
 
+        /**
+         * @brief Tournament in a subset of the population (selected parents).
+         * 
+         * @param T Selected parents.
+         * @param k Size of the subset.
+         * 
+         * @return Winner chromosome (parent).
+         */
         Chromosome Tournament(std::vector<Chromosome>&, int);
 
+        /**
+         * @brief Performs OX Crossover between two parents.
+         * 
+         * @param parent1 The first parent.
+         * @param parent2 The second parent.
+         * 
+         * @return The resulting children of crossover.
+         */
         std::vector<Chromosome> CrossoverOX(Chromosome&, Chromosome&);
 
+        /**
+         * @brief Auxiliar method to create child.
+         * 
+         * @param parent1 The first parent.
+         * @param parent2 The second parent.
+         * @param start Start index for copy DNA.
+         * @param end End index for copy DNA.
+         * 
+         * @return The resulting child of crossover.
+         */
         Chromosome CreateChild(const std::vector<int>&, const std::vector<int>&, int, int);
 
+        /**
+         * @brief Auxiliar method to create partial child (Middle DNA).
+         * 
+         * @param parent Parent to copy middle DNA.
+         * @param start Start index for copy DNA.
+         * @param end End index for copy DNA.
+         * 
+         * @return DNA of the partial child.
+         */
         std::vector<int> CreatePartialChild(const std::vector<int>&, int, int);
 
+        /**
+         * @brief Auxiliar method to complete the remaining genes.
+         * 
+         * @param child Partial child.
+         * @param parent Parent to copy the remaining genes.
+         * @param start Start index for copy DNA.
+         * @param end End index for copy DNA.
+         */
         void InsertRemainingGenes(std::vector<int>&, const std::vector<int> &, int start, int end);
 
+        /**
+         * @brief Remove the 0 from Chromosome
+         * 
+         * @param dna vector of DNA.
+         * 
+         * @return Clean chromosome without separator.
+         */
         std::vector<int> RemoveSeparator(const std::vector<int>&);
 
+        /**
+         * @brief Insert the 0 in Chromosome
+         * 
+         * @param dna vector of DNA.
+         * 
+         * @return Correct chromosome with separator, respecting the capacity
+         */
         std::vector<int> AddSeparator(const std::vector<int>&);
 
+        /**
+         * @brief Performs the Swap Mutation in each gene.
+         * 
+         * @param children Vector of child.
+         */
         void SwapMutation(std::vector<Chromosome>&);
 
+        /**
+         * @brief Performs the Survive Selection for next generation.
+         * 
+         * @param children Vector of child.
+         */
         void SurviveSelection(std::vector<Chromosome>&);
 
+        /**
+         * @brief Evaluation of the population.
+         * 
+         * @param file File to print best population.
+         */
         void Evaluation(std::ofstream&);
 
+        /**
+         * @brief Give penalty for similar individuals, increasing fitness.
+         */
         void SimilarityPenalty();        
 
+        /**
+         * @brief Insert random individuals to compete with newly generated children.
+         * 
+         * @param populationSize The size of population.
+         * @param children Vector of child.
+         */
         void InsertRandomIndividuals(int, std::vector<Chromosome> &);
 
+        /**
+         * @brief Generate an Random Individual.
+         */
         Chromosome GenerateRandomIndividual();
 
+        /**
+         * @brief Calculate the firness of an Individual.
+         */
         double CalculateFitness(Chromosome &);
     };
 }
