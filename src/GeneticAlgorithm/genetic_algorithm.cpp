@@ -22,7 +22,7 @@ namespace GA
         {
             Evolve(m_values.at("PARENTS_SIZE"), m_values.at("POP_SIZE"), m_values.at("DIMENSION"));
 
-            SimilarityPenalty();
+            //SimilarityPenalty();
 
             Evaluation(file);
 #ifdef DEBUG
@@ -71,6 +71,7 @@ namespace GA
             dna.push_back(0);
 
             chromosome.setDNA(dna);
+            chromosome.setFitness(-1.0);
 
             individuals.push_back(chromosome);
         }
@@ -99,7 +100,18 @@ namespace GA
         SwapMutation(children);
 
         for (auto &child : children)
+        {
             child.setDNA(AddSeparator(child.getDNA()));
+            double fitness = CalculateFitness(child);
+            child.setFitness(fitness);
+        }
+        
+        
+        int genInterval = 100;
+        if (this->m_population.getGeneration() % genInterval == 0)
+        {
+            InsertRandomIndividuals(populationSize, children);
+        }
 
         SurviveSelection(children);
     }
@@ -312,26 +324,14 @@ namespace GA
 
         for (auto &individual : this->m_population.getIndividuals())
         {
-            double fitness = 0.0;
-            const auto &dna = individual.getDNA();
-
-            if (dna.size() < 2)
+            if (individual.getFitness() == -1.0)
             {
-                individual.setFitness(0.0);
-                continue;
+                double fitness = CalculateFitness(individual);
+                individual.setFitness(fitness);
             }
 
-            for (size_t i = 1; i < dna.size(); ++i)
-            {
-                fitness += utils::EuclidianDistance(
-                    m_nodes[dna[i-1]].getX(), m_nodes[dna[i]].getX(),
-                    m_nodes[dna[i-1]].getY(), m_nodes[dna[i]].getY());
-            }
-
-            individual.setFitness(fitness);
-
-            if (fitness < bestFitness)
-                bestFitness = fitness;
+            if (individual.getFitness() < bestFitness)
+                bestFitness = individual.getFitness();
         }
 
         this->setBestFitness(bestFitness);
@@ -348,12 +348,82 @@ namespace GA
             {
                 double similarity = utils::HammingDistance(RemoveSeparator(population[i].getDNA()), RemoveSeparator(population[j].getDNA())) / population[i].getDNA().size();
 
-                if (similarity > 0.9)
+                if (similarity > 0.8)
                 {
-                    population[i].setFitness(population[i].getFitness() * 1.1);
-                    population[j].setFitness(population[j].getFitness() * 1.1);
+                    population[i].setFitness(population[i].getFitness() * 1.2);
+                    population[j].setFitness(population[j].getFitness() * 1.2);
                 }
             }
         }
+    }
+
+    void GeneticAlgorithm::InsertRandomIndividuals(int populationSize, std::vector<Chromosome> &children)
+    {
+        int numNewIndividuals = static_cast<int>(populationSize * 0.05);
+
+        for (int i = 0; i < numNewIndividuals; ++i)
+        {
+            Chromosome newIndividual = GenerateRandomIndividual();
+
+            double fitness = CalculateFitness(newIndividual);
+            newIndividual.setFitness(fitness);
+
+            if (newIndividual.getFitness() < this->m_bestFitness * 1.5)
+                children.push_back(newIndividual);
+        }
+    }
+
+    Chromosome GeneticAlgorithm::GenerateRandomIndividual()
+    {
+        Chromosome newChromosome;
+        std::vector<int> dna;
+        int cap = 0;
+
+        std::vector<int> remainingClients(m_values.at("DIMENSION") - 1);
+        std::iota(remainingClients.begin(), remainingClients.end(), 1);
+        std::shuffle(remainingClients.begin(), remainingClients.end(), std::mt19937{std::random_device{}()});
+
+        dna.push_back(0);
+        for (auto &index : remainingClients)
+        {
+            int demand = this->m_nodes[index].getDemand();
+
+            if (demand > m_values.at("CAPACITY"))
+                throw std::runtime_error("Client demand bigger than vehicle cap");
+
+            if (cap + demand > m_values.at("CAPACITY"))
+            {
+                dna.push_back(0);
+                cap = 0;
+            }
+
+            dna.push_back(index);
+            cap += demand;
+        }
+        dna.push_back(0);
+        newChromosome.setDNA(dna);
+        newChromosome.setFitness(-1.0);
+        return newChromosome;
+    }
+
+    double GeneticAlgorithm::CalculateFitness(Chromosome &individual)
+    {
+        double fitness = 0.0;
+        const auto &dna = individual.getDNA();
+
+        if (dna.size() < 2)
+        {
+            individual.setFitness(0.0);
+            return fitness;
+        }
+
+        for (size_t i = 1; i < dna.size(); ++i)
+        {
+            fitness += utils::EuclidianDistance(
+                m_nodes[dna[i - 1]].getX(), m_nodes[dna[i]].getX(),
+                m_nodes[dna[i - 1]].getY(), m_nodes[dna[i]].getY());
+        }
+
+        return fitness;
     }
 }

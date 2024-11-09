@@ -79,6 +79,12 @@ namespace GA
         void Evaluation(std::ofstream&);
 
         void SimilarityPenalty();        
+
+        void InsertRandomIndividuals(int, std::vector<Chromosome> &);
+
+        Chromosome GenerateRandomIndividual();
+
+        double CalculateFitness(Chromosome &);
     };
 }
 
