@@ -126,7 +126,7 @@ RunSingleTest(const std::string &filename, int pop_size, int generation_size, co
 }
 
 inline void 
-RunTests(const std::string &filename, std::vector<int> pop_sizes, std::vector<int> generations_sizes)
+RunTests(const std::string &filename, std::vector<int> pop_sizes, std::vector<int> generations_sizes, const std::string alg_choice)
 {
     SetupFolders(getFileName(filename));
 
@@ -154,17 +154,39 @@ RunTests(const std::string &filename, std::vector<int> pop_sizes, std::vector<in
 
             for (int i = 0; i < 30; ++i)
             {
-                GA::GeneticAlgorithm ga;
-                ga.setNodes(clientes);
-                ga.setValues(values);
+                if (alg_choice == "GA")
+                {
+                    GA::GeneticAlgorithm ga;
+                    ga.setNodes(clientes);
+                    ga.setValues(values);
 
-                auto start = std::chrono::high_resolution_clock::now();
-                ga.Run();
-                auto end = std::chrono::high_resolution_clock::now();
-                auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    auto start = std::chrono::high_resolution_clock::now();
+                    ga.Run();
+                    auto end = std::chrono::high_resolution_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-                file << i + 1 << ": " << ga.getBestFitness() << " - " << duration.count()
-                     << "/" << duration.count() / 1000000.0  << std::endl;
+                    file << i + 1 << ": " << ga.getBestFitness() << " - " << duration.count()
+                         << "/" << duration.count() / 1000000.0 << std::endl;
+                }
+                else if (alg_choice == "MA")
+                {
+                    MA::MemeticAlgorithm ma;
+                    ma.setNodes(clientes);
+                    ma.setValues(values);
+
+                    auto start = std::chrono::high_resolution_clock::now();
+                    ma.Run();
+                    auto end = std::chrono::high_resolution_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+
+                    file << i + 1 << ": " << ma.getBestFitness() << " - " << duration.count()
+                         << "/" << duration.count() / 1000000.0 << std::endl;
+                }
+                else 
+                {
+                    std::cerr << "Invalid algorithm choice. Please specify either 'GA' or 'MA'." << std::endl;
+                    break;
+                }
             }
         }
     }

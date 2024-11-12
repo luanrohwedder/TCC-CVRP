@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
         std::vector<int> pop_sizes = {50};
         std::vector<int> generations_sizes = {5000};
 
-        RunTests(file, pop_sizes, generations_sizes);
+        RunTests(file, pop_sizes, generations_sizes, alg_choice);
         ProcessResults(file, pop_sizes, generations_sizes);
     }
     
