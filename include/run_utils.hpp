@@ -11,6 +11,7 @@
 
 #include <chrono>
 #include "../src/GeneticAlgorithm/genetic_algorithm.hpp"
+#include "../src/MemeticAlgorithm/memetic_algorithm.hpp"
 
 struct TestResult {
     double fitness;
@@ -79,7 +80,7 @@ getFileName(const std::string& filePath) {
 }
 
 inline void
-RunSingleTest(const std::string &filename, int pop_size, int generation_size)
+RunSingleTest(const std::string &filename, int pop_size, int generation_size, const std::string alg_choice)
 {
     std::unordered_map<std::string, int> values;
     values.insert(std::make_pair("POP_SIZE", pop_size));
@@ -88,18 +89,40 @@ RunSingleTest(const std::string &filename, int pop_size, int generation_size)
 
     std::vector<Node> clientes = utils::ReadNodesFromFile(filename, values);
 
-    GA::GeneticAlgorithm ga;
-    ga.setNodes(clientes);
-    ga.setValues(values);
+    if (alg_choice == "GA")
+    {
+        GA::GeneticAlgorithm ga;
+        ga.setNodes(clientes);
+        ga.setValues(values);
 
-    auto start = std::chrono::high_resolution_clock::now();
-    ga.Run();
-    auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        auto start = std::chrono::high_resolution_clock::now();
+        ga.Run();
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    std::cout << "Dataset: " << getFileName(filename) << std::endl
-              << "Best Fitness: " << ga.getBestFitness() << std::endl 
-              << "Duration (ms/s): " << duration.count() << "ms/" << duration.count() / 1000000.0 << "s" << std::endl;
+        std::cout << "Dataset: " << getFileName(filename) << std::endl
+                  << "Best Fitness: " << ga.getBestFitness() << std::endl
+                  << "Duration (ms/s): " << duration.count() << "ms/" << duration.count() / 1000000.0 << "s" << std::endl;
+    }
+    else if (alg_choice == "MA")
+    {
+        MA::MemeticAlgorithm ma;
+        ma.setNodes(clientes);
+        ma.setValues(values);
+
+        auto start = std::chrono::high_resolution_clock::now();
+        ma.Run();
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+
+        std::cout << "Dataset: " << getFileName(filename) << std::endl
+                  << "Best Fitness: " << ma.getBestFitness() << std::endl
+                  << "Duration (ms/s): " << duration.count() << "ms/" << duration.count() / 1000000.0 << "s" << std::endl;
+    }
+    else
+    {
+        std::cerr << "Invalid algorithm choice. Please specify either 'GA' or 'MA'." << std::endl;
+    }
 }
 
 inline void 

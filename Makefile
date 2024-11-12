@@ -2,7 +2,8 @@ CC = g++
 CFLAGS = -Wall -Iinclude -g
 
 SRC_DIR = src
-GENETIC_ALGO_DIR = $(SRC_DIR)/GeneticAlgorithm
+GENETIC_ALG_DIR = $(SRC_DIR)/GeneticAlgorithm
+MEMETIC_ALG_DIR = $(SRC_DIR)/MemeticAlgorithm
 INCLUDE_DIR = include
 BUILD_DIR = build
 BIN_DIR = bin
@@ -10,8 +11,10 @@ TEST_DIR = tests
 
 EXEC = $(BIN_DIR)/ex
 
-SRCS = $(GENETIC_ALGO_DIR)/genetic_algorithm.cpp \
-       $(SRC_DIR)/main.cpp
+SRCS = $(GENETIC_ALG_DIR)/genetic_algorithm.cpp \
+       $(MEMETIC_ALG_DIR)/memetic_algorithm.cpp \
+	   $(SRC_DIR)/main.cpp 
+
 
 OBJS = $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRCS))
 

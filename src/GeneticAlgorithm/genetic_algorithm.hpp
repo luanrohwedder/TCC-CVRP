@@ -90,6 +90,15 @@ namespace GA
         Chromosome Tournament(std::vector<Chromosome>&, int);
 
         /**
+         * @brief Performs Crossover and Mutation
+         * 
+         * @param parents Selected parents for crossover.
+         * 
+         * @return The resulting children of crossover and mutation.
+         */
+        std::vector<Chromosome> PerformCrossoverMutation(std::vector<Chromosome>&);
+
+        /**
          * @brief Performs OX Crossover between two parents.
          * 
          * @param parent1 The first parent.
@@ -186,13 +195,27 @@ namespace GA
 
         /**
          * @brief Generate an Random Individual.
+         * 
+         * @return random individual.
          */
         Chromosome GenerateRandomIndividual();
 
+    protected:
         /**
          * @brief Calculate the firness of an Individual.
+         * 
+         * @param Individual
+         * 
+         * @return Fitness of the given Individual.
          */
         double CalculateFitness(Chromosome &);
+
+        /**
+         * @brief Apply local search in GA to become an MA
+         * 
+         * @param children children to apply local search
+         */
+        virtual void ApplyLocalSeach(std::vector<Chromosome>&) {};
     };
 }
 

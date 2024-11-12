@@ -90,22 +90,9 @@ namespace GA
         if (parents.size() % 2 != 0)
             parents.pop_back();
 
-        std::vector<Chromosome> children;
-        for (size_t i = 0; i < parents.size(); i += 2)
-        {
-            std::vector<Chromosome> newChildren = CrossoverOX(parents[i], parents[i + 1]);
-            children.insert(children.end(), newChildren.begin(), newChildren.end());
-        }
+        std::vector<Chromosome> children = PerformCrossoverMutation(parents);
 
-        SwapMutation(children);
-
-        for (auto &child : children)
-        {
-            child.setDNA(AddSeparator(child.getDNA()));
-            double fitness = CalculateFitness(child);
-            child.setFitness(fitness);
-        }
-        
+        ApplyLocalSeach(children);
         
         int genInterval = 100;
         if (this->m_population.getGeneration() % genInterval == 0)
@@ -154,6 +141,28 @@ namespace GA
                 bestFitness = T[i];
 
         return bestFitness;
+    }
+
+    std::vector<Chromosome> GeneticAlgorithm::PerformCrossoverMutation(std::vector<Chromosome>& parents)
+    {
+        std::vector<Chromosome> children;
+
+        for (size_t i = 0; i < parents.size(); i += 2)
+        {
+            std::vector<Chromosome> newChildren = CrossoverOX(parents[i], parents[i + 1]);
+            children.insert(children.end(), newChildren.begin(), newChildren.end());
+        }
+
+        SwapMutation(children);
+
+        for (auto &child : children)
+        {
+            child.setDNA(AddSeparator(child.getDNA()));
+            double fitness = CalculateFitness(child);
+            child.setFitness(fitness);
+        }
+
+        return children;
     }
 
     std::vector<Chromosome> GeneticAlgorithm::CrossoverOX(Chromosome &parent1, Chromosome &parent2)

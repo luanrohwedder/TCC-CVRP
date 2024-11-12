@@ -7,9 +7,10 @@ int main(int argc, char* argv[])
     int pop_size = 0;
     int gen_size = 0;
     bool run_single_test = false;
+    std::string alg_choice = "GA";
 
     int opt;
-    while ((opt = getopt(argc, argv, "p:g:")) != -1)
+    while ((opt = getopt(argc, argv, "p:g:a:")) != -1)
     {
         switch (opt)
         {
@@ -21,8 +22,11 @@ int main(int argc, char* argv[])
             gen_size = std::stoi(optarg);
             run_single_test = true;
             break;
+        case 'a':
+            alg_choice = optarg;
+            break;
         default:
-        std::cerr << "Usage: " << argv[0] << " <file> [-p <pop_size>] [-g <generation_size>]" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " <file> [-p <pop_size>] [-g <generation_size>] [-a default 'GA' or 'MA']" << std::endl;
             break;
         }
     }
@@ -43,7 +47,7 @@ int main(int argc, char* argv[])
             return -1;
         }
 
-        RunSingleTest(file, pop_size, gen_size);
+        RunSingleTest(file, pop_size, gen_size, alg_choice);
     }
     else
     {
