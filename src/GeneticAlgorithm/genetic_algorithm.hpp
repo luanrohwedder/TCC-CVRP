@@ -142,24 +142,6 @@ namespace GA
         void InsertRemainingGenes(std::vector<int>&, const std::vector<int> &, int start, int end);
 
         /**
-         * @brief Remove the 0 from Chromosome
-         * 
-         * @param dna vector of DNA.
-         * 
-         * @return Clean chromosome without separator.
-         */
-        std::vector<int> RemoveSeparator(const std::vector<int>&);
-
-        /**
-         * @brief Insert the 0 in Chromosome
-         * 
-         * @param dna vector of DNA.
-         * 
-         * @return Correct chromosome with separator, respecting the capacity
-         */
-        std::vector<int> AddSeparator(const std::vector<int>&);
-
-        /**
          * @brief Performs the Swap Mutation in each gene.
          * 
          * @param children Vector of child.
@@ -209,6 +191,24 @@ namespace GA
          * @return Fitness of the given Individual.
          */
         double CalculateFitness(Chromosome &);
+
+        /**
+         * @brief Remove the 0 from Chromosome
+         * 
+         * @param dna vector of DNA.
+         * 
+         * @return Clean chromosome without separator.
+         */
+        std::vector<int> RemoveSeparator(const std::vector<int>&);
+
+        /**
+         * @brief Insert the 0 in Chromosome
+         * 
+         * @param dna vector of DNA.
+         * 
+         * @return Correct chromosome with separator, respecting the capacity
+         */
+        std::vector<int> AddSeparator(const std::vector<int>&);
 
         /**
          * @brief Apply local search in GA to become an MA

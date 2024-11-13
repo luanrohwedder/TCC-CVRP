@@ -11,6 +11,12 @@ namespace MA
 
     private:
         void ApplyLocalSeach(std::vector<GA::Chromosome>&) override;
+
+        void HillClimbing(GA::Chromosome&);
+
+        void SimulatedAnnealing(GA::Chromosome&);
+
+        GA::Chromosome GenerateNeighbor2Opt(const GA::Chromosome&);
     };
 }
 
