@@ -80,7 +80,7 @@ getFileName(const std::string& filePath) {
 }
 
 inline void
-RunSingleTest(const std::string &filename, int pop_size, int generation_size, const std::string alg_choice)
+RunSingleTest(const std::string &filename, int pop_size, int generation_size, const std::string alg_choice, const std::string ls_choice)
 {
     std::unordered_map<std::string, int> values;
     values.insert(std::make_pair("POP_SIZE", pop_size));
@@ -109,6 +109,7 @@ RunSingleTest(const std::string &filename, int pop_size, int generation_size, co
         MA::MemeticAlgorithm ma;
         ma.setNodes(clientes);
         ma.setValues(values);
+        ma.setLS(ls_choice);
 
         auto start = std::chrono::high_resolution_clock::now();
         ma.Run();
@@ -126,7 +127,7 @@ RunSingleTest(const std::string &filename, int pop_size, int generation_size, co
 }
 
 inline void 
-RunTests(const std::string &filename, std::vector<int> pop_sizes, std::vector<int> generations_sizes, const std::string alg_choice)
+RunTests(const std::string &filename, std::vector<int> pop_sizes, std::vector<int> generations_sizes, const std::string alg_choice, const std::string ls_choice)
 {
     SetupFolders(getFileName(filename));
 
@@ -173,6 +174,7 @@ RunTests(const std::string &filename, std::vector<int> pop_sizes, std::vector<in
                     MA::MemeticAlgorithm ma;
                     ma.setNodes(clientes);
                     ma.setValues(values);
+                    ma.setLS(ls_choice);
 
                     auto start = std::chrono::high_resolution_clock::now();
                     ma.Run();

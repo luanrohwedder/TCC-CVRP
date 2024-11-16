@@ -13,7 +13,12 @@ namespace MA
             if (randProb < lsProb)
             {
                 child.setDNA(RemoveSeparator(child.getDNA()));
-                SimulatedAnnealing(child);
+
+                if (LS == "H")
+                    HillClimbing(child);
+                
+                if (LS == "S")
+                    SimulatedAnnealing(child);
             }
         }
     }
@@ -21,11 +26,13 @@ namespace MA
     void MemeticAlgorithm::HillClimbing(GA::Chromosome& child)
     {
         int maxIterations = 100;
+        int maxNoImprovement = 25;
+        int noImprovementCounter = 0;
         
         GA::Chromosome bestSolution = child;
         double bestFitness = child.getFitness();
         
-        for (int i = 0; i < maxIterations; ++i)
+        for (int i = 0; i < maxIterations && noImprovementCounter < maxNoImprovement; ++i)
         {
             GA::Chromosome neighbor = GenerateNeighbor2Opt(bestSolution);
             neighbor.setDNA(AddSeparator(neighbor.getDNA()));
@@ -37,6 +44,11 @@ namespace MA
                 neighbor.setDNA(RemoveSeparator(neighbor.getDNA()));
                 bestSolution = neighbor;
                 bestFitness = neighborFitness;
+                noImprovementCounter = 0;
+            }
+            else
+            {
+                noImprovementCounter++;
             }
         }
 

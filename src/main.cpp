@@ -8,9 +8,10 @@ int main(int argc, char* argv[])
     int gen_size = 0;
     bool run_single_test = false;
     std::string alg_choice = "GA";
+    std::string ls_choice = "L";
 
     int opt;
-    while ((opt = getopt(argc, argv, "p:g:a:")) != -1)
+    while ((opt = getopt(argc, argv, "p:g:a:l:")) != -1)
     {
         switch (opt)
         {
@@ -24,6 +25,9 @@ int main(int argc, char* argv[])
             break;
         case 'a':
             alg_choice = optarg;
+            break;
+        case 'l':
+            ls_choice = optarg;
             break;
         default:
         std::cerr << "Usage: " << argv[0] << " <file> [-p <pop_size>] [-g <generation_size>] [-a default 'GA' or 'MA']" << std::endl;
@@ -47,14 +51,14 @@ int main(int argc, char* argv[])
             return -1;
         }
 
-        RunSingleTest(file, pop_size, gen_size, alg_choice);
+        RunSingleTest(file, pop_size, gen_size, alg_choice, ls_choice);
     }
     else
     {
         std::vector<int> pop_sizes = {50};
         std::vector<int> generations_sizes = {5000};
 
-        RunTests(file, pop_sizes, generations_sizes, alg_choice);
+        RunTests(file, pop_sizes, generations_sizes, alg_choice, ls_choice);
         ProcessResults(file, pop_sizes, generations_sizes);
     }
     
