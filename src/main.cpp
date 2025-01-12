@@ -8,7 +8,7 @@ int main(int argc, char* argv[])
     int gen_size = 0;
     bool run_single_test = false;
     std::string alg_choice = "GA";
-    std::string ls_choice = "L";
+    std::string ls_choice = "S";
 
     int opt;
     while ((opt = getopt(argc, argv, "p:g:a:l:")) != -1)
@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
             ls_choice = optarg;
             break;
         default:
-        std::cerr << "Usage: " << argv[0] << " <file> [-p <pop_size>] [-g <generation_size>] [-a default 'GA' or 'MA']" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " <file> [-p <pop_size>] [-g <generation_size>] [-a 'GA' or 'MA' | default 'GA'] [-l 'H' or 'S' | default 'S']" << std::endl;
             break;
         }
     }
