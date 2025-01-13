@@ -2,6 +2,8 @@
 #define CHROMOSOME_H
 #include <iostream>
 #include <vector>
+#include "node.hpp"
+#include "utils.hpp"
 
 namespace GA
 {
@@ -24,6 +26,31 @@ namespace GA
         bool operator == (const Chromosome &other) const { return this->m_dna == other.m_dna; }
 
         bool operator < (const Chromosome &other) const { return this->m_fitness == other.m_fitness; }
+
+        /**
+         * @brief Calculate the firness of an Individual.
+         * 
+         * @param Nodes
+         */
+        inline void CalculateFitness(std::vector<Node> nodes)
+        {
+            double fitness = 0.0;
+            const auto &dna = this->m_dna;
+
+            if (dna.size() < 2)
+            {
+                this->setFitness(fitness);
+                return;
+            }
+
+            for (size_t i = 1; i < dna.size(); ++i)
+            {
+                fitness += utils::EuclidianDistance(
+                    nodes[dna[i - 1]].getX(), nodes[dna[i]].getX(),
+                    nodes[dna[i - 1]].getY(), nodes[dna[i]].getY());
+            }
+            this->setFitness(fitness);
+        }
 
         // GETTERS AND SETTERS
         double getFitness() const { return this->m_fitness; }

@@ -101,7 +101,7 @@ RunSingleTest(const std::string &filename, int pop_size, int generation_size, co
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
         std::cout << "Dataset: " << getFileName(filename) << std::endl
-                  << "Best Fitness: " << ga.getBestFitness() << std::endl
+                  << "Best Fitness: " << ga.getPopulation().getBestFitness() << std::endl
                   << "Duration (ms/s): " << duration.count() << "ms/" << duration.count() / 1000000.0 << "s" << std::endl;
     }
     else if (alg_choice == "MA")
@@ -117,7 +117,7 @@ RunSingleTest(const std::string &filename, int pop_size, int generation_size, co
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
         std::cout << "Dataset: " << getFileName(filename) << std::endl
-                  << "Best Fitness: " << ma.getBestFitness() << std::endl
+                  << "Best Fitness: " << ma.getPopulation().getBestFitness() << std::endl
                   << "Duration (ms/s): " << duration.count() << "ms/" << duration.count() / 1000000.0 << "s" << std::endl;
     }
     else
@@ -166,7 +166,7 @@ RunTests(const std::string &filename, std::vector<int> pop_sizes, std::vector<in
                     auto end = std::chrono::high_resolution_clock::now();
                     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-                    file << i + 1 << ": " << ga.getBestFitness() << " - " << duration.count()
+                    file << i + 1 << ": " << ga.getPopulation().getBestFitness() << " - " << duration.count()
                          << "/" << duration.count() / 1000000.0 << std::endl;
                 }
                 else if (alg_choice == "MA")
@@ -181,7 +181,7 @@ RunTests(const std::string &filename, std::vector<int> pop_sizes, std::vector<in
                     auto end = std::chrono::high_resolution_clock::now();
                     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-                    file << i + 1 << ": " << ma.getBestFitness() << " - " << duration.count()
+                    file << i + 1 << ": " << ma.getPopulation().getBestFitness() << " - " << duration.count()
                          << "/" << duration.count() / 1000000.0 << std::endl;
                 }
                 else 

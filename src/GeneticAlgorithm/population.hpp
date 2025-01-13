@@ -43,6 +43,23 @@ namespace GA
         }
 
         /**
+         * @brief Evaluation of the population.
+         */
+        inline void Evaluation(std::vector<Node> nodes)
+        {
+            for (auto &individual : this->getIndividuals())
+            {
+                if (individual.getFitness() == -1.0)
+                {
+                    individual.CalculateFitness(nodes);
+                }
+
+                if (individual.getFitness() < this->getBestFitness())
+                    this->setBestFitness(individual.getFitness());
+            }
+        }
+
+        /**
          * @brief Find if the given Individual is already in population.
          * 
          * @param chromosome Chromosome to search for.
@@ -64,10 +81,14 @@ namespace GA
         int getGeneration() const { return this->m_generation; }
         void setGeneration(int mGeneration) { this->m_generation = mGeneration; }
 
+        double getBestFitness() const { return this->m_bestFitness; }
+        void setBestFitness(double mBestFitness) { this->m_bestFitness = mBestFitness; }
+
     private:
         std::vector<Chromosome> m_individuals;
         int m_size;
         int m_generation;
+        double m_bestFitness;
     };
 }
 

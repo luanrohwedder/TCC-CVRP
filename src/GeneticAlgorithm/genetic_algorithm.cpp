@@ -7,29 +7,13 @@ namespace GA
 
     Population GeneticAlgorithm::Run()
     {
-        std::ofstream file("fitness.txt");
-
         Initialize(m_values.at("POP_SIZE"), m_values.at("CAPACITY"), m_values.at("DIMENSION"));
-        Evaluation(file);
-
-#ifdef DEBUG
-        this->m_population.PrintPopulation();
-        std::cout << "Best Global Fitness: " << this->m_bestFitness << std::endl
-                  << std::endl;
-#endif
+        this->m_population.Evaluation(this->m_nodes);
 
         for (int i = 0; i < m_values.at("GENERATIONS"); ++i)
         {
             Evolve(m_values.at("PARENTS_SIZE"), m_values.at("POP_SIZE"));
-
-            //SimilarityPenalty();
-
-            Evaluation(file);
-#ifdef DEBUG
-            this->m_population.PrintPopulation();
-            std::cout << "Best Global Fitness: " << this->m_bestFitness << std::endl
-                      << std::endl;
-#endif
+            this->m_population.Evaluation(this->m_nodes);
         }
 
         return this->m_population;
@@ -79,7 +63,7 @@ namespace GA
         population.setIndividuals(individuals);
         population.setGeneration(1);
         this->m_population = population;
-        this->setBestFitness(std::numeric_limits<double>::max());
+        this->m_population.setBestFitness(std::numeric_limits<double>::max());
         this->m_mutationRate = 0.05;
     }
 
@@ -158,8 +142,7 @@ namespace GA
         for (auto &child : children)
         {
             child.setDNA(AddSeparator(child.getDNA()));
-            double fitness = CalculateFitness(child);
-            child.setFitness(fitness);
+            child.CalculateFitness(this->m_nodes);
         }
 
         return children;
@@ -315,57 +298,6 @@ namespace GA
         this->m_population.setGeneration(this->m_population.getGeneration() + 1);
     }
 
-    void GeneticAlgorithm::Evaluation(std::ofstream &file)
-    {
-        double bestFitness = this->getBestFitness();
-
-        if (m_nodes.empty())
-        {
-            std::cerr << "Error: Nodes is not initialized." << std::endl;
-            return;
-        }
-
-        if (m_population.getIndividuals().empty())
-        {
-            std::cerr << "Error: Population is not initialized." << std::endl;
-            return;
-        }
-
-        for (auto &individual : this->m_population.getIndividuals())
-        {
-            if (individual.getFitness() == -1.0)
-            {
-                double fitness = CalculateFitness(individual);
-                individual.setFitness(fitness);
-            }
-
-            if (individual.getFitness() < bestFitness)
-                bestFitness = individual.getFitness();
-        }
-
-        this->setBestFitness(bestFitness);
-        file << this->getPopulation().getGeneration() << " - " << bestFitness << std::endl;
-    }
-
-    void GeneticAlgorithm::SimilarityPenalty()
-    {
-        std::vector<Chromosome> &population = this->m_population.getIndividuals();
-
-        for (size_t i = 0; i < population.size(); ++i)
-        {
-            for (size_t j = i + 1; j < population.size(); ++j)
-            {
-                double similarity = utils::HammingDistance(RemoveSeparator(population[i].getDNA()), RemoveSeparator(population[j].getDNA())) / population[i].getDNA().size();
-
-                if (similarity > 0.8)
-                {
-                    population[i].setFitness(population[i].getFitness() * 1.2);
-                    population[j].setFitness(population[j].getFitness() * 1.2);
-                }
-            }
-        }
-    }
-
     void GeneticAlgorithm::InsertRandomIndividuals(int populationSize, std::vector<Chromosome> &children)
     {
         int numNewIndividuals = static_cast<int>(populationSize * 0.05);
@@ -374,10 +306,9 @@ namespace GA
         {
             Chromosome newIndividual = GenerateRandomIndividual();
 
-            double fitness = CalculateFitness(newIndividual);
-            newIndividual.setFitness(fitness);
+            newIndividual.CalculateFitness(this->m_nodes);
 
-            if (newIndividual.getFitness() < this->m_bestFitness * 1.5)
+            if (newIndividual.getFitness() < this->m_population.getBestFitness() * 1.5)
                 children.push_back(newIndividual);
         }
     }
@@ -413,26 +344,5 @@ namespace GA
         newChromosome.setDNA(dna);
         newChromosome.setFitness(-1.0);
         return newChromosome;
-    }
-
-    double GeneticAlgorithm::CalculateFitness(Chromosome &individual)
-    {
-        double fitness = 0.0;
-        const auto &dna = individual.getDNA();
-
-        if (dna.size() < 2)
-        {
-            individual.setFitness(0.0);
-            return fitness;
-        }
-
-        for (size_t i = 1; i < dna.size(); ++i)
-        {
-            fitness += utils::EuclidianDistance(
-                m_nodes[dna[i - 1]].getX(), m_nodes[dna[i]].getX(),
-                m_nodes[dna[i - 1]].getY(), m_nodes[dna[i]].getY());
-        }
-
-        return fitness;
     }
 }

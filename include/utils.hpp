@@ -3,6 +3,7 @@
 #include <random>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <unordered_map>
 #include "node.hpp"
 
@@ -63,27 +64,6 @@ inline double EuclidianDistance(double x1, double x2, double y1, double y2)
 }
 
 /**
- * @brief Computes the Hamming distance between two vectors.
- * 
- * @param a Vector 1.
- * @param b Vector b.
- * 
- * @return The Hamming distance between the two points.
- */
-inline double HammingDistance(std::vector<int> a, std::vector<int> b)
-{
-    if (a.size() != b.size())
-        throw std::runtime_error("Vector with differents size.");
-
-    int similar = 0;
-    for (size_t i = 0; i < a.size(); ++i)
-        if (a[i] == b[i])
-            similar++;
-
-    return static_cast<double>(similar);
-}
-
-/**
  * @brief Remove leading and trailing whitespace characters from a string.
  * 
  * This function removes any leading (beginning) and trailing (end) spaces, tabs, newlines, 
@@ -98,25 +78,6 @@ inline std::string Trim(const std::string& str)
     size_t first = str.find_first_not_of(" \t\n\r");
     size_t last = str.find_last_not_of(" \t\n\r");
     return (first == std::string::npos || last == std::string::npos) ? "" : str.substr(first, last - first + 1);
-}
-
-/**
- * @brief Verifies the correctness of algorithm parameters.
- * 
- * This function checks the values of key parameters (e.g., population size, parent selection size, 
- * generations, and problem dimension). It throws an exception if any parameter is invalid.
- * 
- * @param map An unordered_map containing the parameter values to be verified.
- * 
- * @throws std::invalid_argument If any parameter is invalid (e.g., population size <= 3, parent selection size <= 1, etc.).
- */
-inline void ParametersVerification(const std::unordered_map<std::string, int>& map)
-{
-    if (map.at("POP_SIZE") <= 3 
-    || map.at("PARENTS_SIZE") <= 1 
-    || map.at("GENERATIONS") < 0 
-    || map.at("DIMENSION") <= 1) 
-        throw std::invalid_argument("Invalid parameters for initialization.");
 }
 
 /**

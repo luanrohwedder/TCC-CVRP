@@ -36,14 +36,13 @@ namespace MA
         {
             GA::Chromosome neighbor = GenerateNeighbor2Opt(bestSolution);
             neighbor.setDNA(AddSeparator(neighbor.getDNA()));
+            neighbor.CalculateFitness(this->getNodes());
 
-            double neighborFitness = CalculateFitness(neighbor);
-
-            if (neighborFitness < bestFitness)
+            if (neighbor.getFitness() < bestFitness)
             {
                 neighbor.setDNA(RemoveSeparator(neighbor.getDNA()));
                 bestSolution = neighbor;
-                bestFitness = neighborFitness;
+                bestFitness = neighbor.getFitness();
                 noImprovementCounter = 0;
             }
             else
@@ -71,24 +70,24 @@ namespace MA
             GA::Chromosome neighbor = GenerateNeighbor2Opt(bestSolution);
             neighbor.setDNA(AddSeparator(neighbor.getDNA()));
 
-            double neighborFitness = CalculateFitness(neighbor);
+            neighbor.CalculateFitness(this->getNodes());
 
-            if (neighborFitness < bestFitness)
+            if (neighbor.getFitness() < bestFitness)
             {
                 neighbor.setDNA(RemoveSeparator(neighbor.getDNA()));
                 bestSolution = neighbor;
-                bestFitness = neighborFitness;
+                bestFitness = neighbor.getFitness();
             }
             else
             {
-                double acceptProbability = exp((bestFitness - neighborFitness) / temperature);
+                double acceptProbability = exp((bestFitness - neighbor.getFitness()) / temperature);
                 double randVal = utils::randDouble(0, 1);
 
                 if (randVal < acceptProbability)
                 {
                     neighbor.setDNA(RemoveSeparator(neighbor.getDNA()));
                     bestSolution = neighbor;
-                    bestFitness = neighborFitness;
+                    bestFitness = neighbor.getFitness();
                 }
             }
             

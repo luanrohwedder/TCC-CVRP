@@ -1,8 +1,6 @@
 #ifndef GENETIC_ALGORITHM_H
 #define GENETIC_ALGORITHM_H
 #include "population.hpp"
-#include "../include/utils.hpp"
-#include "../include/node.hpp"
 #include <random>
 #include <unordered_map>
 #include <fstream>
@@ -41,15 +39,10 @@ namespace GA
         const std::unordered_map<std::string, int> getValues() const { return this->m_values; }
         void setValues(std::unordered_map<std::string, int>& values) { this->m_values = values; }
 
-        double getBestFitness() const { return this->m_bestFitness; }
-        void setBestFitness(double bestFitness) { this->m_bestFitness = bestFitness; }
-
     private:
         Population m_population;
         std::vector<Node> m_nodes;
         std::unordered_map<std::string, int> m_values;
-        
-        double m_bestFitness;
         double m_mutationRate;
 
         /**
@@ -153,19 +146,7 @@ namespace GA
          * 
          * @param children Vector of child.
          */
-        void SurviveSelection(std::vector<Chromosome>&);
-
-        /**
-         * @brief Evaluation of the population.
-         * 
-         * @param file File to print best population.
-         */
-        void Evaluation(std::ofstream&);
-
-        /**
-         * @brief Give penalty for similar individuals, increasing fitness.
-         */
-        void SimilarityPenalty();        
+        void SurviveSelection(std::vector<Chromosome>&);  
 
         /**
          * @brief Insert random individuals to compete with newly generated children.
@@ -183,15 +164,6 @@ namespace GA
         Chromosome GenerateRandomIndividual();
 
     protected:
-        /**
-         * @brief Calculate the firness of an Individual.
-         * 
-         * @param Individual
-         * 
-         * @return Fitness of the given Individual.
-         */
-        double CalculateFitness(Chromosome &);
-
         /**
          * @brief Remove the 0 from Chromosome
          * 
