@@ -10,7 +10,7 @@ namespace GA
      * @brief Represents a Population in genetic algorithm.
      *
      * A populations is a collection of Individuals, where each individual represents a solution.
-     * The populations has a defined mSize and keep track of the current mGeneration.
+     * The populations has a defined mSize and keep track of the current mGeneration and mBestFitness.
      *
      */
     class Population
@@ -44,6 +44,8 @@ namespace GA
 
         /**
          * @brief Evaluation of the population.
+         * 
+         * @param nodes
          */
         inline void Evaluation(std::vector<Node> nodes)
         {
@@ -57,6 +59,28 @@ namespace GA
                 if (individual.getFitness() < this->getBestFitness())
                     this->setBestFitness(individual.getFitness());
             }
+        }
+
+        /**
+         * @brief Performs the Survive Selection for next generation.
+         *
+         * @param children Vector of child.
+         */
+        inline void SurviveSelection(std::vector<Chromosome> &children)
+        {
+            std::vector<Chromosome> &population = this->getIndividuals();
+
+            std::vector<int> index(population.size());
+            std::iota(index.begin(), index.end(), 0);
+
+            std::sort(index.begin(), index.end(), [&population](int i1, int i2)
+                      { return population[i1].getFitness() > population[i2].getFitness(); });
+
+            for (size_t i = 0; i < children.size(); ++i)
+                if (!this->contains(children[i]))
+                    population[index[i]] = children[i];
+
+            this->setGeneration(this->getGeneration() + 1);
         }
 
         /**

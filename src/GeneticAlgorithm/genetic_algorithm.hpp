@@ -139,14 +139,7 @@ namespace GA
          * 
          * @param children Vector of child.
          */
-        void SwapMutation(std::vector<Chromosome>&);
-
-        /**
-         * @brief Performs the Survive Selection for next generation.
-         * 
-         * @param children Vector of child.
-         */
-        void SurviveSelection(std::vector<Chromosome>&);  
+        void SwapMutation(std::vector<Chromosome>&); 
 
         /**
          * @brief Insert random individuals to compete with newly generated children.

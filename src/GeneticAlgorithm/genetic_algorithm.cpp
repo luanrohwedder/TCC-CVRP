@@ -84,7 +84,7 @@ namespace GA
             InsertRandomIndividuals(populationSize, children);
         }
 
-        SurviveSelection(children);
+        this->m_population.SurviveSelection(children);
     }
 
     std::vector<Chromosome> GeneticAlgorithm::ParentTournamentSelection(int parentsSize, int populationSize)
@@ -279,23 +279,6 @@ namespace GA
             if (mutated && m_population.contains(child))
                 child.setDNA(originalDNA);
         }
-    }
-
-    void GeneticAlgorithm::SurviveSelection(std::vector<Chromosome> &children)
-    {
-        std::vector<Chromosome> &population = this->m_population.getIndividuals();
-
-        std::vector<int> index(population.size());
-        std::iota(index.begin(), index.end(), 0);
-
-        std::sort(index.begin(), index.end(), [&population](int i1, int i2)
-                  { return population[i1].getFitness() > population[i2].getFitness(); });
-
-        for (size_t i = 0; i < children.size(); ++i)
-            if (!m_population.contains(children[i]))
-                population[index[i]] = children[i];
-
-        this->m_population.setGeneration(this->m_population.getGeneration() + 1);
     }
 
     void GeneticAlgorithm::InsertRandomIndividuals(int populationSize, std::vector<Chromosome> &children)
