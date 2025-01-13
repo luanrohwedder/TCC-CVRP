@@ -57,30 +57,9 @@ namespace GA
         /**
          * @brief Process the evolution of GA
          * 
-         * @param parantSize Size of parents to pick up for crossover.
          * @param populationSize The size of population.
          */
-        void Evolve(int, int);
-
-        /**
-         * @brief Parent Tournament for selecting parents to crossover.
-         * 
-         * @param parantSize Size of parents to pick up for crossover.
-         * @param populationSize The size of population.
-         * 
-         * @return Winners chromosomes (parents) for crossover.
-         */
-        std::vector<Chromosome> ParentTournamentSelection(int, int);
-
-        /**
-         * @brief Tournament in a subset of the population (selected parents).
-         * 
-         * @param T Selected parents.
-         * @param k Size of the subset.
-         * 
-         * @return Winner chromosome (parent).
-         */
-        Chromosome Tournament(std::vector<Chromosome>&, int);
+        void Evolve(int);
 
         /**
          * @brief Performs Crossover and Mutation

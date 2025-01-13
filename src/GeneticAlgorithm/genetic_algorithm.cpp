@@ -1,4 +1,5 @@
 #include "genetic_algorithm.hpp"
+#include "../Operators/selection.hpp"
 #include <unordered_set>
 
 namespace GA
@@ -12,7 +13,7 @@ namespace GA
 
         for (int i = 0; i < m_values.at("GENERATIONS"); ++i)
         {
-            Evolve(m_values.at("PARENTS_SIZE"), m_values.at("POP_SIZE"));
+            Evolve(m_values.at("POP_SIZE"));
             this->m_population.Evaluation(this->m_nodes);
         }
 
@@ -67,12 +68,9 @@ namespace GA
         this->m_mutationRate = 0.05;
     }
 
-    void GeneticAlgorithm::Evolve(int parentsSize, int populationSize)
+    void GeneticAlgorithm::Evolve(int populationSize)
     {
-        std::vector<Chromosome> parents = ParentTournamentSelection(parentsSize, populationSize);
-
-        if (parents.size() % 2 != 0)
-            parents.pop_back();
+        std::vector<Chromosome> parents = OP::TournamentSelection(this->m_population, this->m_values.at("PARENTS_SIZE"));
 
         std::vector<Chromosome> children = PerformCrossoverMutation(parents);
 
@@ -85,46 +83,6 @@ namespace GA
         }
 
         this->m_population.SurviveSelection(children);
-    }
-
-    std::vector<Chromosome> GeneticAlgorithm::ParentTournamentSelection(int parentsSize, int populationSize)
-    {
-        std::vector<Chromosome> aux_population = m_population.getIndividuals();
-        std::vector<Chromosome> newIndividuals;
-        std::vector<Chromosome> parents;
-
-        int subsetSize = (m_population.getIndividuals().size() / 3) + 2;
-
-        for (int i = 0; i < parentsSize; ++i)
-        {
-            newIndividuals.clear();
-
-            std::vector<Chromosome> temp_population = aux_population;
-
-            std::sample(aux_population.begin(), aux_population.end(), 
-                        std::back_inserter(newIndividuals), subsetSize, 
-                        std::mt19937{std::random_device{}()});
-
-            Chromosome winner = Tournament(newIndividuals, subsetSize);
-            parents.push_back(winner);
-
-            auto it = std::find(aux_population.begin(), aux_population.end(), winner);
-            if (it != aux_population.end())
-                aux_population.erase(it);
-        }
-
-        return parents;
-    }
-
-    Chromosome GeneticAlgorithm::Tournament(std::vector<Chromosome> &T, int k)
-    {
-        Chromosome bestFitness = T[0];
-
-        for (int i = 1; i < k; ++i)
-            if (T[i].getFitness() < bestFitness.getFitness())
-                bestFitness = T[i];
-
-        return bestFitness;
     }
 
     std::vector<Chromosome> GeneticAlgorithm::PerformCrossoverMutation(std::vector<Chromosome>& parents)
