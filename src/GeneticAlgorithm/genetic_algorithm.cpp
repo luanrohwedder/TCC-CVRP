@@ -9,31 +9,31 @@ namespace GA
 
     Population GeneticAlgorithm::Run()
     {
-        Initialize(m_values.at("POP_SIZE"), m_values.at("CAPACITY"), m_values.at("DIMENSION"));
+        Initialize();
         this->m_population.Evaluation(this->m_nodes);
 
-        for (int i = 0; i < m_values.at("GENERATIONS"); ++i)
+        for (int i = 0; i < this->m_values.at("GENERATIONS"); ++i)
         {
-            Evolve(m_values.at("POP_SIZE"));
+            Evolve();
             this->m_population.Evaluation(this->m_nodes);
         }
 
         return this->m_population;
     }
 
-    void GeneticAlgorithm::Initialize(int populationSize, int capacity, int numClients)
+    void GeneticAlgorithm::Initialize()
     {
         Population population;
-        population.setSize(populationSize);
+        population.setSize(this->m_values.at("POP_SIZE"));
         std::vector<Chromosome> individuals;
 
-        for (int i = 0; i < populationSize; ++i)
+        for (int i = 0; i < this->m_values.at("POP_SIZE"); ++i)
         {
             Chromosome chromosome;
             std::vector<int> dna;
             int cap = 0;
 
-            std::vector<int> remainingClients(numClients - 1);
+            std::vector<int> remainingClients(this->m_values.at("DIMENSION") - 1);
             std::iota(remainingClients.begin(), remainingClients.end(), 1);
             std::shuffle(remainingClients.begin(), remainingClients.end(), std::mt19937{std::random_device{}()});
 
@@ -42,10 +42,10 @@ namespace GA
             {
                 int demand = this->m_nodes[index].getDemand();
 
-                if (demand > capacity)
+                if (demand > this->m_values.at("CAPACITY"))
                     throw std::runtime_error("Client demand bigger than vehicle cap");
 
-                if (cap + demand > capacity)
+                if (cap + demand > this->m_values.at("CAPACITY"))
                 {
                     dna.push_back(0);
                     cap = 0;
@@ -68,7 +68,7 @@ namespace GA
         this->m_population.setBestFitness(std::numeric_limits<double>::max());
     }
 
-    void GeneticAlgorithm::Evolve(int populationSize)
+    void GeneticAlgorithm::Evolve()
     {
         std::vector<Chromosome> parents = OP::TournamentSelection(this->m_population, this->m_values.at("PARENTS_SIZE"));
 
@@ -79,15 +79,15 @@ namespace GA
         int genInterval = 100;
         if (this->m_population.getGeneration() % genInterval == 0)
         {
-            InsertRandomIndividuals(populationSize, children);
+            InsertRandomIndividuals(children);
         }
 
         this->m_population.SurviveSelection(children);
     }
 
-    void GeneticAlgorithm::InsertRandomIndividuals(int populationSize, std::vector<Chromosome> &children)
+    void GeneticAlgorithm::InsertRandomIndividuals(std::vector<Chromosome> &children)
     {
-        int numNewIndividuals = static_cast<int>(populationSize * 0.05);
+        int numNewIndividuals = static_cast<int>(this->m_values.at("POP_SIZE") * 0.05);
 
         for (int i = 0; i < numNewIndividuals; ++i)
         {
@@ -106,7 +106,7 @@ namespace GA
         std::vector<int> dna;
         int cap = 0;
 
-        std::vector<int> remainingClients(m_values.at("DIMENSION") - 1);
+        std::vector<int> remainingClients(this->m_values.at("DIMENSION") - 1);
         std::iota(remainingClients.begin(), remainingClients.end(), 1);
         std::shuffle(remainingClients.begin(), remainingClients.end(), std::mt19937{std::random_device{}()});
 
@@ -115,10 +115,10 @@ namespace GA
         {
             int demand = this->m_nodes[index].getDemand();
 
-            if (demand > m_values.at("CAPACITY"))
+            if (demand > this->m_values.at("CAPACITY"))
                 throw std::runtime_error("Client demand bigger than vehicle cap");
 
-            if (cap + demand > m_values.at("CAPACITY"))
+            if (cap + demand > this->m_values.at("CAPACITY"))
             {
                 dna.push_back(0);
                 cap = 0;

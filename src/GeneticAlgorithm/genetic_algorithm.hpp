@@ -46,27 +46,20 @@ namespace GA
 
         /**
          * @brief Initialize the genetic algorithm.
-         *
-         * @param populationSize The size of population.
-         * @param capacity The capacity of vehicle.
-         * @param numClient Numbers of clients per route, i.e, size of the chromosome.
          */
-        void Initialize(int, int, int);
+        void Initialize();
 
         /**
-         * @brief Process the evolution of GA
-         * 
-         * @param populationSize The size of population.
+         * @brief Process the evolution of GA.
          */
-        void Evolve(int);
+        void Evolve();
 
         /**
          * @brief Insert random individuals to compete with newly generated children.
          * 
-         * @param populationSize The size of population.
          * @param children Vector of child.
          */
-        void InsertRandomIndividuals(int, std::vector<Chromosome> &);
+        void InsertRandomIndividuals(std::vector<Chromosome> &);
 
         /**
          * @brief Generate an Random Individual.
