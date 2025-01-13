@@ -43,7 +43,6 @@ namespace GA
         Population m_population;
         std::vector<Node> m_nodes;
         std::unordered_map<std::string, int> m_values;
-        double m_mutationRate;
 
         /**
          * @brief Initialize the genetic algorithm.
@@ -62,65 +61,6 @@ namespace GA
         void Evolve(int);
 
         /**
-         * @brief Performs Crossover and Mutation
-         * 
-         * @param parents Selected parents for crossover.
-         * 
-         * @return The resulting children of crossover and mutation.
-         */
-        std::vector<Chromosome> PerformCrossoverMutation(std::vector<Chromosome>&);
-
-        /**
-         * @brief Performs OX Crossover between two parents.
-         * 
-         * @param parent1 The first parent.
-         * @param parent2 The second parent.
-         * 
-         * @return The resulting children of crossover.
-         */
-        std::vector<Chromosome> CrossoverOX(Chromosome&, Chromosome&);
-
-        /**
-         * @brief Auxiliar method to create child.
-         * 
-         * @param parent1 The first parent.
-         * @param parent2 The second parent.
-         * @param start Start index for copy DNA.
-         * @param end End index for copy DNA.
-         * 
-         * @return The resulting child of crossover.
-         */
-        Chromosome CreateChild(const std::vector<int>&, const std::vector<int>&, int, int);
-
-        /**
-         * @brief Auxiliar method to create partial child (Middle DNA).
-         * 
-         * @param parent Parent to copy middle DNA.
-         * @param start Start index for copy DNA.
-         * @param end End index for copy DNA.
-         * 
-         * @return DNA of the partial child.
-         */
-        std::vector<int> CreatePartialChild(const std::vector<int>&, int, int);
-
-        /**
-         * @brief Auxiliar method to complete the remaining genes.
-         * 
-         * @param child Partial child.
-         * @param parent Parent to copy the remaining genes.
-         * @param start Start index for copy DNA.
-         * @param end End index for copy DNA.
-         */
-        void InsertRemainingGenes(std::vector<int>&, const std::vector<int> &, int start, int end);
-
-        /**
-         * @brief Performs the Swap Mutation in each gene.
-         * 
-         * @param children Vector of child.
-         */
-        void SwapMutation(std::vector<Chromosome>&); 
-
-        /**
          * @brief Insert random individuals to compete with newly generated children.
          * 
          * @param populationSize The size of population.
@@ -136,24 +76,6 @@ namespace GA
         Chromosome GenerateRandomIndividual();
 
     protected:
-        /**
-         * @brief Remove the 0 from Chromosome
-         * 
-         * @param dna vector of DNA.
-         * 
-         * @return Clean chromosome without separator.
-         */
-        std::vector<int> RemoveSeparator(const std::vector<int>&);
-
-        /**
-         * @brief Insert the 0 in Chromosome
-         * 
-         * @param dna vector of DNA.
-         * 
-         * @return Correct chromosome with separator, respecting the capacity
-         */
-        std::vector<int> AddSeparator(const std::vector<int>&);
-
         /**
          * @brief Apply local search in GA to become an MA
          * 

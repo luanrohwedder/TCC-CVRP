@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include <unordered_map>
+#include <algorithm>
 #include "node.hpp"
 
 namespace utils {
@@ -61,6 +62,56 @@ inline double randDouble(double min, double max)
 inline double EuclidianDistance(double x1, double x2, double y1, double y2)
 {
     return std::sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+}
+
+/**
+ * @brief Remove the 0 from Chromosome
+ *
+ * @param dna vector of DNA.
+ *
+ * @return Clean chromosome without separator.
+ */
+inline std::vector<int> RemoveSeparator(const std::vector<int> &dna)
+{
+    std::vector<int> res = dna;
+    res.erase(std::remove(res.begin(), res.end(), 0), res.end());
+    return res;
+}
+
+/**
+ * @brief Insert the 0 in Chromosome
+ *
+ * @param dna vector of DNA.
+ * @param nodes clients nodes.
+ * @param capacity vehicle capacity
+ *
+ * @return Correct chromosome with separator, respecting the capacity
+ */
+inline std::vector<int> AddSeparator(const std::vector<int> &dna, std::vector<Node> nodes, int capacity)
+{
+    std::vector<int> res;
+    int cap = 0;
+
+    res.push_back(0);
+    for (size_t i = 0; i < dna.size(); ++i)
+    {
+        int demand = nodes[dna[i]].getDemand();
+
+        if (demand > capacity)
+            throw std::runtime_error("Client demand bigger than vehicle cap");
+
+        if (cap + demand > capacity)
+        {
+            res.push_back(0);
+            cap = 0;
+        }
+
+        res.push_back(dna[i]);
+        cap += demand;
+    }
+    res.push_back(0);
+
+    return res;
 }
 
 /**

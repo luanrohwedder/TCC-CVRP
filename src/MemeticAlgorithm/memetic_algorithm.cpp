@@ -12,7 +12,7 @@ namespace MA
 
             if (randProb < lsProb)
             {
-                child.setDNA(RemoveSeparator(child.getDNA()));
+                child.setDNA(utils::RemoveSeparator(child.getDNA()));
 
                 if (LS == "H")
                     HillClimbing(child);
@@ -35,12 +35,12 @@ namespace MA
         for (int i = 0; i < maxIterations && noImprovementCounter < maxNoImprovement; ++i)
         {
             GA::Chromosome neighbor = GenerateNeighbor2Opt(bestSolution);
-            neighbor.setDNA(AddSeparator(neighbor.getDNA()));
+            neighbor.setDNA(utils::AddSeparator(neighbor.getDNA(), this->getNodes(), this->getValues().at("CAPACITY")));
             neighbor.CalculateFitness(this->getNodes());
 
             if (neighbor.getFitness() < bestFitness)
             {
-                neighbor.setDNA(RemoveSeparator(neighbor.getDNA()));
+                neighbor.setDNA(utils::RemoveSeparator(neighbor.getDNA()));
                 bestSolution = neighbor;
                 bestFitness = neighbor.getFitness();
                 noImprovementCounter = 0;
@@ -51,7 +51,7 @@ namespace MA
             }
         }
 
-        bestSolution.setDNA(AddSeparator(bestSolution.getDNA()));
+        bestSolution.setDNA(utils::AddSeparator(bestSolution.getDNA(),this->getNodes(), this->getValues().at("CAPACITY")));
         bestSolution.setFitness(bestFitness);
 
         child = bestSolution;
@@ -68,13 +68,13 @@ namespace MA
         while (temperature > 0.1)
         {
             GA::Chromosome neighbor = GenerateNeighbor2Opt(bestSolution);
-            neighbor.setDNA(AddSeparator(neighbor.getDNA()));
+            neighbor.setDNA(utils::AddSeparator(neighbor.getDNA(), this->getNodes(), this->getValues().at("CAPACITY")));
 
             neighbor.CalculateFitness(this->getNodes());
 
             if (neighbor.getFitness() < bestFitness)
             {
-                neighbor.setDNA(RemoveSeparator(neighbor.getDNA()));
+                neighbor.setDNA(utils::RemoveSeparator(neighbor.getDNA()));
                 bestSolution = neighbor;
                 bestFitness = neighbor.getFitness();
             }
@@ -85,7 +85,7 @@ namespace MA
 
                 if (randVal < acceptProbability)
                 {
-                    neighbor.setDNA(RemoveSeparator(neighbor.getDNA()));
+                    neighbor.setDNA(utils::RemoveSeparator(neighbor.getDNA()));
                     bestSolution = neighbor;
                     bestFitness = neighbor.getFitness();
                 }
@@ -94,7 +94,7 @@ namespace MA
             temperature *= cooling;
         }
         
-        bestSolution.setDNA(AddSeparator(bestSolution.getDNA()));
+        bestSolution.setDNA(utils::AddSeparator(bestSolution.getDNA(), this->getNodes(), this->getValues().at("CAPACITY")));
         bestSolution.setFitness(bestFitness);
 
         child = bestSolution;
