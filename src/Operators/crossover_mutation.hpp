@@ -1,8 +1,8 @@
 #ifndef CROSSOVER_H
 #define CROSSOVER_H
 
-#include "../GeneticAlgorithm/chromosome.hpp"
-#include "../GeneticAlgorithm/population.hpp"
+#include "../Core/chromosome.hpp"
+#include "../Core/population.hpp"
 #include <unordered_set>
 
 namespace {

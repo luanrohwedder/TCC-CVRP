@@ -2,8 +2,8 @@
 #define SELECTION_H
 
 #include "node.hpp"
-#include "../GeneticAlgorithm/chromosome.hpp"
-#include "../GeneticAlgorithm/population.hpp"
+#include "../Core/chromosome.hpp"
+#include "../Core/population.hpp"
 
 namespace {
     /**
