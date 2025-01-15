@@ -30,12 +30,14 @@ namespace GA
         /**
          * @brief Calculate the firness of an Individual.
          * 
-         * @param Nodes
+         * @param nodes
+         * @param capacity
          */
-        inline void CalculateFitness(std::vector<Node> nodes)
+        inline void CalculateFitness(const std::vector<Node>& nodes, int capacity)
         {
             double fitness = 0.0;
-            const auto &dna = this->m_dna;
+            //double currentCapacity = 0.0;
+            const auto &dna = AddSeparator(this->m_dna, nodes, capacity);
 
             if (dna.size() < 2)
             {
@@ -43,12 +45,12 @@ namespace GA
                 return;
             }
 
+            
             for (size_t i = 1; i < dna.size(); ++i)
-            {
                 fitness += utils::EuclidianDistance(
                     nodes[dna[i - 1]].getX(), nodes[dna[i]].getX(),
                     nodes[dna[i - 1]].getY(), nodes[dna[i]].getY());
-            }
+
             this->setFitness(fitness);
         }
 
@@ -62,6 +64,33 @@ namespace GA
     private:
         double m_fitness;
         std::vector<int> m_dna;
+
+        inline std::vector<int> AddSeparator(const std::vector<int>& dna, const std::vector<Node>& nodes, int capacity)
+        {
+            std::vector<int> res;
+            int cap = 0;
+
+            res.push_back(0);
+            for (size_t i = 0; i < dna.size(); ++i)
+            {
+                int demand = nodes[dna[i]].getDemand();
+
+                if (demand > capacity)
+                    throw std::runtime_error("Client demand bigger than vehicle cap");
+
+                if (cap + demand > capacity)
+                {
+                    res.push_back(0);
+                    cap = 0;
+                }
+
+                res.push_back(dna[i]);
+                cap += demand;
+            }
+            res.push_back(0);
+
+            return res;
+        }
     };
 }
 

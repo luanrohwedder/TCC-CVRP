@@ -12,8 +12,6 @@ namespace MA
 
             if (randProb < lsProb)
             {
-                child.setDNA(utils::RemoveSeparator(child.getDNA()));
-
                 if (LS == "H")
                     HillClimbing(child);
                 
@@ -30,19 +28,15 @@ namespace MA
         int noImprovementCounter = 0;
         
         GA::Chromosome bestSolution = child;
-        double bestFitness = child.getFitness();
         
         for (int i = 0; i < maxIterations && noImprovementCounter < maxNoImprovement; ++i)
         {
             GA::Chromosome neighbor = GenerateNeighbor2Opt(bestSolution);
-            neighbor.setDNA(utils::AddSeparator(neighbor.getDNA(), this->getNodes(), this->getValues().at("CAPACITY")));
-            neighbor.CalculateFitness(this->getNodes());
+            neighbor.CalculateFitness(this->getNodes(), this->getValues().at("CAPACITY"));
 
-            if (neighbor.getFitness() < bestFitness)
+            if (neighbor.getFitness() < bestSolution.getFitness())
             {
-                neighbor.setDNA(utils::RemoveSeparator(neighbor.getDNA()));
                 bestSolution = neighbor;
-                bestFitness = neighbor.getFitness();
                 noImprovementCounter = 0;
             }
             else
@@ -50,9 +44,6 @@ namespace MA
                 noImprovementCounter++;
             }
         }
-
-        bestSolution.setDNA(utils::AddSeparator(bestSolution.getDNA(),this->getNodes(), this->getValues().at("CAPACITY")));
-        bestSolution.setFitness(bestFitness);
 
         child = bestSolution;
     }
@@ -63,39 +54,27 @@ namespace MA
         double cooling = 0.95;
 
         GA::Chromosome bestSolution = child;
-        double bestFitness = child.getFitness();
 
         while (temperature > 0.1)
         {
             GA::Chromosome neighbor = GenerateNeighbor2Opt(bestSolution);
-            neighbor.setDNA(utils::AddSeparator(neighbor.getDNA(), this->getNodes(), this->getValues().at("CAPACITY")));
+            neighbor.CalculateFitness(this->getNodes(), this->getValues().at("CAPACITY"));
 
-            neighbor.CalculateFitness(this->getNodes());
-
-            if (neighbor.getFitness() < bestFitness)
+            if (neighbor.getFitness() < bestSolution.getFitness())
             {
-                neighbor.setDNA(utils::RemoveSeparator(neighbor.getDNA()));
                 bestSolution = neighbor;
-                bestFitness = neighbor.getFitness();
             }
             else
             {
-                double acceptProbability = exp((bestFitness - neighbor.getFitness()) / temperature);
+                double acceptProbability = exp((bestSolution.getFitness() - neighbor.getFitness()) / temperature);
                 double randVal = utils::randDouble(0, 1);
 
                 if (randVal < acceptProbability)
-                {
-                    neighbor.setDNA(utils::RemoveSeparator(neighbor.getDNA()));
                     bestSolution = neighbor;
-                    bestFitness = neighbor.getFitness();
-                }
             }
             
             temperature *= cooling;
         }
-        
-        bestSolution.setDNA(utils::AddSeparator(bestSolution.getDNA(), this->getNodes(), this->getValues().at("CAPACITY")));
-        bestSolution.setFitness(bestFitness);
 
         child = bestSolution;
     }

@@ -71,8 +71,8 @@ namespace {
     inline std::vector<GA::Chromosome>
     CrossoverOX(GA::Chromosome &parent1, GA::Chromosome &parent2, GA::Population& population)
     {
-        std::vector<int> cleanParent1Dna = utils::RemoveSeparator(parent1.getDNA());
-        std::vector<int> cleanParent2Dna = utils::RemoveSeparator(parent2.getDNA());
+        std::vector<int> cleanParent1Dna = parent1.getDNA();
+        std::vector<int> cleanParent2Dna = parent2.getDNA();
 
         int p1 = utils::randInteger(1, cleanParent1Dna.size() - 3);
         int p2 = utils::randInteger(p1 + 1, cleanParent2Dna.size() - 2);
@@ -133,13 +133,11 @@ namespace OP
      *
      * @param parents Selected parents for crossover.
      * @param population
-     * @param nodes clients nodes.
-     * @param capacity vehicle capacity.
      *
      * @return The resulting children of crossover and mutation.
      */
     inline 
-    std::vector<GA::Chromosome> CrossoverMutation(std::vector<GA::Chromosome>& parents, GA::Population& population, std::vector<Node> nodes, int capacity)
+    std::vector<GA::Chromosome> CrossoverMutation(std::vector<GA::Chromosome>& parents, GA::Population& population)
     {
         std::vector<GA::Chromosome> children;
 
@@ -153,8 +151,7 @@ namespace OP
 
         for (auto &child : children)
         {
-            child.setDNA(utils::AddSeparator(child.getDNA(), nodes, capacity));
-            child.CalculateFitness(nodes);
+            child.CalculateFitness(population.getNodes(), population.getCapacity());
         }
 
         return children;

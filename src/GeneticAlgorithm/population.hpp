@@ -47,13 +47,13 @@ namespace GA
          * 
          * @param nodes
          */
-        inline void Evaluation(std::vector<Node> nodes)
+        inline void Evaluation()
         {
             for (auto &individual : this->getIndividuals())
             {
                 if (individual.getFitness() == -1.0)
                 {
-                    individual.CalculateFitness(nodes);
+                    individual.CalculateFitness(this->m_nodes, this->m_capacity);
                 }
 
                 if (individual.getFitness() < this->getBestFitness())
@@ -99,19 +99,28 @@ namespace GA
         std::vector<Chromosome> &getIndividuals() { return this->m_individuals; }
         void setIndividuals(const std::vector<Chromosome> &individuals) { this->m_individuals = individuals; }
 
+        std::vector<Node> &getNodes() { return this->m_nodes; }
+        void setNodes(const std::vector<Node> &nodes) { this->m_nodes = nodes; }
+
         int getSize() const { return this->m_size; }
         void setSize(int mSize) { this->m_size = mSize; }
 
         int getGeneration() const { return this->m_generation; }
         void setGeneration(int mGeneration) { this->m_generation = mGeneration; }
 
+        double getCapacity() const { return this->m_capacity; }
+        void setCapacity(double mCapacity) { this->m_capacity = mCapacity; }
+
         double getBestFitness() const { return this->m_bestFitness; }
         void setBestFitness(double mBestFitness) { this->m_bestFitness = mBestFitness; }
 
     private:
         std::vector<Chromosome> m_individuals;
+        std::vector<Node> m_nodes;
+
         int m_size;
         int m_generation;
+        double m_capacity;
         double m_bestFitness;
     };
 }

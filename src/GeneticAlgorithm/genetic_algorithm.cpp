@@ -10,12 +10,12 @@ namespace GA
     Population GeneticAlgorithm::Run()
     {
         Initialize();
-        this->m_population.Evaluation(this->m_nodes);
+        this->m_population.Evaluation();
 
         for (int i = 0; i < this->m_values.at("GENERATIONS"); ++i)
         {
             Evolve();
-            this->m_population.Evaluation(this->m_nodes);
+            this->m_population.Evaluation();
         }
 
         return this->m_population;
@@ -24,37 +24,19 @@ namespace GA
     void GeneticAlgorithm::Initialize()
     {
         Population population;
+        population.setNodes(this->getNodes());
         population.setSize(this->m_values.at("POP_SIZE"));
+        population.setCapacity(this->m_values.at("CAPACITY"));
+
         std::vector<Chromosome> individuals;
 
         for (int i = 0; i < this->m_values.at("POP_SIZE"); ++i)
         {
             Chromosome chromosome;
-            std::vector<int> dna;
-            int cap = 0;
 
-            std::vector<int> remainingClients(this->m_values.at("DIMENSION") - 1);
-            std::iota(remainingClients.begin(), remainingClients.end(), 1);
-            std::shuffle(remainingClients.begin(), remainingClients.end(), std::mt19937{std::random_device{}()});
-
-            dna.push_back(0);
-            for (auto &index : remainingClients)
-            {
-                int demand = this->m_nodes[index].getDemand();
-
-                if (demand > this->m_values.at("CAPACITY"))
-                    throw std::runtime_error("Client demand bigger than vehicle cap");
-
-                if (cap + demand > this->m_values.at("CAPACITY"))
-                {
-                    dna.push_back(0);
-                    cap = 0;
-                }
-
-                dna.push_back(index);
-                cap += demand;
-            }
-            dna.push_back(0);
+            std::vector<int> dna(this->m_values.at("DIMENSION") - 1);
+            std::iota(dna.begin(), dna.end(), 1);
+            std::shuffle(dna.begin(), dna.end(), std::mt19937{std::random_device{}()});
 
             chromosome.setDNA(dna);
             chromosome.setFitness(-1.0);
@@ -71,8 +53,7 @@ namespace GA
     void GeneticAlgorithm::Evolve()
     {
         std::vector<Chromosome> parents = OP::TournamentSelection(this->m_population, this->m_values.at("PARENTS_SIZE"));
-
-        std::vector<Chromosome> children = OP::CrossoverMutation(parents, this->m_population, this->m_nodes, this->m_values.at("CAPACITY"));
+        std::vector<Chromosome> children = OP::CrossoverMutation(parents, this->m_population);
 
         ApplyLocalSeach(children);
         
@@ -93,7 +74,7 @@ namespace GA
         {
             Chromosome newIndividual = GenerateRandomIndividual();
 
-            newIndividual.CalculateFitness(this->m_nodes);
+            newIndividual.CalculateFitness(this->m_nodes, this->m_values.at("CAPACITY"));
 
             if (newIndividual.getFitness() < this->m_population.getBestFitness() * 1.5)
                 children.push_back(newIndividual);
@@ -103,31 +84,11 @@ namespace GA
     Chromosome GeneticAlgorithm::GenerateRandomIndividual()
     {
         Chromosome newChromosome;
-        std::vector<int> dna;
-        int cap = 0;
 
-        std::vector<int> remainingClients(this->m_values.at("DIMENSION") - 1);
-        std::iota(remainingClients.begin(), remainingClients.end(), 1);
-        std::shuffle(remainingClients.begin(), remainingClients.end(), std::mt19937{std::random_device{}()});
+        std::vector<int> dna(this->m_values.at("DIMENSION") - 1);
+        std::iota(dna.begin(), dna.end(), 1);
+        std::shuffle(dna.begin(), dna.end(), std::mt19937{std::random_device{}()});
 
-        dna.push_back(0);
-        for (auto &index : remainingClients)
-        {
-            int demand = this->m_nodes[index].getDemand();
-
-            if (demand > this->m_values.at("CAPACITY"))
-                throw std::runtime_error("Client demand bigger than vehicle cap");
-
-            if (cap + demand > this->m_values.at("CAPACITY"))
-            {
-                dna.push_back(0);
-                cap = 0;
-            }
-
-            dna.push_back(index);
-            cap += demand;
-        }
-        dna.push_back(0);
         newChromosome.setDNA(dna);
         newChromosome.setFitness(-1.0);
         return newChromosome;
