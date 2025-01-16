@@ -1,4 +1,4 @@
-#include "./GeneticAlgorithm/genetic_algorithm.hpp"
+#include "./Core/genetic_algorithm.hpp"
 #include "run_utils.hpp"
 #include <getopt.h>
 

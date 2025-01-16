@@ -10,8 +10,8 @@
 #endif
 
 #include <chrono>
-#include "../src/GeneticAlgorithm/genetic_algorithm.hpp"
-#include "../src/MemeticAlgorithm/memetic_algorithm.hpp"
+#include "../src/Core/genetic_algorithm.hpp"
+#include "../src/Core/memetic_algorithm.hpp"
 
 struct TestResult {
     double fitness;

@@ -105,6 +105,8 @@ inline std::vector<Node> ReadNodesFromFile(const std::string& filename, std::uno
         return nodes;
     }
 
+    int max_x = 0;
+    int max_y = 0;
     bool reading_coords = false;
     bool reading_demands = false;
     std::vector<double> demands;
@@ -148,6 +150,9 @@ inline std::vector<Node> ReadNodesFromFile(const std::string& filename, std::uno
 
             iss >> id >> x >> y;
             nodes.push_back(Node(id, x, y, 0.0));
+
+            if (x > max_x) max_x = x;
+            if (y > max_y) max_y = y;
         }
 
         if (reading_demands)
@@ -159,6 +164,9 @@ inline std::vector<Node> ReadNodesFromFile(const std::string& filename, std::uno
             nodes[id - 1].setDemand(demand);
         }
     }
+
+    values.insert(std::make_pair("MAX_X", max_x));
+    values.insert(std::make_pair("MAX_Y", max_y));
 
     infile.close();
     return nodes;

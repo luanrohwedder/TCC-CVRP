@@ -1,6 +1,8 @@
 #include "genetic_algorithm.hpp"
 #include "../Operators/selection.hpp"
 #include "../Operators/crossover_mutation.hpp"
+#include "../Generate/kmeans.hpp"
+#include "../Generate/nearest_neighbor.hpp"
 #include <unordered_set>
 
 namespace GA
@@ -30,7 +32,22 @@ namespace GA
 
         std::vector<Chromosome> individuals;
 
-        for (int i = 0; i < this->m_values.at("POP_SIZE"); ++i)
+        for (int i = 0; i < this->m_values.at("POP_SIZE")/2; ++i)
+        {
+            Chromosome chromosome;
+
+            GEN::KMeans kmeans(4, this->m_nodes, this->m_values.at("MAX_X"), this->m_values.at("MAX_Y"));
+            kmeans.run();
+            GEN::NearestNeighbor NN(kmeans.getClusters());
+            NN.run();
+
+            chromosome.setDNA(NN.getDna());
+            chromosome.setFitness(-1.0);
+
+            individuals.push_back(chromosome);
+        }
+
+        for (int i = 0; i < this->m_values.at("POP_SIZE")/2; ++i)
         {
             Chromosome chromosome;
 
