@@ -28,6 +28,7 @@ namespace GEN
                 {
                     if (cluster.getNodes().empty())
                     {
+                        cluster.clear();
                         double rand_x = utils::randDouble(0, this->m_max_x);
                         double rand_y = utils::randDouble(0, this->m_max_y);
                         cluster.setCentroid(rand_x, rand_y);
@@ -72,6 +73,8 @@ namespace GEN
 
             for (const auto& node : this->m_nodes)
             {
+                if (node.getId() == 1) continue;
+
                 int best_cluster_index = 0;
                 double min_distance = std::numeric_limits<double>::infinity();
 
