@@ -1,6 +1,10 @@
 #include "./Core/genetic_algorithm.hpp"
 #include "run_utils.hpp"
 #include <getopt.h>
+#include <omp.h>
+
+#define POP_SIZE 50
+#define GEN_SIZE 5000
 
 int main(int argc, char* argv[])
 {
@@ -9,6 +13,9 @@ int main(int argc, char* argv[])
     bool run_single_test = false;
     std::string alg_choice = "GA";
     std::string ls_choice = "S";
+
+    int numThread = omp_get_num_procs() / 2;
+    omp_set_num_threads(numThread);
 
     int opt;
     while ((opt = getopt(argc, argv, "p:g:a:l:")) != -1)
@@ -55,11 +62,8 @@ int main(int argc, char* argv[])
     }
     else
     {
-        std::vector<int> pop_sizes = {50};
-        std::vector<int> generations_sizes = {5000};
-
-        RunTests(file, pop_sizes, generations_sizes, alg_choice, ls_choice);
-        ProcessResults(file, pop_sizes, generations_sizes);
+        RunTests(file, POP_SIZE, GEN_SIZE, alg_choice, ls_choice);
+        ProcessResults(file);
     }
     
     

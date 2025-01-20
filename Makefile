@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall -Iinclude -g
+CFLAGS = -Wall -Iinclude -g -fopenmp
 
 SRC_DIR = src
 CORE_DIR = $(SRC_DIR)/Core

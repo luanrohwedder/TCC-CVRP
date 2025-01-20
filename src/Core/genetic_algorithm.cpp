@@ -86,16 +86,27 @@ namespace GA
     void GeneticAlgorithm::InsertRandomIndividuals(std::vector<Chromosome> &children)
     {
         int numNewIndividuals = static_cast<int>(this->m_values.at("POP_SIZE") * 0.05);
+        std::vector<Chromosome> tempChildren;
 
-        for (int i = 0; i < numNewIndividuals; ++i)
+        #pragma omp parallel
         {
-            Chromosome newIndividual = GenerateRandomIndividual();
+            std::vector<Chromosome> localChildren;
 
-            newIndividual.CalculateFitness(this->m_nodes, this->m_values.at("CAPACITY"));
+            #pragma omp for
+            for (int i = 0; i < numNewIndividuals; ++i)
+            {
+                Chromosome newIndividual = GenerateRandomIndividual();
 
-            if (newIndividual.getFitness() < this->m_population.getBestFitness() * 1.5)
-                children.push_back(newIndividual);
+                newIndividual.CalculateFitness(this->m_nodes, this->m_values.at("CAPACITY"));
+
+                if (newIndividual.getFitness() < this->m_population.getBestFitness() * 1.5)
+                    localChildren.push_back(newIndividual);
+            }
+
+            #pragma omp critical
+            children.insert(children.end(), localChildren.begin(), localChildren.end());
         }
+
     }
 
     Chromosome GeneticAlgorithm::GenerateRandomIndividual()

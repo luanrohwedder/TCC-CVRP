@@ -6,6 +6,7 @@ namespace MA
     {
         double lsProb = 0.5;
 
+        #pragma omp parallel for
         for (auto& child : children)
         {
             double randProb = utils::randDouble(0, 1);

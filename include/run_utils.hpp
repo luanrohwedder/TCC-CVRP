@@ -22,7 +22,7 @@ struct TestResult {
 inline void
 SetupFolders(const std::string& folder)
 {
-std::string folderName;
+    std::string folderName;
 
 #ifdef _WIN32
     if (!mkdir("results") != 0 && errno != EEXIST)
@@ -47,20 +47,6 @@ std::string folderName;
     {
         if (mkdir(folderName.c_str(), 0777) != 0)
             std::cerr << "Failed to create folder results/" << folder << std::endl;
-    }
-
-    folderName = "results/" + folder + "/avg";
-    if (stat(folderName.c_str(), &info) != 0)
-    {
-        if (mkdir(folderName.c_str(), 0777) != 0)
-            std::cerr << "Failed to create folder results/" << folder << "/avg" << std::endl;
-    }
-
-    folderName = "results/" + folder + "/test";
-    if (stat(folderName.c_str(), &info) != 0)
-    {
-        if (mkdir(folderName.c_str(), 0777) != 0)
-            std::cerr << "Failed to create folder results/" << folder << "/test" << std::endl;
     }
 #endif
 }
@@ -127,151 +113,137 @@ RunSingleTest(const std::string &filename, int pop_size, int generation_size, co
 }
 
 inline void 
-RunTests(const std::string &filename, std::vector<int> pop_sizes, std::vector<int> generations_sizes, const std::string alg_choice, const std::string ls_choice)
+RunTests(const std::string &filename, int pop_size, int generation_size, const std::string alg_choice, const std::string ls_choice)
 {
     SetupFolders(getFileName(filename));
 
-    for (int generation : generations_sizes)
+    std::string folder_name = getFileName(filename);
+    std::string name = "TEST_" + folder_name + ".txt";
+    std::ofstream file("results/" + folder_name + "/" + name);
+
+    if (!file.is_open())
     {
-        for (int pop : pop_sizes)
+        std::cerr << "Failed to create file: " << name << std::endl;
+        return;
+    }
+
+    std::unordered_map<std::string, int> values;
+    values.insert(std::make_pair("POP_SIZE", pop_size));
+    values.insert(std::make_pair("GENERATIONS", generation_size));
+    values.insert(std::make_pair("PARENTS_SIZE", pop_size / 3));
+
+    std::vector<Node> clientes = utils::ReadNodesFromFile(filename, values);
+
+    for (int i = 0; i < 30; ++i)
+    {
+        if (alg_choice == "GA")
         {
-            std::string folder_name = getFileName(filename);
-            std::string name =  "POP_" + std::to_string(pop) + "_GEN_" + 
-                                std::to_string(generation) + ".txt";
-            std::ofstream file("results/" + folder_name+ "/test/" + name);
+            GA::GeneticAlgorithm ga;
+            ga.setNodes(clientes);
+            ga.setValues(values);
 
-            if (!file.is_open())
-            {
-                std::cerr << "Failed to create file: " << name << std::endl;
-                return;
-            }
+            auto start = std::chrono::high_resolution_clock::now();
+            ga.Run();
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-            std::unordered_map<std::string, int> values;
-            values.insert(std::make_pair("POP_SIZE", pop));
-            values.insert(std::make_pair("GENERATIONS", generation));
-            values.insert(std::make_pair("PARENTS_SIZE", pop/3));
+            file << i + 1 << ": " << ga.getPopulation().getBestFitness() << " - " << duration.count()
+                 << "/" << duration.count() / 1000000.0 << std::endl;
+        }
+        else if (alg_choice == "MA")
+        {
+            MA::MemeticAlgorithm ma;
+            ma.setNodes(clientes);
+            ma.setValues(values);
+            ma.setLS(ls_choice);
 
-            std::vector<Node> clientes = utils::ReadNodesFromFile(filename, values);
+            auto start = std::chrono::high_resolution_clock::now();
+            ma.Run();
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-            for (int i = 0; i < 30; ++i)
-            {
-                if (alg_choice == "GA")
-                {
-                    GA::GeneticAlgorithm ga;
-                    ga.setNodes(clientes);
-                    ga.setValues(values);
-
-                    auto start = std::chrono::high_resolution_clock::now();
-                    ga.Run();
-                    auto end = std::chrono::high_resolution_clock::now();
-                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-
-                    file << i + 1 << ": " << ga.getPopulation().getBestFitness() << " - " << duration.count()
-                         << "/" << duration.count() / 1000000.0 << std::endl;
-                }
-                else if (alg_choice == "MA")
-                {
-                    MA::MemeticAlgorithm ma;
-                    ma.setNodes(clientes);
-                    ma.setValues(values);
-                    ma.setLS(ls_choice);
-
-                    auto start = std::chrono::high_resolution_clock::now();
-                    ma.Run();
-                    auto end = std::chrono::high_resolution_clock::now();
-                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-
-                    file << i + 1 << ": " << ma.getPopulation().getBestFitness() << " - " << duration.count()
-                         << "/" << duration.count() / 1000000.0 << std::endl;
-                }
-                else 
-                {
-                    std::cerr << "Invalid algorithm choice. Please specify either 'GA' or 'MA'." << std::endl;
-                    break;
-                }
-            }
+            file << i + 1 << ": " << ma.getPopulation().getBestFitness() << " - " << duration.count()
+                 << "/" << duration.count() / 1000000.0 << std::endl;
+        }
+        else
+        {
+            std::cerr << "Invalid algorithm choice. Please specify either 'GA' or 'MA'." << std::endl;
+            break;
         }
     }
 }
 
 inline void
-ProcessResults (const std::string& filename, std::vector<int> pop_sizes, std::vector<int> generations_sizes)
+ProcessResults (const std::string& filename)
 {
-    for (int generation : generations_sizes)
+    std::string folder = getFileName(filename);
+    std::string text_filename = "TEST_" + folder + ".txt";
+    std::ifstream infile("results/" + folder + "/" + text_filename);
+    std::vector<TestResult> results;
+
+    if (!infile.is_open())
     {
-        for (int pop : pop_sizes)
-        {
-            std::string folder = getFileName(filename);
-            std::string text_filename = "POP_" + std::to_string(pop) +
-                                        "_GEN_" + std::to_string(generation) + ".txt";
-            std::ifstream infile("results/" + folder + "/test/" + text_filename);
-            std::vector<TestResult> results;
-            
-            if (!infile.is_open())
-            {
-                std::cerr << "Failed to open file: " << text_filename << std::endl;
-                return;
-            }
-
-            std::string line;
-
-            while (std::getline(infile, line))
-            {
-                std::stringstream ss(line);
-                std::string ignore;
-                TestResult result;
-
-                ss >> ignore >> result.fitness >> ignore >> result.time_ms;
-                result.time_sec = result.time_ms / 1000000.0;
-
-                results.push_back(result);
-            }
-
-            infile.close();
-
-            double sum_fitness = 0, sum_time_ms = 0, sum_time_sec = 0;
-            double best_fitness = results[0].fitness;
-
-            for (const auto& result : results)
-            {
-                sum_fitness += result.fitness;
-                sum_time_ms += result.time_ms;
-                sum_time_sec += result.time_sec;
-
-                if (result.fitness < best_fitness)
-                    best_fitness = result.fitness;
-            }
-
-            double avg_fitness = sum_fitness / results.size();
-            double avg_time_ms = sum_time_ms / results.size();
-            double avg_time_sec = sum_time_sec / results.size();
-
-            double variance_fitness = 0;
-
-            for (const auto& res : results)
-                variance_fitness += std::pow(res.fitness - avg_fitness, 2);
-
-            double stddev_fitness = std::sqrt(variance_fitness / results.size());
-
-            std::string out_filename = "RES_" + text_filename;
-            std::ofstream outfile("results/" + folder + "/avg/" + out_filename);
-
-            if (!outfile.is_open())
-            {
-                std::cerr << "Failed to create file: " << out_filename << std::endl;
-                return;
-            }
-
-            outfile << std::fixed << std::setprecision(6);
-            outfile << "Média do fitness: " << avg_fitness << stddev_fitness << std::endl;
-            outfile << "Desvio padrão do fitness: " << stddev_fitness << std::endl;
-            outfile << "Melhor fitness: " << best_fitness << std::endl;
-            outfile << "Média do tempo (ms): " << avg_time_ms << std::endl;
-            outfile << "Média do tempo (s): " << avg_time_sec << std::endl;
-
-            outfile.close();
-        }
+        std::cerr << "Failed to open file: " << text_filename << std::endl;
+        return;
     }
+
+    std::string line;
+
+    while (std::getline(infile, line))
+    {
+        std::stringstream ss(line);
+        std::string ignore;
+        TestResult result;
+
+        ss >> ignore >> result.fitness >> ignore >> result.time_ms;
+        result.time_sec = result.time_ms / 1000000.0;
+
+        results.push_back(result);
+    }
+
+    infile.close();
+
+    double sum_fitness = 0, sum_time_ms = 0, sum_time_sec = 0;
+    double best_fitness = results[0].fitness;
+
+    for (const auto &result : results)
+    {
+        sum_fitness += result.fitness;
+        sum_time_ms += result.time_ms;
+        sum_time_sec += result.time_sec;
+
+        if (result.fitness < best_fitness)
+            best_fitness = result.fitness;
+    }
+
+    double avg_fitness = sum_fitness / results.size();
+    double avg_time_ms = sum_time_ms / results.size();
+    double avg_time_sec = sum_time_sec / results.size();
+
+    double variance_fitness = 0;
+
+    for (const auto &res : results)
+        variance_fitness += std::pow(res.fitness - avg_fitness, 2);
+
+    double stddev_fitness = std::sqrt(variance_fitness / results.size());
+
+    std::string out_filename = "RES_" + folder;
+    std::ofstream outfile("results/" + folder + "/" + out_filename);
+
+    if (!outfile.is_open())
+    {
+        std::cerr << "Failed to create file: " << out_filename << std::endl;
+        return;
+    }
+
+    outfile << std::fixed << std::setprecision(6);
+    outfile << "Média do fitness: " << avg_fitness << stddev_fitness << std::endl;
+    outfile << "Desvio padrão do fitness: " << stddev_fitness << std::endl;
+    outfile << "Melhor fitness: " << best_fitness << std::endl;
+    outfile << "Média do tempo (ms): " << avg_time_ms << std::endl;
+    outfile << "Média do tempo (s): " << avg_time_sec << std::endl;
+
+    outfile.close();
 }
 
 #endif
