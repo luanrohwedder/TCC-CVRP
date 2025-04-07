@@ -16,11 +16,7 @@ namespace MA
     public:
         MemeticAlgorithm() {};
 
-        void setLS(std::string LS) { this->LS = LS; }
-
     private:
-        std::string LS;
-
         /**
          * @brief Applies a local search to a population of chromosomes.
          *

@@ -4,6 +4,7 @@
 #include "../Core/chromosome.hpp"
 #include "../Core/population.hpp"
 #include <unordered_set>
+#include <omp.h>
 
 namespace {
 
@@ -99,12 +100,15 @@ namespace {
     void
     SwapMutation(GA::Population& population, std::vector<GA::Chromosome> &children)
     {
-        for (auto &child : children)
+#ifdef _OPENMP
+        #pragma omp parallel for
+#endif
+        for (size_t i = 0; i < children.size(); ++i)
         {
             bool mutated = false;
-            std::vector<int> originalDNA = child.getDNA();
+            std::vector<int> originalDNA = children[i].getDNA();
 
-            for (size_t j = 1; j < child.getDNA().size() - 1; ++j)
+            for (size_t j = 1; j < children[i].getDNA().size() - 1; ++j)
             {
                 if (utils::randDouble(0, 1) < 0.05)
                 {
@@ -112,16 +116,16 @@ namespace {
 
                     do
                     {
-                        n1 = utils::randInteger(1, child.getDNA().size() - 2);
+                        n1 = utils::randInteger(1, children[i].getDNA().size() - 2);
                     } while (n1 == j);
 
-                    std::swap(child.getDNA()[j], child.getDNA()[n1]);
+                    std::swap(children[i].getDNA()[j], children[i].getDNA()[n1]);
                     mutated = true;
                 }
             }
 
-            if (mutated && population.contains(child))
-                child.setDNA(originalDNA);
+            if (mutated && population.contains(children[i]))
+                children[i].setDNA(originalDNA);
         }
     }
 }
@@ -141,17 +145,26 @@ namespace OP
     {
         std::vector<GA::Chromosome> children;
 
+#ifdef _OPENMP
+        #pragma omp parallel for
+#endif
         for (size_t i = 0; i < parents.size(); i += 2)
         {
             std::vector<GA::Chromosome> newChildren = CrossoverOX(parents[i], parents[i + 1], population);
+#ifdef _OPENMP
+            #pragma omp critical
+#endif            
             children.insert(children.end(), newChildren.begin(), newChildren.end());
         }
 
         SwapMutation(population, children);
 
-        for (auto &child : children)
+#ifdef _OPENMP
+        #pragma omp parallel for
+#endif
+        for (size_t i = 0; i < children.size(); ++i)
         {
-            child.CalculateFitness(population.getNodes(), population.getCapacity());
+            children[i].CalculateFitness(population.getNodes(), population.getCapacity());
         }
 
         return children;
