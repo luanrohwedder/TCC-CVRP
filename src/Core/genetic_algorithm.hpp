@@ -36,13 +36,13 @@ namespace GA
         const std::vector<Node> getNodes() const { return this->m_nodes; }
         void setNodes(std::vector<Node>& nodes) { this->m_nodes = nodes; }
 
-        const std::unordered_map<std::string, int> getValues() const { return this->m_values; }
-        void setValues(std::unordered_map<std::string, int>& values) { this->m_values = values; }
+        const Parameters* getParameters() const { return this->m_param; }
+        void setParameters(Parameters* param) { this->m_param = param; }
 
     private:
         Population m_population;
         std::vector<Node> m_nodes;
-        std::unordered_map<std::string, int> m_values;
+        Parameters* m_param;
 
         /**
          * @brief Initialize the genetic algorithm.

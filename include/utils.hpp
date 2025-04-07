@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <algorithm>
 #include "node.hpp"
+#include "../src/parameters.hpp"
 
 namespace utils {
 
@@ -93,15 +94,15 @@ inline std::string Trim(const std::string& str)
  * 
  * @return A vector of Node objects populated with data from the file.
  */
-inline std::vector<Node> ReadNodesFromFile(const std::string& filename, std::unordered_map<std::string, int>& values)
+inline std::vector<Node> ReadNodesFromFile(Parameters* param)
 {
-    std::ifstream infile(filename);
+    std::ifstream infile(param->input_file);
     std::string line;
     std::vector<Node> nodes;
 
     if (!infile)
     {
-        std::cerr << "Error: Cannot open file " << filename << std::endl;
+        std::cerr << "Error: Cannot open file " << param->input_file << std::endl;
         return nodes;
     }
 
@@ -124,7 +125,11 @@ inline std::vector<Node> ReadNodesFromFile(const std::string& filename, std::uno
             std::string key;
             
             iss >> key >> colon >> value;
-            values.insert(std::make_pair(key, value));
+            
+            if (key == "DIMENSION")
+                param->dimension = value;
+            if (key == "CAPACITY")
+                param->capacity = value;
         }
 
         if (line == "NODE_COORD_SECTION")
@@ -165,8 +170,8 @@ inline std::vector<Node> ReadNodesFromFile(const std::string& filename, std::uno
         }
     }
 
-    values.insert(std::make_pair("MAX_X", max_x));
-    values.insert(std::make_pair("MAX_Y", max_y));
+    param->max_x = max_x;
+    param->max_y = max_y;
 
     infile.close();
     return nodes;

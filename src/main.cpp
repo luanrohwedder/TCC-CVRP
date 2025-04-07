@@ -1,69 +1,37 @@
 #include "./Core/genetic_algorithm.hpp"
 #include "run_utils.hpp"
-#include <getopt.h>
-#include <omp.h>
+#include "parameters.hpp"
 
-#define POP_SIZE 50
-#define GEN_SIZE 5000
+#ifdef _OPENMP
+#include <omp.h>
+#endif
 
 int main(int argc, char* argv[])
 {
-    int pop_size = 0;
-    int gen_size = 0;
-    bool run_single_test = false;
-    std::string alg_choice = "GA";
-    std::string ls_choice = "S";
+    Parameters* param = new Parameters(argc, argv);
 
-    int numThread = omp_get_num_procs() / 2;
-    omp_set_num_threads(numThread);
+#ifdef _OPENMP
+    int numThreads = omp_get_num_procs() / 2;
+    omp_set_num_threads(numThreads);
+#endif
 
-    int opt;
-    while ((opt = getopt(argc, argv, "p:g:a:l:")) != -1)
+    if (param->run_single_test)
     {
-        switch (opt)
-        {
-        case 'p':
-            pop_size = std::stoi(optarg);
-            run_single_test = true;
-            break;
-        case 'g':
-            gen_size = std::stoi(optarg);
-            run_single_test = true;
-            break;
-        case 'a':
-            alg_choice = optarg;
-            break;
-        case 'l':
-            ls_choice = optarg;
-            break;
-        default:
-        std::cerr << "Usage: " << argv[0] << " <file> [-p <pop_size>] [-g <generation_size>] [-a 'GA' or 'MA' | default 'GA'] [-l 'H' or 'S' | default 'S']" << std::endl;
-            break;
-        }
-    }
-
-    if (optind >= argc)
-    {
-        std::cerr << "Expected argument after options" << std::endl;
-        return -1;
-    }
-
-    std::string file = argv[optind];
-    
-    if (run_single_test)
-    {
-        if (pop_size == 0 || gen_size == 0) 
+        if (param->population == 0 || param->generation == 0) 
         {
             std::cerr << "Both -p <pop_size> and -g <generation_size> must be provided for a single test." << std::endl;
             return -1;
         }
 
-        RunSingleTest(file, pop_size, gen_size, alg_choice, ls_choice);
+        RunSingleTest(param);
     }
     else
     {
-        RunTests(file, POP_SIZE, GEN_SIZE, alg_choice, ls_choice);
-        ProcessResults(file);
+        param->population = 50;
+        param->generation = 5000;
+
+        RunTests(param);
+        ProcessResults(param->input_file);
     }
     
     

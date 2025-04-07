@@ -66,43 +66,37 @@ getFileName(const std::string& filePath) {
 }
 
 inline void
-RunSingleTest(const std::string &filename, int pop_size, int generation_size, const std::string alg_choice, const std::string ls_choice)
+RunSingleTest(Parameters* param)
 {
-    std::unordered_map<std::string, int> values;
-    values.insert(std::make_pair("POP_SIZE", pop_size));
-    values.insert(std::make_pair("GENERATIONS", generation_size));
-    values.insert(std::make_pair("PARENTS_SIZE", pop_size / 3));
+    std::vector<Node> clientes = utils::ReadNodesFromFile(param);
 
-    std::vector<Node> clientes = utils::ReadNodesFromFile(filename, values);
-
-    if (alg_choice == "GA")
+    if (param->algorithm == "GA")
     {
         GA::GeneticAlgorithm ga;
         ga.setNodes(clientes);
-        ga.setValues(values);
+        ga.setParameters(param);
 
         auto start = std::chrono::high_resolution_clock::now();
         ga.Run();
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-        std::cout << "Dataset: " << getFileName(filename) << std::endl
+        std::cout << "Dataset: " << getFileName(param->input_file) << std::endl
                   << "Best Fitness: " << ga.getPopulation().getBestFitness() << std::endl
                   << "Duration (ms/s): " << duration.count() << "ms/" << duration.count() / 1000000.0 << "s" << std::endl;
     }
-    else if (alg_choice == "MA")
+    else if (param->algorithm == "MA")
     {
         MA::MemeticAlgorithm ma;
         ma.setNodes(clientes);
-        ma.setValues(values);
-        ma.setLS(ls_choice);
+        ma.setParameters(param);
 
         auto start = std::chrono::high_resolution_clock::now();
         ma.Run();
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-        std::cout << "Dataset: " << getFileName(filename) << std::endl
+        std::cout << "Dataset: " << getFileName(param->input_file) << std::endl
                   << "Best Fitness: " << ma.getPopulation().getBestFitness() << std::endl
                   << "Duration (ms/s): " << duration.count() << "ms/" << duration.count() / 1000000.0 << "s" << std::endl;
     }
@@ -113,11 +107,11 @@ RunSingleTest(const std::string &filename, int pop_size, int generation_size, co
 }
 
 inline void 
-RunTests(const std::string &filename, int pop_size, int generation_size, const std::string alg_choice, const std::string ls_choice)
+RunTests(Parameters* param)
 {
-    SetupFolders(getFileName(filename));
+    SetupFolders(getFileName(param->input_file));
 
-    std::string folder_name = getFileName(filename);
+    std::string folder_name = getFileName(param->input_file);
     std::string name = "TEST_" + folder_name + ".txt";
     std::ofstream file("results/" + folder_name + "/" + name);
 
@@ -127,20 +121,15 @@ RunTests(const std::string &filename, int pop_size, int generation_size, const s
         return;
     }
 
-    std::unordered_map<std::string, int> values;
-    values.insert(std::make_pair("POP_SIZE", pop_size));
-    values.insert(std::make_pair("GENERATIONS", generation_size));
-    values.insert(std::make_pair("PARENTS_SIZE", pop_size / 3));
-
-    std::vector<Node> clientes = utils::ReadNodesFromFile(filename, values);
+    std::vector<Node> clientes = utils::ReadNodesFromFile(param);
 
     for (int i = 0; i < 30; ++i)
     {
-        if (alg_choice == "GA")
+        if (param->algorithm == "GA")
         {
             GA::GeneticAlgorithm ga;
             ga.setNodes(clientes);
-            ga.setValues(values);
+            ga.setParameters(param);
 
             auto start = std::chrono::high_resolution_clock::now();
             ga.Run();
@@ -150,12 +139,11 @@ RunTests(const std::string &filename, int pop_size, int generation_size, const s
             file << i + 1 << ": " << ga.getPopulation().getBestFitness() << " - " << duration.count()
                  << "/" << duration.count() / 1000000.0 << std::endl;
         }
-        else if (alg_choice == "MA")
+        else if (param->algorithm == "MA")
         {
             MA::MemeticAlgorithm ma;
             ma.setNodes(clientes);
-            ma.setValues(values);
-            ma.setLS(ls_choice);
+            ma.setParameters(param);
 
             auto start = std::chrono::high_resolution_clock::now();
             ma.Run();

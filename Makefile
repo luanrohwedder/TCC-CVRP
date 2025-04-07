@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall -Iinclude -g -fopenmp
+CFLAGS = -Wall -Iinclude -g
 
 SRC_DIR = src
 CORE_DIR = $(SRC_DIR)/Core
@@ -7,6 +7,11 @@ INCLUDE_DIR = include
 BUILD_DIR = build
 BIN_DIR = bin
 TEST_DIR = tests
+USE_OPENMP ?= 0
+    
+ifeq ($(USE_OPENMP), 1)
+	CFLAGS += -fopenmp
+endif
 
 EXEC = $(BIN_DIR)/ex
 

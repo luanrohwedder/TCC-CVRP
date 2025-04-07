@@ -6,17 +6,19 @@ namespace MA
     {
         double lsProb = 0.5;
 
+#ifdef _OPENMP
         #pragma omp parallel for
+#endif
         for (auto& child : children)
         {
             double randProb = utils::randDouble(0, 1);
 
             if (randProb < lsProb)
             {
-                if (LS == "H")
+                if (this->getParameters()->ls_Choice == "H")
                     HillClimbing(child);
                 
-                if (LS == "S")
+                if (this->getParameters()->ls_Choice == "S")
                     SimulatedAnnealing(child);
             }
         }
@@ -33,7 +35,7 @@ namespace MA
         for (int i = 0; i < maxIterations && noImprovementCounter < maxNoImprovement; ++i)
         {
             GA::Chromosome neighbor = GenerateNeighbor2Opt(bestSolution);
-            neighbor.CalculateFitness(this->getNodes(), this->getValues().at("CAPACITY"));
+            neighbor.CalculateFitness(this->getNodes(), this->getParameters()->capacity);
 
             if (neighbor.getFitness() < bestSolution.getFitness())
             {
@@ -59,7 +61,7 @@ namespace MA
         while (temperature > 0.1)
         {
             GA::Chromosome neighbor = GenerateNeighbor2Opt(bestSolution);
-            neighbor.CalculateFitness(this->getNodes(), this->getValues().at("CAPACITY"));
+            neighbor.CalculateFitness(this->getNodes(), this->getParameters()->capacity);
 
             if (neighbor.getFitness() < bestSolution.getFitness())
             {

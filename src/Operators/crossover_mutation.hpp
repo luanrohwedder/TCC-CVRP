@@ -100,7 +100,9 @@ namespace {
     void
     SwapMutation(GA::Population& population, std::vector<GA::Chromosome> &children)
     {
+#ifdef _OPENMP
         #pragma omp parallel for
+#endif
         for (auto &child : children)
         {
             bool mutated = false;
@@ -143,17 +145,23 @@ namespace OP
     {
         std::vector<GA::Chromosome> children;
 
+#ifdef _OPENMP
         #pragma omp parallel for
+#endif
         for (size_t i = 0; i < parents.size(); i += 2)
         {
             std::vector<GA::Chromosome> newChildren = CrossoverOX(parents[i], parents[i + 1], population);
+#ifdef _OPENMP
             #pragma omp critical
+#endif            
             children.insert(children.end(), newChildren.begin(), newChildren.end());
         }
 
         SwapMutation(population, children);
 
+#ifdef _OPENMP
         #pragma omp parallel for
+#endif
         for (auto &child : children)
         {
             child.CalculateFitness(population.getNodes(), population.getCapacity());
