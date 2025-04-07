@@ -103,12 +103,12 @@ namespace {
 #ifdef _OPENMP
         #pragma omp parallel for
 #endif
-        for (auto &child : children)
+        for (size_t i = 0; i < children.size(); ++i)
         {
             bool mutated = false;
-            std::vector<int> originalDNA = child.getDNA();
+            std::vector<int> originalDNA = children[i].getDNA();
 
-            for (size_t j = 1; j < child.getDNA().size() - 1; ++j)
+            for (size_t j = 1; j < children[i].getDNA().size() - 1; ++j)
             {
                 if (utils::randDouble(0, 1) < 0.05)
                 {
@@ -116,16 +116,16 @@ namespace {
 
                     do
                     {
-                        n1 = utils::randInteger(1, child.getDNA().size() - 2);
+                        n1 = utils::randInteger(1, children[i].getDNA().size() - 2);
                     } while (n1 == j);
 
-                    std::swap(child.getDNA()[j], child.getDNA()[n1]);
+                    std::swap(children[i].getDNA()[j], children[i].getDNA()[n1]);
                     mutated = true;
                 }
             }
 
-            if (mutated && population.contains(child))
-                child.setDNA(originalDNA);
+            if (mutated && population.contains(children[i]))
+                children[i].setDNA(originalDNA);
         }
     }
 }
@@ -162,9 +162,9 @@ namespace OP
 #ifdef _OPENMP
         #pragma omp parallel for
 #endif
-        for (auto &child : children)
+        for (size_t i = 0; i < children.size(); ++i)
         {
-            child.CalculateFitness(population.getNodes(), population.getCapacity());
+            children[i].CalculateFitness(population.getNodes(), population.getCapacity());
         }
 
         return children;

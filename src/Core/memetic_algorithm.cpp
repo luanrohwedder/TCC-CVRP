@@ -9,17 +9,17 @@ namespace MA
 #ifdef _OPENMP
         #pragma omp parallel for
 #endif
-        for (auto& child : children)
+        for (size_t i = 0; i < children.size(); ++i)
         {
             double randProb = utils::randDouble(0, 1);
 
             if (randProb < lsProb)
             {
                 if (this->getParameters()->ls_Choice == "H")
-                    HillClimbing(child);
+                    HillClimbing(children[i]);
                 
                 if (this->getParameters()->ls_Choice == "S")
-                    SimulatedAnnealing(child);
+                    SimulatedAnnealing(children[i]);
             }
         }
     }
