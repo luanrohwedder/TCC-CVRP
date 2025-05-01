@@ -213,7 +213,7 @@ ProcessResults (const std::string& filename)
     for (const auto &res : results)
         variance_fitness += std::pow(res.fitness - avg_fitness, 2);
 
-    double stddev_fitness = std::sqrt(variance_fitness / results.size());
+    double stddev_fitness = std::sqrt(variance_fitness / results.size() - 1);
 
     std::string out_filename = "RES_" + folder;
     std::ofstream outfile("results/" + folder + "/" + out_filename);
@@ -225,7 +225,7 @@ ProcessResults (const std::string& filename)
     }
 
     outfile << std::fixed << std::setprecision(6);
-    outfile << "Média do fitness: " << avg_fitness << stddev_fitness << std::endl;
+    outfile << "Média do fitness: " << avg_fitness << std::endl;
     outfile << "Desvio padrão do fitness: " << stddev_fitness << std::endl;
     outfile << "Melhor fitness: " << best_fitness << std::endl;
     outfile << "Média do tempo (ms): " << avg_time_ms << std::endl;
