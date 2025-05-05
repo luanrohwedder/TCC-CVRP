@@ -146,15 +146,24 @@ namespace OP
         std::vector<GA::Chromosome> children;
 
 #ifdef _OPENMP
-        #pragma omp parallel for
+        #pragma omp parallel
 #endif
-        for (size_t i = 0; i < parents.size(); i += 2)
         {
-            std::vector<GA::Chromosome> newChildren = CrossoverOX(parents[i], parents[i + 1], population);
+            std::vector<GA::Chromosome> local_children;
+
+#ifdef _OPENMP
+            #pragma omp for nowait
+#endif            
+            for (size_t i = 0; i < parents.size(); i += 2)
+            {
+                std::vector<GA::Chromosome> newChildren = CrossoverOX(parents[i], parents[i + 1], population);
+                local_children.insert(local_children.end(), newChildren.begin(), newChildren.end());
+            }
+
 #ifdef _OPENMP
             #pragma omp critical
-#endif            
-            children.insert(children.end(), newChildren.begin(), newChildren.end());
+#endif          
+            children.insert(children.end(), local_children.begin(), local_children.end());
         }
 
         SwapMutation(population, children);

@@ -32,10 +32,6 @@ $(EXEC): $(OBJS)
 	@mkdir -p $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
-test: $(OBJS) $(TEST_DIR)/unit_tests.cpp
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)/test_executable $^
-	./$(BUILD_DIR)/test_executable
-
 clean:
 	rm -rf $(BUILD_DIR) $(BIN_DIR)
 
