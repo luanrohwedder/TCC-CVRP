@@ -25,8 +25,6 @@ namespace GA
 
         bool operator == (const Chromosome &other) const { return this->m_dna == other.m_dna; }
 
-        bool operator < (const Chromosome &other) const { return this->m_fitness == other.m_fitness; }
-
         /**
          * @brief Calculate the firness of an Individual.
          * 
@@ -35,21 +33,23 @@ namespace GA
          */
         inline void CalculateFitness(const std::vector<Node>& nodes, int capacity)
         {
+            updateRoutes(nodes, capacity);
+
             double fitness = 0.0;
-            //double currentCapacity = 0.0;
-            const auto &dna = AddSeparator(this->m_dna, nodes, capacity);
-
-            if (dna.size() < 2)
-            {
-                this->setFitness(fitness);
-                return;
-            }
-
             
-            for (size_t i = 1; i < dna.size(); ++i)
-                fitness += utils::EuclidianDistance(
-                    nodes[dna[i - 1]].getX(), nodes[dna[i]].getX(),
-                    nodes[dna[i - 1]].getY(), nodes[dna[i]].getY());
+            for (const auto& route : m_routes)
+            {
+                double routeCost = 0.0;
+
+                routeCost += utils::Distance(nodes[0], nodes[route[0]]);
+
+                for (size_t i = 0; i < route.size() - 1; ++i)
+                    routeCost += utils::Distance(nodes[route[i]], nodes[route[i + 1]]);
+
+                routeCost += utils::Distance(nodes[route.back()], nodes[0]);
+
+                fitness += routeCost;
+            }
 
             this->setFitness(fitness);
         }
@@ -61,35 +61,73 @@ namespace GA
         std::vector<int> &getDNA() { return this->m_dna; }
         void setDNA(const std::vector<int> &dna) { this->m_dna = dna; }
 
+        std::vector<std::vector<int>> &getRoutes() { return this->m_routes; }
+        void setRoutes(const std::vector<std::vector<int>> &routes)
+        { 
+            this->m_routes = routes;
+            this->m_dna.clear();
+            for (const auto& route : this->m_routes)
+                for (int c : route)
+                    this->m_dna.push_back(c);
+        }
+
     private:
         double m_fitness;
         std::vector<int> m_dna;
+        std::vector<std::vector<int>> m_routes;
 
-        inline std::vector<int> AddSeparator(const std::vector<int>& dna, const std::vector<Node>& nodes, int capacity)
+        inline void updateRoutes(const std::vector<Node>& nodes, int capacity)
         {
-            std::vector<int> res;
-            int cap = 0;
+            Split(nodes, capacity);
+        }
 
-            res.push_back(0);
-            for (size_t i = 0; i < dna.size(); ++i)
+        inline void Split(const std::vector<Node>& nodes, int capacity)
+        {
+            size_t n = m_dna.size();
+            std::vector<double> cost(n + 1, std::numeric_limits<double>::max());
+            std::vector<int> pred(n + 1, -1);
+            cost[0] = 0;
+
+            for (size_t i = 0; i < n; ++i)
             {
-                int demand = nodes[dna[i]].getDemand();
+                int load = 0;
+                double dist = 0;
 
-                if (demand > capacity)
-                    throw std::runtime_error("Client demand bigger than vehicle cap");
-
-                if (cap + demand > capacity)
+                for (size_t j = i; j < n; ++j)
                 {
-                    res.push_back(0);
-                    cap = 0;
+                    int customer = m_dna[j];
+                    load += nodes[customer].getDemand();
+                    if (load > capacity)
+                        break;
+
+                    if (j == i)
+                        dist = utils::Distance(nodes[0], nodes[customer]) + utils::Distance(nodes[customer], nodes[0]);
+                    else
+                    {
+                        int prevCustomer = m_dna[j - 1];
+                        dist += utils::Distance(nodes[prevCustomer], nodes[customer]) 
+                                + utils::Distance(nodes[customer], nodes[0])
+                                - utils::Distance(nodes[prevCustomer], nodes[0]);
+
+                    }
+
+                    double newCost = cost[i] + dist;
+
+                    if (newCost < cost[j + 1])
+                    {
+                        cost[j + 1] = newCost;
+                        pred[j + 1] = i;
+                    }
                 }
-
-                res.push_back(dna[i]);
-                cap += demand;
             }
-            res.push_back(0);
 
-            return res;
+            m_routes.clear();
+            for (int i = static_cast<int>(n); i > 0; i = pred[i])
+            {
+                int start = pred[i];
+                m_routes.emplace_back(m_dna.begin() + start, m_dna.begin() + i);
+            }
+            std::reverse(m_routes.begin(), m_routes.end());
         }
     };
 }
