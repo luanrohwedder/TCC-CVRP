@@ -15,7 +15,7 @@ public:
     Parameters(int argc, char *argv[])
     {
         int opt;
-        while ((opt = getopt(argc, argv, "p:g:a:l:o")) != -1)
+        while ((opt = getopt(argc, argv, "p:g:a:")) != -1)
         {
             switch (opt)
             {
@@ -31,13 +31,9 @@ public:
             case 'a':
                 algorithm = optarg;
                 break;
-            case 'l':
-                ls_Choice = optarg;
-                break;
             default:
                 std::cerr << "Usage: " << argv[0]
-                          << " <file> [-p pop_size] [-g generation_size] "
-                             "[-a GA|MA] [-l S|H] [-o (enable OpenMP)]"
+                          << " <file> [-p pop_size] [-g generation_size] [-a GA|MA]"
                           << std::endl;
                 std::exit(EXIT_FAILURE);
             }
@@ -59,11 +55,11 @@ public:
     int dimension = 0;
     int max_x = 0;
     int max_y = 0;
+    int stagnation_limit = 500;
 
     bool run_single_test = false;
 
     std::string algorithm = "GA";
-    std::string ls_Choice = "S";
     std::string input_file;
 };
 
