@@ -40,10 +40,8 @@ To execute the algorithm, simply run:
 The following options are available:
 
 ```text
-[-p] Sets the population size. Default is 50
-[-g] sets the number of generations. Default is 5000
+[-p] Sets the population size. Default is 25
+[-g] sets the number of generations. Default is 1000
+[-s] sets the limit of stagnation. Default is 200
 [-a] Selects the algorithm: GA or MA. Default is GA
-[-l] Selects the local search algorithm: S or H. Default is S
-    S - Simulated Annealing
-    H - Hill Climbing
 ```
