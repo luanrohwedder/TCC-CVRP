@@ -4,6 +4,7 @@
 #include "../Generate/kmeans.hpp"
 #include "../Generate/nearest_neighbor.hpp"
 #include <unordered_set>
+#include <chrono>
 
 namespace GA
 {
@@ -11,11 +12,19 @@ namespace GA
 
     Population GeneticAlgorithm::Run()
     {
+        auto startTime = std::chrono::high_resolution_clock::now();
+
         Initialize();
         this->m_population.Evaluation();
 
         for (int i = 0; i < this->m_param->generation; ++i)
         {
+            auto currTime = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<double> elapsedTime = currTime - startTime;
+
+            if (elapsedTime.count() > this->getParameters()->time_limit)
+                break;
+
             this->m_population.setGeneration(i + 1);
             Evolve();
             this->m_population.Evaluation();

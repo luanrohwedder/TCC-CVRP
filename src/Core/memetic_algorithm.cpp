@@ -4,7 +4,7 @@ namespace MA
 {
     void MemeticAlgorithm::ApplyLocalSeach(std::vector<GA::Chromosome>& children)
     {
-        double lsProb = 0.5;
+        double lsProb = 0.3;
 
 #ifdef _OPENMP
         #pragma omp parallel for

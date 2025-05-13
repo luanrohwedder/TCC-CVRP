@@ -9,6 +9,8 @@
 #define GENERATION 1000
 #define STAGNATION 200
 
+#define TIME 600.0
+
 class Parameters {
 public:
     Parameters() = default;
@@ -16,7 +18,7 @@ public:
     Parameters(int argc, char *argv[])
     {
         int opt;
-        while ((opt = getopt(argc, argv, "p:g:s:a:")) != -1)
+        while ((opt = getopt(argc, argv, "p:g:s:t:a:")) != -1)
         {
             switch (opt)
             {
@@ -35,10 +37,13 @@ public:
             case 's':
                 stagnation_limit = std::stoi(optarg);
                 break;
+            case 't':
+                time_limit = std::stod(optarg);
+                break;
             default:
                 std::cerr << "Usage: " << argv[0]
                           << " <file> [-p pop_size] [-g generation_size]"
-                          << "[-s stagnation_limit] [-a GA|MA]"
+                          << "[-s stagnation_limit] [-t time_limit] [-a GA|MA]"
                           << std::endl;
                 std::exit(EXIT_FAILURE);
             }
@@ -61,6 +66,8 @@ public:
     int max_x = 0;
     int max_y = 0;
     int stagnation_limit = STAGNATION;
+
+    double time_limit = TIME;
 
     bool run_single_test = false;
 
