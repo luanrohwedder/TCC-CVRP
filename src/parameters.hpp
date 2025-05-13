@@ -6,7 +6,8 @@
 #include <iostream>
 
 #define POPULATION 50
-#define GENERATION 5000
+#define GENERATION 1000
+#define STAGNATION 200
 
 class Parameters {
 public:
@@ -15,7 +16,7 @@ public:
     Parameters(int argc, char *argv[])
     {
         int opt;
-        while ((opt = getopt(argc, argv, "p:g:a:")) != -1)
+        while ((opt = getopt(argc, argv, "p:g:s:a:")) != -1)
         {
             switch (opt)
             {
@@ -31,9 +32,13 @@ public:
             case 'a':
                 algorithm = optarg;
                 break;
+            case 's':
+                stagnation_limit = std::stoi(optarg);
+                break;
             default:
                 std::cerr << "Usage: " << argv[0]
-                          << " <file> [-p pop_size] [-g generation_size] [-a GA|MA]"
+                          << " <file> [-p pop_size] [-g generation_size]"
+                          << "[-s stagnation_limit] [-a GA|MA]"
                           << std::endl;
                 std::exit(EXIT_FAILURE);
             }
@@ -55,7 +60,7 @@ public:
     int dimension = 0;
     int max_x = 0;
     int max_y = 0;
-    int stagnation_limit = 500;
+    int stagnation_limit = STAGNATION;
 
     bool run_single_test = false;
 
