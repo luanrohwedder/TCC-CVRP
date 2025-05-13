@@ -39,13 +39,13 @@ namespace MA
         void SimulatedAnnealing(GA::Chromosome&);
 
         /**
-         * @brief Generates a 2-opt neighbor for a given chromosome.
+         * @brief Generates a SWAP* neighbor for a given chromosome.
          *
          * @param chromosome The original chromosome for which a neighboring solution will be generated.
          * 
          * @return A new chromosome representing a 2-opt neighbor of the input chromosome.
          */
-        GA::Chromosome GenerateNeighbor2Opt(const GA::Chromosome&);
+        GA::Chromosome GenerateNeighborSwapStar(const GA::Chromosome&);
     };
 }
 

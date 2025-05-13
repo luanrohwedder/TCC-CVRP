@@ -49,6 +49,8 @@ namespace GA
          */
         inline void Evaluation()
         {
+            this->m_lastBestFitness = this->m_bestFitness;
+
             for (auto &individual : this->getIndividuals())
             {
                 if (individual.getFitness() == -1.0)
@@ -114,6 +116,9 @@ namespace GA
         double getBestFitness() const { return this->m_bestFitness; }
         void setBestFitness(double mBestFitness) { this->m_bestFitness = mBestFitness; }
 
+        double getLastBestFitness() const { return this->m_lastBestFitness; }
+        void setLastBestFitness(double mLastBestFitness) { this->m_lastBestFitness = mLastBestFitness; }
+
     private:
         std::vector<Chromosome> m_individuals;
         std::vector<Node> m_nodes;
@@ -122,6 +127,7 @@ namespace GA
         int m_generation;
         double m_capacity;
         double m_bestFitness;
+        double m_lastBestFitness;
     };
 }
 

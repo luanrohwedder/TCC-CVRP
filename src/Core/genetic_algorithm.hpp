@@ -44,6 +44,8 @@ namespace GA
         std::vector<Node> m_nodes;
         Parameters* m_param;
 
+        int m_generations_no_improvements;
+
         /**
          * @brief Initialize the genetic algorithm.
          */
@@ -53,20 +55,6 @@ namespace GA
          * @brief Process the evolution of GA.
          */
         void Evolve();
-
-        /**
-         * @brief Insert random individuals to compete with newly generated children.
-         * 
-         * @param children Vector of child.
-         */
-        void InsertRandomIndividuals(std::vector<Chromosome> &);
-
-        /**
-         * @brief Generate an Random Individual.
-         * 
-         * @return random individual.
-         */
-        Chromosome GenerateRandomIndividual();
 
     protected:
         /**

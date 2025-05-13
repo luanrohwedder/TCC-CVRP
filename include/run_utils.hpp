@@ -83,6 +83,7 @@ RunSingleTest(Parameters* param)
 
         std::cout << "Dataset: " << getFileName(param->input_file) << std::endl
                   << "Best Fitness: " << ga.getPopulation().getBestFitness() << std::endl
+                  << "Generations: " << ga.getPopulation().getGeneration() << std::endl
                   << "Duration (ms/s): " << duration.count() << "ms/" << duration.count() / 1000000.0 << "s" << std::endl;
     }
     else if (param->algorithm == "MA")
@@ -98,6 +99,7 @@ RunSingleTest(Parameters* param)
 
         std::cout << "Dataset: " << getFileName(param->input_file) << std::endl
                   << "Best Fitness: " << ma.getPopulation().getBestFitness() << std::endl
+                  << "Generations: " << ma.getPopulation().getGeneration() << std::endl
                   << "Duration (ms/s): " << duration.count() << "ms/" << duration.count() / 1000000.0 << "s" << std::endl;
     }
     else
