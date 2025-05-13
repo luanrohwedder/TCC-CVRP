@@ -5,7 +5,7 @@
 #include <getopt.h>
 #include <iostream>
 
-#define POPULATION 50
+#define POPULATION 25
 #define GENERATION 1000
 #define STAGNATION 200
 
@@ -58,7 +58,7 @@ public:
         input_file = argv[optind];
     }
 
-    int parent_size = POPULATION/3;
+    int parent_size = 5;
     int population = POPULATION;
     int generation = GENERATION;
     int capacity = 0;
