@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
         ProcessResults(param->input_file);
     }
     
-    
+    delete param;
 
     return 0;
 }
